@@ -25,9 +25,9 @@ black = 0, 0, 0
 bgcolor = 36, 48, 59
 screen.fill(bgcolor)
 
-logo = pygame.image.load('avengers.jpg')
+logo = pygame.image.load('300x300logo.jpg')
 logorect = logo.get_rect()
-toCenter = 187
+toCenter = 150
 logorect.topleft = (SCREEN_WIDTH/2-toCenter,SCREEN_HEIGHT/2-toCenter)
 
 fontObj = pygame.font.Font('freesansbold.ttf', 100)
