@@ -1,4 +1,8 @@
 import os, sys
+
+import player
+from player import CaptainAmerica
+
 from random import randint, choice
 from math import sin, cos, radians
 
@@ -30,6 +34,8 @@ logorect = logo.get_rect()
 toCenter = 150
 logorect.topleft = (SCREEN_WIDTH/2-toCenter,SCREEN_HEIGHT/2-toCenter)
 
+player1 = CaptainAmerica(SCREEN_HEIGHT - 100)
+
 fontObj = pygame.font.Font('freesansbold.ttf', 100)
 msg = 'Avengers'
 
@@ -53,16 +59,30 @@ while True:
 			mousex,mousty =event.pos
 			msg = 'mouse button down'
 
-		elif event.type == KEYDOWN:
+		elif event.type == KEYDOWN and event.key == K_LEFT:
+			direction = 3
 			screen.fill(bgcolor)
-
-			if event.key in (K_LEFT, K_RIGHT, K_UP, K_DOWN):
-				msg = 'arrow key pressed'
-			if event.key == K_a:
-				msg = '"A" key pressed'
-			if event.key == K_ESCAPE:
-				sys.exit()
+			player1.move(direction)
+			msg = player1.message
+		elif event.type == KEYDOWN and event.key == K_RIGHT:
+			direction = 1
+			screen.fill(bgcolor)
+			player1.move(direction)
+			msg = player1.message
+		elif event.type == KEYDOWN and event.key == K_UP:
+			direction = 4
+			screen.fill(bgcolor)
+			player1.move(direction)
+			msg = player1.message
+		elif event.type == KEYDOWN and event.key == K_DOWN:
+			direction = 2
+			screen.fill(bgcolor)
+			player1.move(direction)
+			msg = player1.message
+		elif event.type == KEYDOWN and event.key == ESCAPE:
+			sys.exit()		
 
 	screen.blit(logo, logorect)
+	screen.blit(player1.image, player1.position)
 	pygame.display.flip()
 clock.tick(30)
