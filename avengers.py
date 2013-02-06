@@ -1,15 +1,8 @@
 import os, sys
 
-import player
 from player import CaptainAmerica
 
-from random import randint, choice
-from math import sin, cos, radians
-
 import pygame
-from pygame.sprite import Sprite
-#from vec2d import vec2d
-
 from pygame.locals import *
 
 #initialize pygame lib
@@ -79,7 +72,7 @@ while True:
 			screen.fill(bgcolor)
 			player1.move(direction)
 			msg = player1.message
-		elif event.type == KEYDOWN and event.key == ESCAPE:
+		elif event.type == KEYDOWN and event.key == K_ESCAPE:
 			sys.exit()		
 
 	screen.blit(logo, logorect)
