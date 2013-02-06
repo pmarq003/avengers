@@ -2,14 +2,13 @@ import pygame
 import eventmanager
 from pygame.sprite import Sprite
 
-class Player(pygame.sprite.Sprite):
+class Player(Sprite):
     image = pygame.image.load('images/Captain_America_FB_Artwork_3.png')
     position = image.get_rect()
     message = "hello world"
 
-    def __init__(self, SCREEN_HEIGHT):
-        self.message = msg
-        self.position.topleft = (0,SCREEN_HEIGHT)
+    def __init__(self, x, y):
+        self.position.topleft = (x,y)
 
     def update(self):
         evman = eventmanager.get()
@@ -35,6 +34,4 @@ class Player(pygame.sprite.Sprite):
 class CaptainAmerica(Player):
     image = pygame.image.load('images/Captain_America_FB_Artwork_3.png')
     position = image.get_rect()
-    def __init__(self, SCREEN_HEIGHT):
-        self.message = "I am Captain America!"
-        self.position.topleft = (0,SCREEN_HEIGHT)
+    message = "I am Captain America!"

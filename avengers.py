@@ -1,5 +1,6 @@
 import player
 import eventmanager
+import level
 
 import pygame
 from pygame.locals import *
@@ -26,27 +27,35 @@ logorect = logo.get_rect()
 toCenter = 150
 logorect.topleft = (SCREEN_WIDTH/2-toCenter,SCREEN_HEIGHT/2-toCenter)
 
-player1 = player.CaptainAmerica(SCREEN_HEIGHT - 100)
-
 fontObj = pygame.font.Font('freesansbold.ttf', 100)
 
+currLevel = level.Level1()
+
+#Game loop
 while True:
+
+    #Start timer and handle events
     milliStart = pygame.time.get_ticks()
+    events = pygame.event.get()
+    eventmanager.get().handleEvents(events)
 
-    eventmanager.get().handleEvents(pygame.event.get())
-    player1.update()
+    #Update player and enemies positions/current actions
+    currLevel.update()
 
-    msg = player1.message
+    #Stuff that's gonna get cut out
+    msg = currLevel.player.message
     msgSurface = fontObj.render(msg, False, (0,0,0))
     msgRect = msgSurface.get_rect()
     msgRect.topleft = (0,0)
 
+    #Fill the screen, draw level, flip the buffer
     screen.fill(bgcolor)
     screen.blit(msgSurface, msgRect)
     screen.blit(logo, logorect)
-    player1.draw(screen)
+    currLevel.draw(screen)
     pygame.display.flip()
 
+    #Stop timer and sleep for remainder of time
     milliEnd = pygame.time.get_ticks()
     leftover = mSPF - (milliEnd - milliStart)
     if leftover > 0: pygame.time.wait(int(leftover))
