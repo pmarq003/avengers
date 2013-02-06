@@ -8,8 +8,13 @@ from pygame.locals import *
 
 #initialize pygame lib
 pygame.init()
-#clock used for fps
-clock = pygame.time.Clock()
+
+#Frames per second
+FPS = 30
+
+#Milliseconds per frame
+mSPF = 1000.0/float(FPS)
+
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
 #creates window
@@ -36,6 +41,8 @@ msg = 'Avengers'
 evman = EventManager()
 
 while True:
+    milliStart = pygame.time.get_ticks()
+
     evman.handleEvents(pygame.event.get())
     player1.update(evman)
 
@@ -49,5 +56,9 @@ while True:
     screen.blit(logo, logorect)
     screen.blit(player1.image, player1.position)
     pygame.display.flip()
+
+    milliEnd = pygame.time.get_ticks()
+    leftover = mSPF - (milliEnd - milliStart)
+    if leftover > 0: pygame.time.wait(int(leftover))
 
 clock.tick(30)
