@@ -1,4 +1,5 @@
 import pygame
+import eventmanager
 from pygame.sprite import Sprite
 
 class Player(pygame.sprite.Sprite):
@@ -10,7 +11,8 @@ class Player(pygame.sprite.Sprite):
         self.message = msg
         self.position.topleft = (0,SCREEN_HEIGHT)
 
-    def update(self,evman):
+    def update(self):
+        evman = eventmanager.get()
         if evman.UPPRESSED:
             self.message = "Moved Up"
             self.position = self.position.move(0,-10)

@@ -1,5 +1,5 @@
 import player
-from eventmanager import EventManager
+import eventmanager
 
 import pygame
 from pygame.locals import *
@@ -30,13 +30,11 @@ player1 = player.CaptainAmerica(SCREEN_HEIGHT - 100)
 
 fontObj = pygame.font.Font('freesansbold.ttf', 100)
 
-evman = EventManager()
-
 while True:
     milliStart = pygame.time.get_ticks()
 
-    evman.handleEvents(pygame.event.get())
-    player1.update(evman)
+    eventmanager.get().handleEvents(pygame.event.get())
+    player1.update()
 
     msg = player1.message
     msgSurface = fontObj.render(msg, False, (0,0,0))

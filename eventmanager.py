@@ -28,3 +28,7 @@ class EventManager:
                 elif event.key == K_RIGHT : self.RIGHTPRESSED = event.type == KEYDOWN
                 elif event.key == K_UP    : self.UPPRESSED    = event.type == KEYDOWN
                 elif event.key == K_DOWN  : self.DOWNPRESSED  = event.type == KEYDOWN
+
+#Create singleton accessible through eventmanager.get()
+__instance = EventManager()
+def get(): return __instance
