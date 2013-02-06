@@ -1,22 +1,14 @@
 import player
 import eventmanager
 import level
+import constants
+from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 
 import pygame
 from pygame.locals import *
 
 #initialize pygame lib
 pygame.init()
-
-#Frames per second
-FPS = 30
-
-#Milliseconds per frame
-mSPF = 1000.0/float(FPS)
-
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 600
-bgcolor = 36, 48, 59
 
 #creates window
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -49,7 +41,7 @@ while True:
     msgRect.topleft = (0,0)
 
     #Fill the screen, draw level, flip the buffer
-    screen.fill(bgcolor)
+    screen.fill(constants.DEFAULT_BGCOLOR)
     screen.blit(msgSurface, msgRect)
     screen.blit(logo, logorect)
     currLevel.draw(screen)
@@ -57,5 +49,5 @@ while True:
 
     #Stop timer and sleep for remainder of time
     milliEnd = pygame.time.get_ticks()
-    leftover = mSPF - (milliEnd - milliStart)
+    leftover = constants.mSPF - (milliEnd - milliStart)
     if leftover > 0: pygame.time.wait(int(leftover))
