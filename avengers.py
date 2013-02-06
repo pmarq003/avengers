@@ -1,6 +1,7 @@
 import os, sys
 
 from player import CaptainAmerica
+from eventmanager import EventManager
 
 import pygame
 from pygame.locals import *
@@ -32,50 +33,21 @@ player1 = CaptainAmerica(SCREEN_HEIGHT - 100)
 fontObj = pygame.font.Font('freesansbold.ttf', 100)
 msg = 'Avengers'
 
+evman = EventManager()
+
 while True:
-	msgSurface = fontObj.render(msg, False, black)
-	msgRect = msgSurface.get_rect()
-	msgRect.topleft = (0,0)
-	screen.blit(msgSurface, msgRect)
-	for event in pygame.event.get():
+    evman.handleEvents(pygame.event.get())
+    player1.update(evman)
 
-		if event.type == QUIT:
-			pygame.quit()
-			sys.exit()
+    msg = player1.message
+    msgSurface = fontObj.render(msg, False, black)
+    msgRect = msgSurface.get_rect()
+    msgRect.topleft = (0,0)
 
-		elif event.type == MOUSEMOTION:
-			mousex, mousey = event.pos
+    screen.fill(bgcolor)
+    screen.blit(msgSurface, msgRect)
+    screen.blit(logo, logorect)
+    screen.blit(player1.image, player1.position)
+    pygame.display.flip()
 
-		elif event.type == MOUSEBUTTONDOWN:
-			screen.fill(bgcolor)
-
-			mousex,mousty =event.pos
-			msg = 'mouse button down'
-
-		elif event.type == KEYDOWN and event.key == K_LEFT:
-			direction = 3
-			screen.fill(bgcolor)
-			player1.move(direction)
-			msg = player1.message
-		elif event.type == KEYDOWN and event.key == K_RIGHT:
-			direction = 1
-			screen.fill(bgcolor)
-			player1.move(direction)
-			msg = player1.message
-		elif event.type == KEYDOWN and event.key == K_UP:
-			direction = 4
-			screen.fill(bgcolor)
-			player1.move(direction)
-			msg = player1.message
-		elif event.type == KEYDOWN and event.key == K_DOWN:
-			direction = 2
-			screen.fill(bgcolor)
-			player1.move(direction)
-			msg = player1.message
-		elif event.type == KEYDOWN and event.key == K_ESCAPE:
-			sys.exit()		
-
-	screen.blit(logo, logorect)
-	screen.blit(player1.image, player1.position)
-	pygame.display.flip()
 clock.tick(30)
