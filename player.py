@@ -28,6 +28,9 @@ class Player(pygame.sprite.Sprite):
         elif evman.RIGHTPRESSED:
             self.message = "Moved Right"
             self.position = self.position.move(10,0)
+
+    def draw(self,screen):
+        screen.blit(self.image, self.position)
         
 class CaptainAmerica(Player):
     image = pygame.image.load('images/Captain_America_FB_Artwork_3.png')

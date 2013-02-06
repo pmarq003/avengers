@@ -44,7 +44,7 @@ while True:
     screen.fill(bgcolor)
     screen.blit(msgSurface, msgRect)
     screen.blit(logo, logorect)
-    screen.blit(player1.image, player1.position)
+    player1.draw(screen)
     pygame.display.flip()
 
     milliEnd = pygame.time.get_ticks()

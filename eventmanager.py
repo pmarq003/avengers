@@ -17,6 +17,7 @@ class EventManager:
 
         for event in events:
             if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+                print("Exiting....")
                 pygame.quit()
                 sys.exit(0)
 
