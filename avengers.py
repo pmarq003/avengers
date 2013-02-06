@@ -1,5 +1,3 @@
-import os, sys
-
 import player
 from eventmanager import EventManager
 
@@ -23,7 +21,7 @@ bgcolor = 36, 48, 59
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Avengers')
 
-logo = pygame.image.load('300x300logo.jpg')
+logo = pygame.image.load('images/300x300logo.jpg')
 logorect = logo.get_rect()
 toCenter = 150
 logorect.topleft = (SCREEN_WIDTH/2-toCenter,SCREEN_HEIGHT/2-toCenter)
