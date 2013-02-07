@@ -5,13 +5,6 @@ from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 
 class Level(object):
 
-    #Should be overwritten by child classes
-    def __init__(self):
-        self.height = None
-        self.player = None
-        self.background = None
-        pass
-
     def update(self): 
         self.player.update() 
 
@@ -33,8 +26,6 @@ class Level(object):
         return self.player.get_rect()
 
 class Level1(Level):
-
-    def __init__(self):
-        self.height = SCREEN_HEIGHT
-        self.player = player.CaptainAmerica(0,0)
-        self.background = image.StaticImage('images/300x300logo.jpg',SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
+    height = SCREEN_HEIGHT
+    player = player.CaptainAmerica(0,0)
+    background = image.StaticImage('images/300x300logo.jpg',SCREEN_WIDTH/2,SCREEN_HEIGHT/2)

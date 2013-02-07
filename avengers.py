@@ -18,8 +18,6 @@ pygame.display.set_caption('Avengers')
 #Make a camera (this might need to go inside the level object, but that's ok)
 camera = camera.Camera(screen)
 
-fontObj = pygame.font.Font('freesansbold.ttf', 100)
-
 currLevel = level.Level1()
 
 #Game loop
@@ -37,15 +35,8 @@ while True:
     player_rect = currLevel.get_player_rect()
     camera.updatePosition(player_rect)
 
-    #Stuff that's gonna get cut out
-    msg = currLevel.player.message
-    msgSurface = fontObj.render(msg, False, (0,0,0))
-    msgRect = msgSurface.get_rect()
-    msgRect.topleft = (0,0)
-
     #Fill the screen, draw level, flip the buffer
     screen.fill(constants.DEFAULT_BGCOLOR)
-    camera.draw(msgSurface, msgRect)
     currLevel.draw(camera)
     pygame.display.flip()
 

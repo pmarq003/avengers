@@ -3,11 +3,9 @@ import eventmanager
 from pygame.sprite import Sprite
 
 class Player(Sprite):
-    image = pygame.image.load('images/Captain_America_FB_Artwork_3.png')
-    rect = image.get_rect()
-    message = "hello world"
 
     def __init__(self, x, y):
+        self.rect = self.image.get_rect()
         self.rect.topleft = (x,y)
         self.velX = 0
         self.velY = 0
@@ -16,16 +14,13 @@ class Player(Sprite):
     def update(self):
         evman = eventmanager.get()
         if evman.LEFTPRESSED:
-            self.message = "Moved Left"
             self.rect = self.rect.move(-10,0)
 
         if evman.RIGHTPRESSED:
-            self.message = "Moved Right"
             self.rect = self.rect.move(10,0)
 
         if evman.SPACEPRESSED and self.canJump:
             self.canJump = False
-            self.message = "Jumping"
             self.velY -= 25 
 
         #Oh snap gravity!
@@ -50,5 +45,3 @@ class Player(Sprite):
 
 class CaptainAmerica(Player):
     image = pygame.image.load('images/Captain_America_FB_Artwork_3.png')
-    rect = image.get_rect()
-    message = "I am Captain America!"
