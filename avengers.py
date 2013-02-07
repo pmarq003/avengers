@@ -80,7 +80,7 @@ while True:
 			player1.move(direction)
 			msg = player1.message
 		elif event.type == KEYDOWN and event.key == ESCAPE:
-			sys.exit()		
+			sys.exit()
 
 	screen.blit(logo, logorect)
 	screen.blit(player1.image, player1.position)

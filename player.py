@@ -27,4 +27,5 @@ class CaptainAmerica(Player):
             self.position = self.position.move(-10,0)
         elif(direction == 4):
             self.message = "Moved Up"
-            self.position = self.position.move(0,-10)
+            self.position = self.position.move(0,-90)
+            #self.position = self.position.move(0,90)
