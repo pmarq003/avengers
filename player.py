@@ -28,8 +28,11 @@ class Player(Sprite):
             self.message = "Moved Right"
             self.position = self.position.move(10,0)
 
-    def draw(self,screen):
-        screen.blit(self.image, self.position)
+    def draw(self,camera):
+        camera.draw(self.image, self.position)
+
+    def get_rect(self):
+        return self.position
         
 class CaptainAmerica(Player):
     image = pygame.image.load('images/Captain_America_FB_Artwork_3.png')

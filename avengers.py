@@ -1,6 +1,7 @@
 import player
 import eventmanager
 import level
+import camera
 import constants
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 
@@ -13,6 +14,9 @@ pygame.init()
 #creates window
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Avengers')
+
+#Make a camera (this might need to go inside the level object, but that's ok)
+camera = camera.Camera(screen)
 
 logo = pygame.image.load('images/300x300logo.jpg')
 logorect = logo.get_rect()
@@ -34,6 +38,10 @@ while True:
     #Update player and enemies positions/current actions
     currLevel.update()
 
+    #Update camera position using player's
+    player_rect = currLevel.get_player_rect()
+    camera.updatePosition(player_rect)
+
     #Stuff that's gonna get cut out
     msg = currLevel.player.message
     msgSurface = fontObj.render(msg, False, (0,0,0))
@@ -42,9 +50,9 @@ while True:
 
     #Fill the screen, draw level, flip the buffer
     screen.fill(constants.DEFAULT_BGCOLOR)
-    screen.blit(msgSurface, msgRect)
-    screen.blit(logo, logorect)
-    currLevel.draw(screen)
+    camera.draw(msgSurface, msgRect)
+    camera.draw(logo, logorect)
+    currLevel.draw(camera)
     pygame.display.flip()
 
     #Stop timer and sleep for remainder of time

@@ -11,8 +11,11 @@ class Level(object):
     def update(self): 
         self.player.update() 
 
-    def draw(self,screen):
-        self.player.draw(screen)
+    def draw(self,camera):
+        self.player.draw(camera)
+
+    def get_player_rect(self):
+        return self.player.get_rect()
 
 class Level1(Level):
 
