@@ -1,88 +1,46 @@
-import os, sys
-
 import player
-from player import CaptainAmerica
-
-from random import randint, choice
-from math import sin, cos, radians
+import eventmanager
+import level
+import camera
+import constants
+from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 
 import pygame
-from pygame.sprite import Sprite
-#from vec2d import vec2d
-
 from pygame.locals import *
 
 #initialize pygame lib
 pygame.init()
-#clock used for fps
-clock = pygame.time.Clock()
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 600
+
 #creates window
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Avengers')
-red = 255, 0, 0
-green = 0, 255, 0
-blue = 0, 0, 255
-white = 255, 255, 255
-black = 0, 0, 0
-bgcolor = 36, 48, 59
-screen.fill(bgcolor)
 
-logo = pygame.image.load('300x300logo.jpg')
-logorect = logo.get_rect()
-toCenter = 150
-logorect.topleft = (SCREEN_WIDTH/2-toCenter,SCREEN_HEIGHT/2-toCenter)
+#Make a camera (this might need to go inside the level object, but that's ok)
+camera = camera.Camera(screen)
 
-player1 = CaptainAmerica(SCREEN_HEIGHT - 100)
+currLevel = level.Level1()
 
-fontObj = pygame.font.Font('freesansbold.ttf', 100)
-msg = 'Avengers'
-
+#Game loop
 while True:
-	msgSurface = fontObj.render(msg, False, black)
-	msgRect = msgSurface.get_rect()
-	msgRect.topleft = (0,0)
-	screen.blit(msgSurface, msgRect)
-	for event in pygame.event.get():
 
-		if event.type == QUIT:
-			pygame.quit()
-			sys.exit()
+    #Start timer and handle events
+    milliStart = pygame.time.get_ticks()
+    events = pygame.event.get()
+    eventmanager.get().handleEvents(events)
 
-		elif event.type == MOUSEMOTION:
-			mousex, mousey = event.pos
+    #Update player and enemies positions/current actions
+    currLevel.update()
 
-		elif event.type == MOUSEBUTTONDOWN:
-			screen.fill(bgcolor)
+    #Update camera position using player's
+    player_rect = currLevel.get_player_rect()
+    camera.updatePosition(player_rect)
 
-			mousex,mousty =event.pos
-			msg = 'mouse button down'
+    #Fill the screen, draw level, flip the buffer
+    screen.fill(constants.DEFAULT_BGCOLOR)
+    currLevel.draw(camera)
+    pygame.display.flip()
 
-		elif event.type == KEYDOWN and event.key == K_LEFT:
-			direction = 3
-			screen.fill(bgcolor)
-			player1.move(direction)
-			msg = player1.message
-		elif event.type == KEYDOWN and event.key == K_RIGHT:
-			direction = 1
-			screen.fill(bgcolor)
-			player1.move(direction)
-			msg = player1.message
-		elif event.type == KEYDOWN and event.key == K_UP:
-			direction = 4
-			screen.fill(bgcolor)
-			player1.move(direction)
-			msg = player1.message
-		elif event.type == KEYDOWN and event.key == K_DOWN:
-			direction = 2
-			screen.fill(bgcolor)
-			player1.move(direction)
-			msg = player1.message
-		elif event.type == KEYDOWN and event.key == ESCAPE:
-			sys.exit()
-
-	screen.blit(logo, logorect)
-	screen.blit(player1.image, player1.position)
-	pygame.display.flip()
-clock.tick(30)
+    #Stop timer and sleep for remainder of time
+    milliEnd = pygame.time.get_ticks()
+    leftover = constants.mSPF - (milliEnd - milliStart)
+    if leftover > 0: pygame.time.wait(int(leftover))
