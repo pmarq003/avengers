@@ -71,4 +71,15 @@ class CaptainAmerica(Player):
     jump_right = 'images/america/jump_right.gif'
     stand_left = 'images/america/stand_left.gif'
     stand_right = 'images/america/stand_right.gif'
-    image_path = 'images/CaptAmericaStanding.png'
+
+class Hulk(Player):
+    jump_left = 'images/hulk/jump_left.gif'
+    jump_right = 'images/hulk/jump_right.gif'
+    stand_left = 'images/hulk/stand_left.gif'
+    stand_right = 'images/hulk/stand_right.gif'
+
+class IronMan(Player):
+    jump_left = 'images/ironman/jump_left.gif'
+    jump_right = 'images/ironman/jump_right.gif'
+    stand_left = 'images/ironman/stand_left.gif'
+    stand_right = 'images/ironman/stand_right.gif'
