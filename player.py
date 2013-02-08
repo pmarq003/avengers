@@ -21,12 +21,12 @@ class Player(Sprite):
     def update(self):
         evman = eventmanager.get()
         if evman.LEFTPRESSED:
-            self.velX = -10
+            self.velX = -self.runVel
             self.orientation = 0
             if(self.velY == 0):
                 self.image = pygame.image.load(self.stand_left)
         elif evman.RIGHTPRESSED:
-            self.velX = 10
+            self.velX = self.runVel
             self.orientation = 1
             if(self.velY == 0):
                 self.image = pygame.image.load(self.stand_right)
@@ -40,7 +40,7 @@ class Player(Sprite):
 
         if evman.SPACEPRESSED and self.canJump:
             self.canJump = False
-            self.velY -= 25
+            self.velY -= self.jumpVel
             if(self.orientation == 0):
                 self.image = pygame.image.load(self.jump_left)
             else:
@@ -67,18 +67,33 @@ class Player(Sprite):
         self.stallY()
 
 class CaptainAmerica(Player):
+    #movement vars
+    runVel = 10     #xcoord movement velocity
+    jumpVel = 25    #jumping velocity
+
+    #animation images
     jump_left = 'images/america/jump_left.gif'
     jump_right = 'images/america/jump_right.gif'
     stand_left = 'images/america/stand_left.gif'
     stand_right = 'images/america/stand_right.gif'
 
 class Hulk(Player):
+    #movement vars
+    runVel = 15     #xcoord movement velocity
+    jumpVel = 35    #jumping velocity
+
+    #animation images
     jump_left = 'images/hulk/jump_left.gif'
     jump_right = 'images/hulk/jump_right.gif'
     stand_left = 'images/hulk/stand_left.gif'
     stand_right = 'images/hulk/stand_right.gif'
 
 class IronMan(Player):
+    #movement vars
+    runVel = 10     #xcoord movement velocity
+    jumpVel = 25    #jumping velocity
+
+    #animation images
     jump_left = 'images/ironman/jump_left.gif'
     jump_right = 'images/ironman/jump_right.gif'
     stand_left = 'images/ironman/stand_left.gif'
