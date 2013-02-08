@@ -17,6 +17,7 @@ class Player(Sprite):
 
     #updates the players velocities and images
     #orientation is used to track whether the character is facing left or right
+    #TODO need to fix these states --- josh
     def update(self):
         evman = eventmanager.get()
         if evman.LEFTPRESSED:
@@ -66,11 +67,8 @@ class Player(Sprite):
         self.stallY()
 
 class CaptainAmerica(Player):
-<<<<<<< HEAD
     jump_left = 'images/america/jump_left.gif'
     jump_right = 'images/america/jump_right.gif'
     stand_left = 'images/america/stand_left.gif'
     stand_right = 'images/america/stand_right.gif'
-=======
     image_path = 'images/CaptAmericaStanding.png'
->>>>>>> 7cd58fd7fd6a157456207eb66eb49f1149371560
