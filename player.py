@@ -24,12 +24,12 @@ class Player(Sprite):
             self.velX = -self.runVel
             self.orientation = 0
             if(self.velY == 0):
-                self.image = pygame.image.load(self.stand_left)
+                self.image = pygame.image.load( self.move_left() )
         elif evman.RIGHTPRESSED:
             self.velX = self.runVel
             self.orientation = 1
             if(self.velY == 0):
-                self.image = pygame.image.load(self.stand_right)
+                self.image = pygame.image.load( self.move_right() )
         else:
             self.velX = 0
             if(self.velY == 0):
@@ -67,6 +67,10 @@ class Player(Sprite):
         self.stallY()
 
 class CaptainAmerica(Player):
+    NUM_MOVEPICS = 4        #number pics in move anim
+    leftMovePic = 7         #current move anim
+    rightMovePic = 0         #current move anim
+
     #movement vars
     runVel = 10     #xcoord movement velocity
     jumpVel = 25    #jumping velocity
@@ -76,6 +80,20 @@ class CaptainAmerica(Player):
     jump_right = 'images/america/jump_right.gif'
     stand_left = 'images/america/stand_left.gif'
     stand_right = 'images/america/stand_right.gif'
+
+    #move left animation
+    #show each moving animation twice to make it visible
+    def move_left(self):
+        self.leftMovePic = (self.leftMovePic - 1) % (2*self.NUM_MOVEPICS)
+        showpic = (int) (self.leftMovePic / 2)
+        return 'images/america/move_left' + str(showpic) + '.gif'
+
+    #move right animation
+    #show each moving animation twice to make it visible
+    def move_right(self):
+        self.rightMovePic = (self.rightMovePic- 1) % (2*self.NUM_MOVEPICS)
+        showpic = (int) (self.rightMovePic / 2)
+        return 'images/america/move_right' + str(showpic) + '.gif'
 
 class Hulk(Player):
     #movement vars
@@ -88,6 +106,15 @@ class Hulk(Player):
     stand_left = 'images/hulk/stand_left.gif'
     stand_right = 'images/hulk/stand_right.gif'
 
+
+    #TODO
+    def move_left():
+        return None
+
+    #TODO
+    def move_right():
+        return None
+
 class IronMan(Player):
     #movement vars
     runVel = 10     #xcoord movement velocity
@@ -98,3 +125,11 @@ class IronMan(Player):
     jump_right = 'images/ironman/jump_right.gif'
     stand_left = 'images/ironman/stand_left.gif'
     stand_right = 'images/ironman/stand_right.gif'
+
+    #TODO
+    def move_left():
+        return None
+
+    #TODO
+    def move_right():
+        return None
