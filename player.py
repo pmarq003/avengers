@@ -22,7 +22,7 @@ class Player(Sprite):
 
         if evman.SPACEPRESSED and self.canJump:
             self.canJump = False
-            self.velY -= 25 
+            self.velY -= 25
 
         #Oh snap gravity!
         self.velY += 1

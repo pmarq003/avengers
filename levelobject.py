@@ -2,7 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 
 class BasicPlatform(Sprite):
-    
+
     def __init__(self,x,y):
         Sprite.__init__(self)
         self.image = pygame.image.load('images/basicplatform.png')

@@ -8,8 +8,8 @@ from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 class Level(object):
     _terrain = pygame.sprite.Group()
 
-    def update(self): 
-        self.player.update() 
+    def update(self):
+        self.player.update()
 
         #Make sure player doesn't go above or below map. Remember y-axis goes down
         if self.player.rect.bottom > self.height:
