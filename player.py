@@ -4,6 +4,8 @@ from pygame.sprite import Sprite
 
 class Player(Sprite):
 
+    isJumping = False   #used to detect the peak of player's jump
+    peaking = False     #is player at the peak of its jump?
 
     def __init__(self, x, y):
         Sprite.__init__(self)
@@ -17,7 +19,6 @@ class Player(Sprite):
 
     #updates the players velocities and images
     #orientation is used to track whether the character is facing left or right
-    #TODO need to fix these states --- josh
     def update(self):
         evman = eventmanager.get()
         if evman.LEFTPRESSED:
@@ -38,13 +39,39 @@ class Player(Sprite):
                 else:
                     self.image = pygame.image.load(self.stand_right)
 
+        #jumping upwards
         if evman.SPACEPRESSED and self.canJump:
+            self.isJumping = True
             self.canJump = False
             self.velY -= self.jumpVel
             if(self.orientation == 0):
                 self.image = pygame.image.load(self.jump_left)
             else:
                 self.image = pygame.image.load(self.jump_right)
+
+        #downward falling animation
+        if(self.velY > 0):
+            self.isJumping = False
+            if(self.orientation == 0):
+                self.image = pygame.image.load(self.jump_left)
+            else:
+                self.image = pygame.image.load(self.jump_right)
+
+        if(self.peaking):
+            self.peaking = False
+            if(self.orientation == 0):
+                self.image = pygame.image.load(self.jump_peak_left)
+            else:
+                self.image = pygame.image.load(self.jump_peak_right)
+
+        #detect jump peak
+        if(self.velY == 0 and self.isJumping):
+            self.peaking = True
+            if(self.orientation == 0):
+                self.image = pygame.image.load(self.jump_peak_left)
+            else:
+                self.image = pygame.image.load(self.jump_peak_right)
+
 
         #Oh snap gravity!
         self.velY += 1
@@ -78,6 +105,8 @@ class CaptainAmerica(Player):
     #animation images
     jump_left = 'images/america/jump_left.gif'
     jump_right = 'images/america/jump_right.gif'
+    jump_peak_left = 'images/america/jump_peak_left.gif'
+    jump_peak_right = 'images/america/jump_peak_right.gif'
     stand_left = 'images/america/stand_left.gif'
     stand_right = 'images/america/stand_right.gif'
 
@@ -103,6 +132,8 @@ class Hulk(Player):
     #animation images
     jump_left = 'images/hulk/jump_left.gif'
     jump_right = 'images/hulk/jump_right.gif'
+    jump_peak_left = ''
+    jump_peak_right = ''
     stand_left = 'images/hulk/stand_left.gif'
     stand_right = 'images/hulk/stand_right.gif'
 
@@ -123,6 +154,8 @@ class IronMan(Player):
     #animation images
     jump_left = 'images/ironman/jump_left.gif'
     jump_right = 'images/ironman/jump_right.gif'
+    jump_peak_left = ''
+    jump_peak_right = ''
     stand_left = 'images/ironman/stand_left.gif'
     stand_right = 'images/ironman/stand_right.gif'
 
