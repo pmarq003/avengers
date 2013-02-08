@@ -53,9 +53,9 @@ class Player(Sprite):
         if(self.velY > 0):
             self.isJumping = False
             if(self.orientation == 0):
-                self.image = pygame.image.load(self.jump_left)
+                self.image = pygame.image.load(self.fall_left)
             else:
-                self.image = pygame.image.load(self.jump_right)
+                self.image = pygame.image.load(self.fall_right)
 
         if(self.peaking):
             self.peaking = False
@@ -103,6 +103,8 @@ class CaptainAmerica(Player):
     jumpVel = 25    #jumping velocity
 
     #animation images
+    fall_left = 'images/america/jump_left.gif'
+    fall_right = 'images/america/jump_right.gif'
     jump_left = 'images/america/jump_left.gif'
     jump_right = 'images/america/jump_right.gif'
     jump_peak_left = 'images/america/jump_peak_left.gif'
@@ -130,13 +132,14 @@ class Hulk(Player):
     jumpVel = 35    #jumping velocity
 
     #animation images
+    fall_left = ''
+    fall_right = ''
     jump_left = 'images/hulk/jump_left.gif'
     jump_right = 'images/hulk/jump_right.gif'
     jump_peak_left = ''
     jump_peak_right = ''
     stand_left = 'images/hulk/stand_left.gif'
     stand_right = 'images/hulk/stand_right.gif'
-
 
     #TODO
     def move_left():
@@ -152,10 +155,12 @@ class IronMan(Player):
     jumpVel = 25    #jumping velocity
 
     #animation images
+    fall_left = ''
+    fall_right = 'images/ironman/jump_peak_right.gif'
     jump_left = 'images/ironman/jump_left.gif'
     jump_right = 'images/ironman/jump_right.gif'
     jump_peak_left = ''
-    jump_peak_right = ''
+    jump_peak_right = 'images/ironman/jump_peak_right.gif'
     stand_left = 'images/ironman/stand_left.gif'
     stand_right = 'images/ironman/stand_right.gif'
 
