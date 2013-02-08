@@ -45,4 +45,4 @@ class Player(Sprite):
         self.stallY()
 
 class CaptainAmerica(Player):
-    image_path = 'images/Captain_America_FB_Artwork_3.png'
+    image_path = 'images/CaptAmericaStanding.png'
