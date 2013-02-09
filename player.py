@@ -1,5 +1,6 @@
 import pygame
 import eventmanager
+from animation import Animation,StaticAnimation
 from levelobject import LevelObject
 from pygame.sprite import Sprite
 
@@ -17,64 +18,71 @@ class Player(LevelObject):
 
         #load images and do rest of constructor
         self.__populate_image_variables()
-        self.image = self.__load_image( self.stand )
+        self.image = None
+        self.__load_image( self.stand )
         LevelObject.__init__(self,x,y)
 
 
     def __load_image( self, img_tuple ):
         left,right = img_tuple
-        if self.facingRight: return pygame.image.load( right )
-        else:                return pygame.image.load( left )
+        toset = None
+        if self.facingRight: toset = right
+        else:                toset = left
+
+        if not toset == self.image:
+            toset.reset()
+        self.image = toset
 
     #updates the players velocities and animations
     #orientation is used to track whether the character is facing left or right
     def update(self):
+        self.image.update()
         evman = eventmanager.get()
         if evman.NORMPRESSED:                   #normal attack pressed
             self.attack = True
             if(self.velY != 0):
-                self.image = self.__load_image( self.jump_attack )
+                self.__load_image( self.jump_attack )
             else:
                 self.stallX()
-                self.image = self.__load_image( self.norm_attack )
+                self.__load_image( self.norm_attack )
         elif evman.LEFTPRESSED:                 #left key pressed
             self.velX = -self.runVel
             self.facingRight = False
             if(self.velY == 0):
-                self.image = self.__move_left()
+                self.__load_image( self.walk )
         elif evman.RIGHTPRESSED:                #right key pressed
             self.velX = self.runVel
             self.facingRight = True
             if(self.velY == 0):
-                self.image = self.__move_right()
+                self.__load_image( self.walk )
         else:
             self.velX = 0
             if(self.velY == 0):
-                self.image = self.__load_image( self.stand )
+                self.__load_image( self.stand )
 
         #jumping upwards
         if evman.SPACEPRESSED and self.canJump:
             self.isJumping = True
             self.canJump = False
             self.velY -= self.jumpVel
-            self.image = self.__load_image( self.jump )
+            self.__load_image( self.jump )
 
         #downward falling animation
         if(self.velY > 0):
             self.isJumping = False
             self.canJump = False    #remove if you want to jump in midair while falling
-            self.image = self.__load_image( self.fall )
+            self.__load_image( self.fall )
 
         #detect frame after peak jump 
         #show peak frame for consistency
         if(self.peaking):
             self.peaking = False
-            self.image = self.__load_image( self.jump_peak )
+            self.__load_image( self.jump_peak )
 
         #detect jump peak
         if(self.velY == 0 and self.isJumping):
             self.peaking = True
-            self.image = self.__load_image( self.jump_peak )
+            self.__load_image( self.jump_peak )
 
         #Oh snap gravity!
         self.velY += 1
@@ -91,35 +99,31 @@ class Player(LevelObject):
         self.stallX()
         self.stallY()
 
+    def draw(self,camera):
+        camera.draw(self.image.get_image(),self.rect)
+
     def __populate_image_variables(self):
         animd = self.animFolder
-        self.norm_attack = 'images/' + animd + '/norm_attack_left.gif', 'images/' + animd + '/norm_attack_right.gif'
-        self.jump_attack = 'images/' + animd + '/jump_attack_left.gif', 'images/' + animd + '/jump_attack_right.gif'
-        self.spec_attack = ''                                         , ''
-        self.fall        = 'images/' + animd + '/jump_left.gif'       , 'images/' + animd + '/jump_right.gif'
-        self.jump        = 'images/' + animd + '/jump_left.gif'       , 'images/' + animd + '/jump_right.gif'
-        self.jump_peak   = 'images/' + animd + '/jump_left.gif'       , 'images/' + animd + '/jump_right.gif'
-        self.stand       = 'images/' + animd + '/stand_left.gif'      , 'images/' + animd + '/stand_right.gif'
-
-    #move left animation
-    #delay anim to make it visible
-    def __move_left(self):
-        self.leftMovePic = (self.leftMovePic - 1) % (self.DELAY_FACTOR*self.NUM_MOVEPICS)
-        showpic = (int) (self.leftMovePic / self.DELAY_FACTOR)
-        return pygame.image.load( 'images/' + self.animFolder + '/move_left' + str(showpic) + '.gif' )
-
-    #move right animation
-    #delay anim to make it visible
-    def __move_right(self):
-        self.rightMovePic = (self.rightMovePic- 1) % (2*self.NUM_MOVEPICS)
-        showpic = (int) (self.rightMovePic / 2)
-        return pygame.image.load( 'images/' + self.animFolder + '/move_right' + str(showpic) + '.gif' )
+        self.norm_attack = StaticAnimation('images/' + animd + '/norm_attack_left.gif'),\
+                           StaticAnimation('images/' + animd + '/norm_attack_right.gif')
+        self.jump_attack = StaticAnimation('images/' + animd + '/jump_attack_left.gif'),\
+                           StaticAnimation('images/' + animd + '/jump_attack_right.gif')
+        #self.spec_attack = StaticAnimation(''),\
+        #                   StaticAnimation('')
+        self.fall        = StaticAnimation('images/' + animd + '/jump_left.gif'),\
+                           StaticAnimation('images/' + animd + '/jump_right.gif')
+        self.jump        = StaticAnimation('images/' + animd + '/jump_left.gif'),\
+                           StaticAnimation('images/' + animd + '/jump_right.gif')
+        self.jump_peak   = StaticAnimation('images/' + animd + '/jump_left.gif'),\
+                           StaticAnimation('images/' + animd + '/jump_right.gif')
+        self.stand       = StaticAnimation('images/' + animd + '/stand_left.gif'),\
+                           StaticAnimation('images/' + animd + '/stand_right.gif')
+        self.walk        = Animation('images/' + animd + '/move_left{0}.gif',  self.numWalkFrames, self.walkDelay ),\
+                           Animation('images/' + animd + '/move_right{0}.gif', self.numWalkFrames, self.walkDelay )
 
 class CaptainAmerica(Player):
-    NUM_MOVEPICS = 4        #number pics in move anim
-    DELAY_FACTOR = 2        #delay factor to make anims visible
-    leftMovePic = 7         #current move anim
-    rightMovePic = 0         #current move anim
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
     runVel = 10     #xcoord movement velocity
@@ -129,10 +133,8 @@ class CaptainAmerica(Player):
 
 
 class Hulk(Player):
-    NUM_MOVEPICS = 4        #number pics in move anim
-    DELAY_FACTOR = 2        #delay factor to make anims visible
-    leftMovePic = 7         #current move anim
-    rightMovePic = 0         #current move anim
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
     runVel = 25     #xcoord movement velocity
@@ -141,10 +143,8 @@ class Hulk(Player):
     animFolder = 'hulk'
 
 class IronMan(Player):
-    NUM_MOVEPICS = 4        #number pics in move anim
-    DELAY_FACTOR = 5        #delay factor to make anims visible
-    leftMovePic = 7         #current move anim
-    rightMovePic = 0         #current move anim
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 5        #delay factor to make anims visible
 
     #movement vars
     runVel = 7     #xcoord movement velocity
