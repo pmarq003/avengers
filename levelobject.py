@@ -1,11 +1,17 @@
 import pygame
 from pygame.sprite import Sprite
 
-class BasicPlatform(Sprite):
+class LevelObject(Sprite):
+
+    base_img_path = None
 
     def __init__(self,x,y):
         Sprite.__init__(self)
-        self.image = pygame.image.load('images/basicplatform.png')
+
+        #If this isn't set we assume the base class has already loaded its image
+        if self.base_img_path:
+            self.image = pygame.image.load( self.base_img_path )
+
         self.rect = self.image.get_rect()
         self.rect.topleft = (x,y)
 
@@ -17,3 +23,11 @@ class BasicPlatform(Sprite):
 
     def get_rect(self):
         return self.rect
+
+class BasicPlatform(LevelObject):
+    base_img_path = 'images/basicplatform.png'
+
+class StaticImage(LevelObject):
+    def __init__(self,image_path,x,y):
+        self.base_img_path = image_path
+        LevelObject.__init__(self,x,y)

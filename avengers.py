@@ -3,7 +3,6 @@
 import camera
 import constants
 import eventmanager
-import image
 import level
 import player
 import pygame

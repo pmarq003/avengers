@@ -1,7 +1,6 @@
 import pygame
 import pygame.sprite
 import player
-import image
 import levelobject
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 
@@ -102,7 +101,7 @@ class Level1(Level):
         #bg = pygame.image.load("images/backgrounds/bg1.gif").convert_alpha()
         #for x in range(0, 3000, 1918):
         #    self.blit( bg,(x,0))
-        self.background = image.StaticImage('images/300x300logo.jpg',SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
+        self.background = levelobject.StaticImage('images/300x300logo.jpg',SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
 
         self._addTerrain( levelobject.BasicPlatform(100,400) )
         self._addTerrain( levelobject.BasicPlatform(500,500) )

@@ -1,24 +1,25 @@
 import pygame
 import eventmanager
+from levelobject import LevelObject
 from pygame.sprite import Sprite
 
-class Player(Sprite):
-
-    isJumping = False   #used to detect the peak of player's jump
-    peaking = False     #is player at the peak of its jump?
-    facingRight = True  #player facing right?
-    attacking = False   #player attacking?
+class Player(LevelObject):
 
     def __init__(self, x, y):
-        Sprite.__init__(self)
-        self.__populate_image_variables()
-        self.facingRight = True
-        self.image = self.__load_image( self.stand )
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x,y)
+        #general stuff
+        self.isJumping = False   #used to detect the peak of player's jump
+        self.peaking = False     #is player at the peak of its jump?
+        self.facingRight = True  #player facing right?
+        self.attacking = False   #player attacking?
+        self.canJump = False
         self.velX = 0
         self.velY = 0
-        self.canJump = False
+
+        #load images and do rest of constructor
+        self.__populate_image_variables()
+        self.image = self.__load_image( self.stand )
+        LevelObject.__init__(self,x,y)
+
 
     def __load_image( self, img_tuple ):
         left,right = img_tuple
@@ -79,12 +80,6 @@ class Player(Sprite):
         self.velY += 1
         self.attacking = False #TODO remove?
         self.rect.move_ip(self.velX,self.velY)
-
-    def draw(self,camera):
-        camera.draw(self.image, self.rect)
-
-    def get_rect(self):
-        return self.rect
 
     def stallX(self):
         self.velX = 0
