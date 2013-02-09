@@ -1,4 +1,5 @@
 import pygame
+from animation import StaticAnimation
 from pygame.sprite import Sprite
 
 class LevelObject(Sprite):
@@ -10,16 +11,16 @@ class LevelObject(Sprite):
 
         #If this isn't set we assume the base class has already loaded its image
         if self.base_img_path:
-            self.image = pygame.image.load( self.base_img_path )
+            self.anim = StaticAnimation( self.base_img_path )
 
-        self.rect = self.image.get_rect()
+        self.rect = self.anim.get_rect()
         self.rect.topleft = (x,y)
 
     def update(self):
         pass
 
     def draw(self,camera):
-        camera.draw(self.image,self.rect)
+        camera.draw(self.anim.get_image(),self.rect)
 
     def get_rect(self):
         return self.rect

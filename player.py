@@ -18,7 +18,7 @@ class Player(LevelObject):
 
         #load images and do rest of constructor
         self.__populate_image_variables()
-        self.image = None
+        self.anim = None
         self.__load_image( self.stand )
         LevelObject.__init__(self,x,y)
 
@@ -29,14 +29,14 @@ class Player(LevelObject):
         if self.facingRight: toset = right
         else:                toset = left
 
-        if not toset == self.image:
+        if not toset == self.anim:
             toset.reset()
-        self.image = toset
+        self.anim = toset
 
     #updates the players velocities and animations
     #orientation is used to track whether the character is facing left or right
     def update(self):
-        self.image.update()
+        self.anim.update()
         evman = eventmanager.get()
         if evman.NORMPRESSED:                   #normal attack pressed
             self.attack = True
@@ -98,9 +98,6 @@ class Player(LevelObject):
     def stall(self):
         self.stallX()
         self.stallY()
-
-    def draw(self,camera):
-        camera.draw(self.image.get_image(),self.rect)
 
     def __populate_image_variables(self):
         animd = self.animFolder
