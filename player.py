@@ -6,7 +6,8 @@ class Player(Sprite):
 
     isJumping = False   #used to detect the peak of player's jump
     peaking = False     #is player at the peak of its jump?
-    facingRight = True
+    facingRight = True  #player facing right?
+    attacking = False   #player attacking?
 
     def __init__(self, x, y):
         Sprite.__init__(self)
@@ -25,8 +26,19 @@ class Player(Sprite):
         if evman.DOWNPRESSED and self.canJump:  #down key pressed
             print 'down pressed'
         if evman.NORMPRESSED:                   #normal attack pressed
-            print 'normal attack'
-        if evman.SPECPRESSED and self.canJump:  #special attack pressed
+            self.attack = True
+            if(self.velY != 0):
+                if(not self.facingRight):
+                    self.image = pygame.image.load(self.jump_attack_left)
+                else:
+                    self.image = pygame.image.load(self.jump_attack_right)
+            else:
+                self.stallX()
+                if(not self.facingRight):
+                    self.image = pygame.image.load(self.norm_attack_left)
+                else:
+                    self.image = pygame.image.load(self.norm_attack_right)
+        elif evman.SPECPRESSED and self.canJump:  #special attack pressed
             print 'special attack'
         elif evman.LEFTPRESSED:                 #left key pressed
             self.velX = -self.runVel
@@ -85,6 +97,7 @@ class Player(Sprite):
 
         #Oh snap gravity!
         self.velY += 1
+        self.attacking = False #TODO remove?
         self.rect.move_ip(self.velX,self.velY)
 
     def draw(self,camera):
@@ -114,6 +127,12 @@ class CaptainAmerica(Player):
     jumpVel = 25    #jumping velocity
 
     #animation images
+    norm_attack_left = 'images/america/norm_attack_left.gif'
+    norm_attack_right = 'images/america/norm_attack_right.gif'
+    jump_attack_left = 'images/america/jump_attack_left.gif'
+    jump_attack_right = 'images/america/jump_attack_right.gif'
+    spec_attack_left = ''
+    spec_attack_right = ''
     fall_left = 'images/america/jump_left.gif'
     fall_right = 'images/america/jump_right.gif'
     jump_left = 'images/america/jump_left.gif'
@@ -148,6 +167,12 @@ class Hulk(Player):
     jumpVel = 35    #jumping velocity
 
     #animation images
+    norm_attack_left = 'images/hulk/norm_attack_left.gif'
+    norm_attack_right = 'images/hulk/norm_attack_right.gif'
+    jump_attack_left = 'images/hulk/jump_attack_left.gif'
+    jump_attack_right = 'images/hulk/jump_attack_right.gif'
+    spec_attack_left = ''
+    spec_attack_right = ''
     fall_left = 'images/hulk/jump_left.gif'
     fall_right = 'images/hulk/jump_right.gif'
     jump_left = 'images/hulk/jump_left.gif'
@@ -183,11 +208,17 @@ class IronMan(Player):
     jumpVel = 25    #jumping velocity
 
     #animation images
-    fall_left = ''
+    norm_attack_left = 'images/ironman/norm_attack_left.gif'
+    norm_attack_right = 'images/ironman/norm_attack_right.gif'
+    jump_attack_left = 'images/ironman/jump_attack_left.gif'
+    jump_attack_right = 'images/ironman/jump_attack_right.gif'
+    spec_attack_left = ''
+    spec_attack_right = ''
+    fall_left = 'images/ironman/jump_peak_left.gif'
     fall_right = 'images/ironman/jump_peak_right.gif'
     jump_left = 'images/ironman/jump_left.gif'
     jump_right = 'images/ironman/jump_right.gif'
-    jump_peak_left = ''
+    jump_peak_left = 'images/ironman/jump_peak_left.gif'
     jump_peak_right = 'images/ironman/jump_peak_right.gif'
     stand_left = 'images/ironman/stand_left.gif'
     stand_right = 'images/ironman/stand_right.gif'
