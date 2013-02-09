@@ -11,89 +11,69 @@ class Player(Sprite):
 
     def __init__(self, x, y):
         Sprite.__init__(self)
-        self.image = pygame.image.load(self.stand_right)
+        self.__populate_image_variables()
         self.facingRight = True
+        self.image = self.__load_image( self.stand )
         self.rect = self.image.get_rect()
         self.rect.topleft = (x,y)
         self.velX = 0
         self.velY = 0
         self.canJump = False
 
+    def __load_image( self, img_tuple ):
+        left,right = img_tuple
+        if self.facingRight: return pygame.image.load( right )
+        else:                return pygame.image.load( left )
+
     #updates the players velocities and animations
     #orientation is used to track whether the character is facing left or right
     def update(self):
         evman = eventmanager.get()
-        if evman.DOWNPRESSED and self.canJump:  #down key pressed
-            print 'down pressed'
         if evman.NORMPRESSED:                   #normal attack pressed
             self.attack = True
             if(self.velY != 0):
-                if(not self.facingRight):
-                    self.image = pygame.image.load(self.jump_attack_left)
-                else:
-                    self.image = pygame.image.load(self.jump_attack_right)
+                self.image = self.__load_image( self.jump_attack )
             else:
                 self.stallX()
-                if(not self.facingRight):
-                    self.image = pygame.image.load(self.norm_attack_left)
-                else:
-                    self.image = pygame.image.load(self.norm_attack_right)
-        elif evman.SPECPRESSED and self.canJump:  #special attack pressed
-            print 'special attack'
+                self.image = self.__load_image( self.norm_attack )
         elif evman.LEFTPRESSED:                 #left key pressed
             self.velX = -self.runVel
             self.facingRight = False
             if(self.velY == 0):
-                self.image = pygame.image.load( self.move_left() )
+                self.image = self.__move_left()
         elif evman.RIGHTPRESSED:                #right key pressed
             self.velX = self.runVel
             self.facingRight = True
             if(self.velY == 0):
-                self.image = pygame.image.load( self.move_right() )
+                self.image = self.__move_right()
         else:
             self.velX = 0
             if(self.velY == 0):
-                if(not self.facingRight):
-                    self.image = pygame.image.load(self.stand_left)
-                else:
-                    self.image = pygame.image.load(self.stand_right)
+                self.image = self.__load_image( self.stand )
 
         #jumping upwards
         if evman.SPACEPRESSED and self.canJump:
             self.isJumping = True
             self.canJump = False
             self.velY -= self.jumpVel
-            if(not self.facingRight):
-                self.image = pygame.image.load(self.jump_left)
-            else:
-                self.image = pygame.image.load(self.jump_right)
+            self.image = self.__load_image( self.jump )
 
         #downward falling animation
         if(self.velY > 0):
             self.isJumping = False
             self.canJump = False    #remove if you want to jump in midair while falling
-            if(not self.facingRight):
-                self.image = pygame.image.load(self.fall_left)
-            else:
-                self.image = pygame.image.load(self.fall_right)
+            self.image = self.__load_image( self.fall )
 
         #detect frame after peak jump 
         #show peak frame for consistency
         if(self.peaking):
             self.peaking = False
-            if(not self.facingRight):
-                self.image = pygame.image.load(self.jump_peak_left)
-            else:
-                self.image = pygame.image.load(self.jump_peak_right)
+            self.image = self.__load_image( self.jump_peak )
 
         #detect jump peak
         if(self.velY == 0 and self.isJumping):
             self.peaking = True
-            if(not self.facingRight):
-                self.image = pygame.image.load(self.jump_peak_left)
-            else:
-                self.image = pygame.image.load(self.jump_peak_right)
-
+            self.image = self.__load_image( self.jump_peak )
 
         #Oh snap gravity!
         self.velY += 1
@@ -116,6 +96,30 @@ class Player(Sprite):
         self.stallX()
         self.stallY()
 
+    def __populate_image_variables(self):
+        animd = self.animFolder
+        self.norm_attack = 'images/' + animd + '/norm_attack_left.gif', 'images/' + animd + '/norm_attack_right.gif'
+        self.jump_attack = 'images/' + animd + '/jump_attack_left.gif', 'images/' + animd + '/jump_attack_right.gif'
+        self.spec_attack = ''                                         , ''
+        self.fall        = 'images/' + animd + '/jump_left.gif'       , 'images/' + animd + '/jump_right.gif'
+        self.jump        = 'images/' + animd + '/jump_left.gif'       , 'images/' + animd + '/jump_right.gif'
+        self.jump_peak   = 'images/' + animd + '/jump_left.gif'       , 'images/' + animd + '/jump_right.gif'
+        self.stand       = 'images/' + animd + '/stand_left.gif'      , 'images/' + animd + '/stand_right.gif'
+
+    #move left animation
+    #delay anim to make it visible
+    def __move_left(self):
+        self.leftMovePic = (self.leftMovePic - 1) % (self.DELAY_FACTOR*self.NUM_MOVEPICS)
+        showpic = (int) (self.leftMovePic / self.DELAY_FACTOR)
+        return pygame.image.load( 'images/' + self.animFolder + '/move_left' + str(showpic) + '.gif' )
+
+    #move right animation
+    #delay anim to make it visible
+    def __move_right(self):
+        self.rightMovePic = (self.rightMovePic- 1) % (2*self.NUM_MOVEPICS)
+        showpic = (int) (self.rightMovePic / 2)
+        return pygame.image.load( 'images/' + self.animFolder + '/move_right' + str(showpic) + '.gif' )
+
 class CaptainAmerica(Player):
     NUM_MOVEPICS = 4        #number pics in move anim
     DELAY_FACTOR = 2        #delay factor to make anims visible
@@ -126,35 +130,8 @@ class CaptainAmerica(Player):
     runVel = 10     #xcoord movement velocity
     jumpVel = 25    #jumping velocity
 
-    #animation images
-    norm_attack_left = 'images/america/norm_attack_left.gif'
-    norm_attack_right = 'images/america/norm_attack_right.gif'
-    jump_attack_left = 'images/america/jump_attack_left.gif'
-    jump_attack_right = 'images/america/jump_attack_right.gif'
-    spec_attack_left = ''
-    spec_attack_right = ''
-    fall_left = 'images/america/jump_left.gif'
-    fall_right = 'images/america/jump_right.gif'
-    jump_left = 'images/america/jump_left.gif'
-    jump_right = 'images/america/jump_right.gif'
-    jump_peak_left = 'images/america/jump_left.gif'
-    jump_peak_right = 'images/america/jump_right.gif'
-    stand_left = 'images/america/stand_left.gif'
-    stand_right = 'images/america/stand_right.gif'
+    animFolder = 'america'
 
-    #move left animation
-    #delay anim to make it visible
-    def move_left(self):
-        self.leftMovePic = (self.leftMovePic - 1) % (self.DELAY_FACTOR*self.NUM_MOVEPICS)
-        showpic = (int) (self.leftMovePic / self.DELAY_FACTOR)
-        return 'images/america/move_left' + str(showpic) + '.gif'
-
-    #move right animation
-    #delay anim to make it visible
-    def move_right(self):
-        self.rightMovePic = (self.rightMovePic- 1) % (2*self.NUM_MOVEPICS)
-        showpic = (int) (self.rightMovePic / 2)
-        return 'images/america/move_right' + str(showpic) + '.gif'
 
 class Hulk(Player):
     NUM_MOVEPICS = 4        #number pics in move anim
@@ -166,36 +143,7 @@ class Hulk(Player):
     runVel = 25     #xcoord movement velocity
     jumpVel = 35    #jumping velocity
 
-    #animation images
-    norm_attack_left = 'images/hulk/norm_attack_left.gif'
-    norm_attack_right = 'images/hulk/norm_attack_right.gif'
-    jump_attack_left = 'images/hulk/jump_attack_left.gif'
-    jump_attack_right = 'images/hulk/jump_attack_right.gif'
-    spec_attack_left = ''
-    spec_attack_right = ''
-    fall_left = 'images/hulk/jump_left.gif'
-    fall_right = 'images/hulk/jump_right.gif'
-    jump_left = 'images/hulk/jump_left.gif'
-    jump_right = 'images/hulk/jump_right.gif'
-    jump_peak_left = 'images/hulk/jump_left.gif'
-    jump_peak_right = 'images/hulk/jump_right.gif'
-    stand_left = 'images/hulk/stand_left.gif'
-    stand_right = 'images/hulk/stand_right.gif'
-
-    #move left animation
-    #delay anim to make it visible
-    def move_left(self):
-        self.leftMovePic = (self.leftMovePic - 1) % (self.DELAY_FACTOR*self.NUM_MOVEPICS)
-        showpic = (int) (self.leftMovePic / self.DELAY_FACTOR)
-        return 'images/hulk/move_left' + str(showpic) + '.gif'
-
-    #move right animation
-    #delay anim to make it visible
-    def move_right(self):
-        self.rightMovePic = (self.rightMovePic- 1) % (2*self.NUM_MOVEPICS)
-        showpic = (int) (self.rightMovePic / 2)
-        return 'images/hulk/move_right' + str(showpic) + '.gif'
-
+    animFolder = 'hulk'
 
 class IronMan(Player):
     NUM_MOVEPICS = 4        #number pics in move anim
@@ -207,32 +155,4 @@ class IronMan(Player):
     runVel = 7     #xcoord movement velocity
     jumpVel = 25    #jumping velocity
 
-    #animation images
-    norm_attack_left = 'images/ironman/norm_attack_left.gif'
-    norm_attack_right = 'images/ironman/norm_attack_right.gif'
-    jump_attack_left = 'images/ironman/jump_attack_left.gif'
-    jump_attack_right = 'images/ironman/jump_attack_right.gif'
-    spec_attack_left = ''
-    spec_attack_right = ''
-    fall_left = 'images/ironman/jump_peak_left.gif'
-    fall_right = 'images/ironman/jump_peak_right.gif'
-    jump_left = 'images/ironman/jump_left.gif'
-    jump_right = 'images/ironman/jump_right.gif'
-    jump_peak_left = 'images/ironman/jump_peak_left.gif'
-    jump_peak_right = 'images/ironman/jump_peak_right.gif'
-    stand_left = 'images/ironman/stand_left.gif'
-    stand_right = 'images/ironman/stand_right.gif'
-
-    #move left animation
-    #delay anim to make it visible
-    def move_left(self):
-        self.leftMovePic = (self.leftMovePic - 1) % (self.DELAY_FACTOR*self.NUM_MOVEPICS)
-        showpic = (int) (self.leftMovePic / self.DELAY_FACTOR)
-        return 'images/ironman/move_left' + str(showpic) + '.gif'
-
-    #move right animation
-    #delay anim to make it visible
-    def move_right(self):
-        self.rightMovePic = (self.rightMovePic- 1) % (2*self.NUM_MOVEPICS)
-        showpic = (int) (self.rightMovePic / 2)
-        return 'images/ironman/move_right' + str(showpic) + '.gif'
+    animFolder = 'ironman'

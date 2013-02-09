@@ -33,8 +33,8 @@ class EventManager:
                 elif event.key == K_DOWN  : self.DOWNPRESSED  = event.type == KEYDOWN
                 elif event.key == K_SPACE : self.SPACEPRESSED = event.type == KEYDOWN
                 elif event.key == K_SPACE : self.SPACEPRESSED = event.type == KEYDOWN
-                elif event.key == K_a : self.NORMPRESSED = event.type == KEYDOWN
-                elif event.key == K_s : self.SPECPRESSED = event.type == KEYDOWN
+                elif event.key == K_a     : self.NORMPRESSED = event.type == KEYDOWN
+                elif event.key == K_s     : self.SPECPRESSED = event.type == KEYDOWN
 
 #Create singleton accessible through eventmanager.get()
 __instance = EventManager()
