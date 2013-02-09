@@ -18,16 +18,22 @@ class Player(Sprite):
         self.velY = 0
         self.canJump = False
 
-    #updates the players velocities and images
+    #updates the players velocities and animations
     #orientation is used to track whether the character is facing left or right
     def update(self):
         evman = eventmanager.get()
-        if evman.LEFTPRESSED:
+        if evman.DOWNPRESSED and self.canJump:  #down key pressed
+            print 'down pressed'
+        if evman.NORMPRESSED:                   #normal attack pressed
+            print 'normal attack'
+        if evman.SPECPRESSED and self.canJump:  #special attack pressed
+            print 'special attack'
+        elif evman.LEFTPRESSED:                 #left key pressed
             self.velX = -self.runVel
             self.facingRight = False
             if(self.velY == 0):
                 self.image = pygame.image.load( self.move_left() )
-        elif evman.RIGHTPRESSED:
+        elif evman.RIGHTPRESSED:                #right key pressed
             self.velX = self.runVel
             self.facingRight = True
             if(self.velY == 0):
@@ -53,6 +59,7 @@ class Player(Sprite):
         #downward falling animation
         if(self.velY > 0):
             self.isJumping = False
+            self.canJump = False    #remove if you want to jump in midair while falling
             if(not self.facingRight):
                 self.image = pygame.image.load(self.fall_left)
             else:

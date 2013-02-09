@@ -28,7 +28,7 @@ screen.blit(splash, (0, 0))
 logo = pygame.image.load("images/300x300logo.jpg").convert_alpha()
 screen.blit(logo, (0,0))
 pygame.display.update()
-time.sleep(3)
+time.sleep(2)
 
 #Make a camera (this might need to go inside the level object, but that's ok)
 camera = camera.Camera(screen)

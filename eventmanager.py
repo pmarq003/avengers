@@ -10,6 +10,8 @@ class EventManager:
         self.UPPRESSED = False
         self.DOWNPRESSED = False
         self.SPACEPRESSED = False
+        self.NORMPRESSED = False    #normal attack
+        self.SPECPRESSED = False    #special attack
 
     def handleEvents(self,events):
         """Deal with all the events from pygame. The events have to be passed in since
@@ -30,6 +32,9 @@ class EventManager:
                 elif event.key == K_UP    : self.UPPRESSED    = event.type == KEYDOWN
                 elif event.key == K_DOWN  : self.DOWNPRESSED  = event.type == KEYDOWN
                 elif event.key == K_SPACE : self.SPACEPRESSED = event.type == KEYDOWN
+                elif event.key == K_SPACE : self.SPACEPRESSED = event.type == KEYDOWN
+                elif event.key == K_a : self.NORMPRESSED = event.type == KEYDOWN
+                elif event.key == K_s : self.SPECPRESSED = event.type == KEYDOWN
 
 #Create singleton accessible through eventmanager.get()
 __instance = EventManager()
