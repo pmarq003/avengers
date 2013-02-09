@@ -1,13 +1,15 @@
 #testing git commit lol
 
-import player
-import eventmanager
-import level
 import camera
 import constants
-from constants import SCREEN_WIDTH,SCREEN_HEIGHT
-
+import eventmanager
+import image
+import level
+import player
 import pygame
+import time
+
+from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 from pygame.locals import *
 
 #initialize pygame lib
@@ -15,7 +17,18 @@ pygame.init()
 
 #creates window
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Avengers')
+pygame.display.set_caption('The Avengers - Six Guys')
+
+#splash screen
+splash = pygame.Surface(screen.get_size())
+splash = splash.convert()
+splash.fill((0,0,0))
+x, y = screen.get_size()
+screen.blit(splash, (0, 0))
+logo = pygame.image.load("images/300x300logo.jpg").convert_alpha()
+screen.blit(logo, (0,0))
+pygame.display.update()
+time.sleep(3)
 
 #Make a camera (this might need to go inside the level object, but that's ok)
 camera = camera.Camera(screen)
