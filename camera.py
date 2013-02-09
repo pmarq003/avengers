@@ -7,8 +7,10 @@ class Camera(object):
         self.screen = screen
         self.window = pygame.Rect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
 
-    def updatePosition(self,player_rect): 
-        self.window.center = player_rect.center 
+    def updatePosition(self,player_rect):
+        self.window.center = player_rect.center
+        if self.window.bottom >= SCREEN_HEIGHT:
+            self.window.bottom -= self.window.bottom - SCREEN_HEIGHT
 
     def draw(self,image,position):
         positionOffset = position.move(-self.window.left,-self.window.top)
