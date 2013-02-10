@@ -1,9 +1,10 @@
 import pygame
 import levelobject
 import time
+
+from pygame.locals import *
 from pygame.sprite import Sprite
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
-
 
 #creates window
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -18,7 +19,6 @@ screen.blit(splash, (0, 0))
 logo = pygame.image.load("images/splash.png").convert_alpha()
 screen.blit(logo, (0,0))
 pygame.display.update()
-#time.sleep(2)
 
 startbutton = pygame.Surface((112,22), pygame.SRCALPHA, 32)
 startbutton = startbutton.convert_alpha()
@@ -51,4 +51,26 @@ button4 = pygame.image.load("images/menusprites/volume.png")
 screen.blit(button4,(970,0))
 pygame.display.update()
 
-time.sleep(10)
+playing = False
+
+while(not pygame.event.peek(pygame.MOUSEBUTTONDOWN)):
+	pygame.event.wait()
+
+for event in pygame.event.get():
+	if event.type == MOUSEBUTTONDOWN:
+		if event.button == 1:
+
+			srect = pygame.Rect(369,363,112,22)
+			playing = srect.collidepoint(pygame.mouse.get_pos())
+
+			irect = pygame.Rect(367,393,115,22)
+			loadinstr = irect.collidepoint(pygame.mouse.get_pos())
+
+			orect = pygame.Rect(383,423,85,22)
+			loadoptions = orect.collidepoint(pygame.mouse.get_pos())
+
+			qrect = pygame.Rect(371,453,112,22)
+			quitz = qrect.collidepoint(pygame.mouse.get_pos())
+
+			vrect = pygame.Rect(970,0,25,25)
+			mute = srect.collidepoint(pygame.mouse.get_pos())

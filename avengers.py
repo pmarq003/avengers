@@ -8,8 +8,7 @@ import time
 import logger
 import startmenu
 
-from startmenu import screen
-
+from startmenu import screen, playing
 from pygame.locals import *
 
 #initialize pygame lib
@@ -24,8 +23,9 @@ currLevel = level.Level1()
 
 logger.get().set(camera, currLevel, screen)
 
+
 #Game loop
-while True:
+while playing:
 
 	#Start timer and handle events
 	milliStart = pygame.time.get_ticks()
