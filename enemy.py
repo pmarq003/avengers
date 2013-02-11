@@ -135,4 +135,4 @@ class CaptainRussia(Enemy):
 	runVel = 10     #xcoord movement velocity
 	jumpVel = 25    #jumping velocity
 
-	animFolder = 'captnRussia'
+	animFolder = 'captnrussia'
