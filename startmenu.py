@@ -78,10 +78,25 @@ while(not playing):
 					sys.exit(0)
 
 				elif pygame.Rect(volume.left, volume.top, volume.width, volume.height).collidepoint(pygame.mouse.get_pos()):
-					volume.img = "images/menusprites/volume.png"
-					pygame.display.update()
 					vol = not vol
-					print vol
+					if not vol:
+						screen.blit(image, (0,0))
+						mute = Button(970, 0, 25, 25, "images/menusprites/mute.png")
+						start = Button(369, 363, 122, 22, "images/menusprites/startgame.png")
+						instructions = Button(367, 393, 115, 22, "images/menusprites/instructions.png")
+						options = Button(383, 423, 85, 22, "images/menusprites/options.png")
+						quit = Button(371, 453, 122, 22, "images/menusprites/quit.png")
+						pygame.display.update()
+
+					elif vol:
+						screen.blit(image, (0,0))
+						volume = Button(970, 0, 25, 25, "images/menusprites/volume.png")
+						start = Button(369, 363, 122, 22, "images/menusprites/startgame.png")
+						instructions = Button(367, 393, 115, 22, "images/menusprites/instructions.png")
+						options = Button(383, 423, 85, 22, "images/menusprites/options.png")
+						quit = Button(371, 453, 122, 22, "images/menusprites/quit.png")
+						pygame.display.update()
+
 		elif event.type == KEYDOWN:
 			if event.key == K_ESCAPE:
 				sys.exit(0)
