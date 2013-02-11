@@ -1,14 +1,18 @@
 import pygame
 import pygame.sprite
 import player
+import enemy
 import levelobject
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 
 class Level(object):
     _terrain = pygame.sprite.Group()
+    _enemy = []
 
     def update(self):
         self.player.update()
+        for enemyObj in self._enemy:
+            enemyObj.update()
 
         #Make sure player doesn't go above or below map. Remember y-axis goes down
         if self.player.rect.bottom > self.height:
@@ -18,6 +22,16 @@ class Level(object):
         elif self.player.rect.top < 0:
             self.player.rect.top = 0
             self.player.stallY()
+            
+        #Make sure enemy doesn't go above or below map. Remember y-axis goes down
+        for enemyObj in self._enemy:
+            if enemyObj.rect.bottom > self.height:
+                enemyObj.rect.bottom = self.height
+                enemyObj.stallY()
+                enemyObj.canJump = True
+            elif enemyObj.rect.top < 0:
+                enemyObj.rect.top = 0
+                enemyObj.stallY()
 
 
         collidedTerrain = pygame.sprite.spritecollide(self.player,self._terrain,False)
@@ -83,6 +97,9 @@ class Level(object):
 
         for terrainObj in self._terrain:
             terrainObj.draw(camera)
+            
+        for enemyObj in self._enemy:
+            enemyObj.draw(camera)
 
     def get_player_rect(self):
         return self.player.get_rect()
@@ -90,6 +107,8 @@ class Level(object):
     def _addTerrain(self,terrainObj):
         self._terrain.add(terrainObj)
 
+    def _addEnemy(self,enemyObj):
+        self._enemy.append(enemyObj)
 
 class Level1(Level):
 
@@ -101,8 +120,18 @@ class Level1(Level):
         #bg = pygame.image.load("images/backgrounds/bg1.gif").convert_alpha()
         #for x in range(0, 3000, 1918):
         #    self.blit( bg,(x,0))
-        self.background = levelobject.StaticImage('images/300x300logo.jpg',SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
+        self.background = levelobject.StaticImage('images/level5.jpg',-500,-350)
 
         self._addTerrain( levelobject.BasicPlatform(100,400) )
         self._addTerrain( levelobject.BasicPlatform(500,500) )
         self._addTerrain( levelobject.BasicPlatform(900,300) )
+        self._addTerrain( levelobject.BasicPlatform2(1400,300) )
+        self._addEnemy( enemy.CaptainRussia(600,0) )
+        self._addEnemy( enemy.CaptainRussia(300,0) )
+        self._addEnemy( enemy.CaptainRussia(100,0) )
+        
+#        for i in range(0,1000):
+#            self._addTerrain( levelobject.MarioGround(16*i,SCREEN_HEIGHT-16) )
+
+        self._addTerrain( levelobject.MarioPlatform(-500, SCREEN_HEIGHT-16) )
+
