@@ -46,7 +46,7 @@ class Player(LevelObject):
 			else:
 				self.stallX()
 				self.__load_image( self.norm_attack )
-		elif evman.LEFTPRESSED:                 #left key pressed
+		elif evman.LEFTPRESSED and self.rect.left > 5:      #left key pressed
 			self.velX = -self.runVel
 			self.facingRight = False
 			if(self.velY == 0):
