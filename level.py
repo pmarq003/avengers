@@ -39,25 +39,19 @@ class Level(object):
         for ter in collidedTerrain:
 
             #check for a possible overlap situation
-            if ((self.player.rect.bottom > ter.rect.top and self.player.velY > 0 ) and ( #detect down overlap
-                (self.player.rect.left < ter.rect.right and
+            if ( (((self.player.rect.bottom > ter.rect.top and self.player.velY > 0) or #down or up overlap
+                (self.player.rect.top < ter.rect.bottom and self.player.velY < 0)) and (
+                (self.player.rect.left < ter.rect.right and             #actual collisions
                     not self.player.rect.right > ter.rect.right) or
                 (self.player.rect.right > ter.rect.left and
-                    not self.player.rect.left > ter.rect.right))) or (
-                (self.player.rect.top < ter.rect.bottom and self.player.velY < 0) and ( #detect up overlap
-                (self.player.rect.left < ter.rect.right or
-                    self.player.rect.right > ter.rect.left))) or (
-                (self.player.rect.right > ter.rect.left and self.player.velX > 0) and ( #detect right overlap
-                (self.player.rect.bottom > ter.rect.top and
+                    not self.player.rect.left > ter.rect.right))) or
+                (((self.player.rect.right > ter.rect.left and self.player.velX > 0) or #right or left overlap
+                    (self.player.rect.left < ter.rect.right and self.player.velX < 0)) and (
+                (self.player.rect.bottom > ter.rect.top and             #actual collisions
                     not self.player.rect.top > ter.rect.bottom) or
                 (self.player.rect.top < ter.rect.bottom and
-                    not self.player.rect.bottom < ter.rect.top))) or (
-                (self.player.rect.left < ter.rect.right and self.player.velX < 0) and ( #detect left overlap
-                (self.player.rect.bottom > ter.rect.top and
-                    not self.player.rect.top > ter.rect.bottom) or
-                (self.player.rect.top < ter.rect.bottom and
-                    not self.player.rect.bottom < ter.rect.top)
-                )):
+                    not self.player.rect.bottom < ter.rect.top))) ):
+
                     #sentinel overlap values
                     topOverlap = -500
                     botOverlap = 500
