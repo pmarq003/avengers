@@ -41,13 +41,13 @@ class Level(object):
             #check for a possible overlap situation
             if ( (((self.player.rect.bottom > ter.rect.top and self.player.velY > 0) or #down or up overlap
                 (self.player.rect.top < ter.rect.bottom and self.player.velY < 0)) and (
-                (self.player.rect.left < ter.rect.right and             #actual collisions
+                (self.player.rect.left < ter.rect.right and             #actual collision
                     not self.player.rect.right > ter.rect.right) or
                 (self.player.rect.right > ter.rect.left and
                     not self.player.rect.left > ter.rect.right))) or
                 (((self.player.rect.right > ter.rect.left and self.player.velX > 0) or #right or left overlap
                     (self.player.rect.left < ter.rect.right and self.player.velX < 0)) and (
-                (self.player.rect.bottom > ter.rect.top and             #actual collisions
+                (self.player.rect.bottom > ter.rect.top and             #actual collision
                     not self.player.rect.top > ter.rect.bottom) or
                 (self.player.rect.top < ter.rect.bottom and
                     not self.player.rect.bottom < ter.rect.top))) ):
