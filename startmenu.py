@@ -49,7 +49,6 @@ while(not playing):
 			if event.button == 1:
 				if pygame.Rect(start.left, start.top, start.width, start.height).collidepoint(pygame.mouse.get_pos()):
 					playing = True
-					print "start hit"
 
 				elif pygame.Rect(instructions.left, instructions.top, instructions.width, instructions.height).collidepoint(pygame.mouse.get_pos()):
 					image = pygame.image.load("images/instructions.png")

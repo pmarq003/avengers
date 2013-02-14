@@ -23,7 +23,6 @@ currLevel = level.Level1()
 
 logger.get().set(camera, currLevel, screen)
 
-
 #Game loop
 while playing:
 
