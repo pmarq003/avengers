@@ -14,8 +14,6 @@ from pygame.locals import *
 #initialize pygame lib
 pygame.init()
 
-startmenu
-
 #Make a camera (this might need to go inside the level object, but that's ok)
 camera = camera.Camera(screen)
 
