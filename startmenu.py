@@ -1,101 +1,74 @@
 import pygame
-import time
 import sys
 
-from pygame.locals import *
-from pygame.sprite import Sprite
-from constants import SCREEN_WIDTH,SCREEN_HEIGHT
+from levelobject import LevelObject,StaticImage
+import eventmanager
 
-class Button:
+class StartMenu(object):
 
-    def __init__(self, left, top, img_path):
-        self.left = left
-        self.top = top
-        self.image = pygame.image.load(img_path)
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (left,top)
-        screen.blit(self.image,(left,top))
+    def __init__(self):
 
-    def get_rect(self):
-        return self.rect 
+        self.splash_bg           = StaticImage( "images/splash.png",                   0,   0   )
+        self.start_button        = StaticImage( "images/menusprites/startgame.png",    369, 363 )
+        self.instructions_button = StaticImage( "images/menusprites/instructions.png", 367, 393 )
+        self.options_button      = StaticImage( "images/menusprites/options.png",      383, 423 )
+        self.quit_button         = StaticImage( "images/menusprites/quit.png",         371, 453 )
+        self.volume_button       = StaticImage( "images/menusprites/volume.png",       970, 0   )
+        self.mute_button         = StaticImage( "images/menusprites/mute.png",         970, 0   )
 
-#creates window
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('The Avengers - Six Guys')
+        self.instructions_bg     = StaticImage( "images/instructions.png",             0,   0   )
+        self.back_button         = StaticImage( "images/back.png",                     414, 500 )
+        
+        self.playing = False
+        self.vol = True
+        self.show_instructions = False
 
-#splash screen
-splash = pygame.Surface(screen.get_size())
-splash = splash.convert()
-splash.fill((0,0,0))
-x, y = screen.get_size()
-screen.blit(splash, (0, 0))
-image = pygame.image.load("images/splash.png").convert_alpha()
-screen.blit(image, (0,0))
-pygame.display.update()
+    def isPlaying(self):
+        return self.playing
 
-start = Button(369, 363, "images/menusprites/startgame.png")
-instructions = Button(367, 393, "images/menusprites/instructions.png")
-options = Button(383, 423, "images/menusprites/options.png")
-quit = Button(371, 453, "images/menusprites/quit.png")
-volume = Button(970, 0, "images/menusprites/volume.png")
-pygame.display.update()
+    def draw(self,camera):
+        
+        if not self.show_instructions:
+            self.splash_bg.draw(camera)
+            self.start_button.draw(camera)
+            self.instructions_button.draw(camera)
+            self.options_button.draw(camera)
+            self.quit_button.draw(camera)
 
-playing = False
-vol = True
+            if self.vol:
+                self.volume_button.draw(camera)
+            else:
+                self.mute_button.draw(camera)
 
-while(not playing):
-    for event in pygame.event.get():
-        if event.type == MOUSEBUTTONDOWN:
-            if event.button == 1:
-                if start.get_rect().collidepoint(pygame.mouse.get_pos()):
-                    playing = True
+        else:
+            self.instructions_bg.draw(camera)
+            self.back_button.draw(camera)
 
-                elif instructions.get_rect().collidepoint(pygame.mouse.get_pos()):
-                    image = pygame.image.load("images/instructions.png")
-                    screen.blit(image, (0,0))
-                    back = Button(414, 500, "images/back.png")
-                    pygame.display.update()
-                    done = False
-                    while(not done):
-                        for event in pygame.event.get():
-                            if event.type == MOUSEBUTTONDOWN:
-                                if back.get_rect().collidepoint(pygame.mouse.get_pos()):
-                                    image = pygame.image.load("images/splash.png").convert_alpha()
-                                    screen.blit(image, (0,0))
-                                    start = Button(369, 363, "images/menusprites/startgame.png")
-                                    instructions = Button(367, 393, "images/menusprites/instructions.png")
-                                    options = Button(383, 423, "images/menusprites/options.png")
-                                    quit = Button(371, 453, "images/menusprites/quit.png")
-                                    volume = Button(970, 0, "images/menusprites/volume.png")
-                                    pygame.display.update()
-                                    done = True
+    def update(self):
 
-                elif options.get_rect().collidepoint(pygame.mouse.get_pos()):
-                    print "options hit"
+        evman = eventmanager.get()
 
-                elif quit.get_rect().collidepoint(pygame.mouse.get_pos()):
+        if evman.MOUSE1CLICK != False:
+            event = evman.MOUSE1CLICK
+            clickpoint = event.pos
+
+            if not self.show_instructions:
+                if self.start_button.get_rect().collidepoint(clickpoint):
+                    self.playing = True
+
+                elif self.options_button.get_rect().collidepoint(clickpoint):
+                    print("options hit")
+
+                elif self.quit_button.get_rect().collidepoint(clickpoint):
+                    print("Exiting....")
                     sys.exit(0)
 
-                elif volume.get_rect().collidepoint(pygame.mouse.get_pos()):
-                    vol = not vol
-                    if not vol:
-                        screen.blit(image, (0,0))
-                        mute = Button(970, 0, "images/menusprites/mute.png")
-                        start = Button(369, 363, "images/menusprites/startgame.png")
-                        instructions = Button(367, 393, "images/menusprites/instructions.png")
-                        options = Button(383, 423, "images/menusprites/options.png")
-                        quit = Button(371, 453, "images/menusprites/quit.png")
-                        pygame.display.update()
+                elif self.volume_button.get_rect().collidepoint(clickpoint):
+                    self.vol = not self.vol
 
-                    elif vol:
-                        screen.blit(image, (0,0))
-                        volume = Button(970, 0, "images/menusprites/volume.png")
-                        start = Button(369, 363, "images/menusprites/startgame.png")
-                        instructions = Button(367, 393, "images/menusprites/instructions.png")
-                        options = Button(383, 423, "images/menusprites/options.png")
-                        quit = Button(371, 453, "images/menusprites/quit.png")
-                        pygame.display.update()
+                elif self.instructions_button.get_rect().collidepoint(clickpoint):
+                    self.show_instructions = True
 
-        elif event.type == KEYDOWN:
-            if event.key == K_ESCAPE:
-                sys.exit(0)
+            else:
+                if self.back_button.get_rect().collidepoint(clickpoint):
+                        self.show_instructions = False

@@ -17,6 +17,9 @@ class Camera(object):
         if self.window.left < 0:
             self.window.left = 0
 
+    def zeroPosition(self):
+        self.window.topleft = (0,0)
+
     def draw(self,image,position):
         positionOffset = position.move(-self.window.left,-self.window.top)
         self.screen.blit(image,positionOffset)
