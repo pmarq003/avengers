@@ -24,21 +24,23 @@ class Level(object):
             self.player.stallY()
             
         #Make sure enemy doesn't go above or below map. Remember y-axis goes down
+        #If the enemy goes below we assume they're dead
         for enemyObj in self._enemies:
-            if enemyObj.rect.bottom > self.height:
-                print("{0} hit the bottom".format(enemyObj))
-                enemyObj.rect.bottom = self.height
-                enemyObj.stallY()
-                enemyObj.canJump = True
+            if enemyObj.rect.top > self.height:
+                enemyObj.kill() #removes from all sprite groups
             elif enemyObj.rect.top < 0:
                 enemyObj.rect.top = 0
                 enemyObj.stallY()
-
 
         #detect terrain collisions for player
         collidedTerrain = pygame.sprite.spritecollide(self.player,self._terrain,False)
         for ter in collidedTerrain:
             self._handleCollision(self.player,ter)
+
+        #detect enemy collisions for player
+        collidedEnemies = pygame.sprite.spritecollide(self.player,self._enemies,False)
+        for enemy in collidedEnemies:
+            self._handleCollision(self.player,enemy)
 
         #detect terrain collisions for enemy
         enemyTerrainCollisions = pygame.sprite.groupcollide(self._enemies,self._terrain,False,False)
@@ -48,50 +50,42 @@ class Level(object):
 
 
     def _handleCollision(self,a,b):
-        #check for a possible overlap situation
-        if ( (((a.rect.bottom > b.rect.top and a.velY > 0) or #down or up overlap
-            (a.rect.top < b.rect.bottom and a.velY < 0)) and (
-            (a.rect.left < b.rect.right and             #actual collision
-                not a.rect.right > b.rect.right) or
-            (a.rect.right > b.rect.left and
-                not a.rect.left > b.rect.right))) or
-            (((a.rect.right > b.rect.left and a.velX > 0) or #right or left overlap
-                (a.rect.left < b.rect.right and a.velX < 0)) and (
-            (a.rect.bottom > b.rect.top and             #actual collision
-                not a.rect.top > b.rect.bottom) or
-            (a.rect.top < b.rect.bottom and
-                not a.rect.bottom < b.rect.top))) ):
 
-                #sentinel overlap values
-                topOverlap = -500
-                botOverlap = 500
-                leftOverlap = -500
-                rightOverlap = 500
-                #check for the actual overlaps
-                #from the perspective of the player
-                if(a.rect.top - b.rect.bottom < 0):
-                    topOverlap = a.rect.top - b.rect.bottom
-                if(a.rect.bottom - b.rect.top > 0):
-                    botOverlap = a.rect.bottom- b.rect.top
-                if(a.rect.left - b.rect.right < 0):
-                    leftOverlap = a.rect.left - b.rect.right
-                if(a.rect.right - b.rect.left > 0):
-                    rightOverlap = a.rect.right - b.rect.left
+        #If either object isn't solid we don't care
+        if not a.solid or not b.solid: return
 
-                #correct only the smallest overlap
-                if min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == abs(topOverlap):
-                    a.stallY()
-                    a.rect.top = b.rect.bottom
-                elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == botOverlap:
-                    a.stallY()
-                    a.canJump = True
-                    a.rect.bottom = b.rect.top
-                elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == abs(leftOverlap):
-                    a.stallX()
-                    a.rect.left = b.rect.right
-                elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == rightOverlap:
-                    a.stallX()
-                    a.rect.right = b.rect.left
+        b.try_hurt(a)
+
+        #sentinel overlap values
+        topOverlap = -500
+        botOverlap = 500
+        leftOverlap = -500
+        rightOverlap = 500
+        #check for the actual overlaps
+        #from the perspective of the player
+        if(a.rect.top - b.rect.bottom < 0):
+            topOverlap = a.rect.top - b.rect.bottom
+        if(a.rect.bottom - b.rect.top > 0):
+            botOverlap = a.rect.bottom- b.rect.top
+        if(a.rect.left - b.rect.right < 0):
+            leftOverlap = a.rect.left - b.rect.right
+        if(a.rect.right - b.rect.left > 0):
+            rightOverlap = a.rect.right - b.rect.left
+
+        #correct only the smallest overlap
+        if min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == abs(topOverlap):
+            a.stallY()
+            a.rect.top = b.rect.bottom
+        elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == botOverlap:
+            a.stallY()
+            a.canJump = True
+            a.rect.bottom = b.rect.top
+        elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == abs(leftOverlap):
+            a.stallX()
+            a.rect.left = b.rect.right
+        elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == rightOverlap:
+            a.stallX()
+            a.rect.right = b.rect.left
 
     def draw(self,camera):
         if self.background:

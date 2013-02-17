@@ -6,6 +6,7 @@ from levelobject import LevelObject
 from pygame.sprite import Sprite
 
 class Character(LevelObject):
+    alive = True
 
     def __init__(self, x, y):
         #general stuff
@@ -38,38 +39,46 @@ class Character(LevelObject):
     #orientation is used to track whether the character is facing left or right
     def update(self):
         self.anim.update()
-        evman = eventmanager.get()
 
-        #replay
-        if evman.REPLAYPRESSED and logger.get().replayCanRun:
-            logger.get().replay()
+        #If we're not alive don't process anything
+        if self.alive:
 
-        #Do any updates pertaining to the child character class.
-        #If the child class hasn't implemented the method, don't worry about it
-        try: self.charSpecificUpdate()
-        except AttributeError: pass
+            evman = eventmanager.get()
 
-        #downward falling animation
-        if(self.velY > 0):
-            self.isJumping = False
-            self.canJump = False    #remove if you want to jump in midair while falling
-            self._load_image( self.fall )
+            #replay
+            if evman.REPLAYPRESSED and logger.get().replayCanRun:
+                logger.get().replay()
 
-        #detect frame after peak jump 
-        #show peak frame for consistency
-        if(self.peaking):
-            self.peaking = False
-            self._load_image( self.jump_peak )
+            #Do any updates pertaining to the child character class.
+            #If the child class hasn't implemented the method, don't worry about it
+            try: self.charSpecificUpdate()
+            except AttributeError: pass
 
-        #detect jump peak
-        if(self.velY == 0 and self.isJumping):
-            self.peaking = True
-            self._load_image( self.jump_peak )
+            #downward falling animation
+            if(self.velY > 0):
+                self.isJumping = False
+                self.canJump = False    #remove if you want to jump in midair while falling
+                self._load_image( self.fall )
+
+            #detect frame after peak jump 
+            #show peak frame for consistency
+            if(self.peaking):
+                self.peaking = False
+                self._load_image( self.jump_peak )
+
+            #detect jump peak
+            if(self.velY == 0 and self.isJumping):
+                self.peaking = True
+                self._load_image( self.jump_peak )
 
         #Oh snap gravity!
         self.velY += 1
         self.rect.move_ip(self.velX,self.velY)
 
+    def die(self):
+        self.velY = -15
+        self.alive = False
+        self.solid = False
 
     def stallX(self):
         self.velX = 0

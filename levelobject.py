@@ -5,6 +5,9 @@ from pygame.sprite import Sprite
 class LevelObject(Sprite):
 
     base_img_path = None
+    can_get_hurt = False
+    can_give_hurt = False
+    solid = True
 
     def __init__(self,x,y):
         Sprite.__init__(self)
@@ -24,6 +27,13 @@ class LevelObject(Sprite):
 
     def get_rect(self):
         return self.rect
+
+    def try_hurt(self,by):
+        if self.can_get_hurt and by.can_give_hurt:
+            self.got_hurt(by)
+
+    def die(self):
+        pass
 
 class BasicPlatform(LevelObject):
     base_img_path = 'images/basicplatform.png'

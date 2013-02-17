@@ -2,6 +2,7 @@ from character import Character
 import eventmanager
 
 class Player(Character):
+    can_give_hurt = True
 
     def charSpecificUpdate(self):
 
