@@ -3,6 +3,7 @@ import pygame
 class Animation(object):
 
     def __init__( self, base, num_frames, delay=1 ):
+        self.base = base #makes debugging easier
         self.curr_frame = 0
         self.toshow = 0
         self.delay_factor = delay
@@ -13,7 +14,7 @@ class Animation(object):
             self.frames.append( pygame.image.load( base.format(i) ) )
 
     def update(self):
-        self.curr_frame = (self.curr_frame-1) % (self.num_frames * self.delay_factor)
+        self.curr_frame = (self.curr_frame+1) % (self.num_frames * self.delay_factor)
         self.toshow = (int)(self.curr_frame / self.delay_factor)
 
     def reset(self):
@@ -31,6 +32,7 @@ class Animation(object):
 class StaticAnimation(object):
     
     def __init__( self, base ):
+        self.base = base #makes debugging easier
         self.image = pygame.image.load( base )
 
     def update(self):
