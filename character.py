@@ -6,10 +6,10 @@ from levelobject import LevelObject
 from pygame.sprite import Sprite
 
 class Character(LevelObject):
-    alive = True
 
     def __init__(self, x, y):
         #general stuff
+        self.alive = True
         self.isJumping = False   #used to detect the peak of player's jump
         self.peaking = False     #is player at the peak of its jump?
         self.facingRight = True  #player facing right?
@@ -71,12 +71,19 @@ class Character(LevelObject):
                 self.peaking = True
                 self._load_image( self.jump_peak )
 
+        #update rect with new image
+        #we use bottomleft so it doesn't mess with collision detection
+        oldxy = self.rect.bottomleft
+        self.rect = self.anim.get_rect()
+        self.rect.bottomleft = oldxy
+
         #Oh snap gravity!
         self.velY += 1
         self.rect.move_ip(self.velX,self.velY)
 
     def die(self):
         self.velY = -15
+        self.stallX()
         self.alive = False
         self.solid = False
 

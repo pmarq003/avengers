@@ -2,13 +2,15 @@ from character import Character
 import eventmanager
 
 class Player(Character):
+    can_get_hurt  = True
     can_give_hurt = True
 
     def charSpecificUpdate(self):
 
         evman = eventmanager.get()
+        self.attacking = False
         if evman.NORMPRESSED:                   #normal attack pressed
-            self.attack = True
+            self.attacking = True
             if(self.velY != 0):
                 self._load_image( self.jump_attack )
             else:
@@ -35,6 +37,9 @@ class Player(Character):
             self.canJump = False
             self.velY -= self.jumpVel
             self._load_image( self.jump )
+
+    def got_hurt(self,by):
+        self.die()
 
 class CaptainAmerica(Player):
     numWalkFrames = 4        #number pics in move anim

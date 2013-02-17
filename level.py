@@ -6,31 +6,30 @@ import levelobject
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 
 class Level(object):
-    _terrain = pygame.sprite.Group()
-    _enemies = pygame.sprite.Group()
+
+    def __init__(self):
+        self._terrain = pygame.sprite.Group()
+        self._enemies = pygame.sprite.Group()
+
+        self.player_alive = True
 
     def update(self):
         self.player.update()
         for enemyObj in self._enemies:
             enemyObj.update()
 
-        #Make sure player doesn't go above or below map. Remember y-axis goes down
-        if self.player.rect.bottom > self.height:
-            self.player.rect.bottom = self.height
-            self.player.stallY()
-            self.player.canJump = True
-        elif self.player.rect.top < 0:
-            self.player.rect.top = 0
-            self.player.stallY()
+        #Make sure player doesn't go below map. Remember y-axis goes down
+        #If the player goes below we assume they're dead
+        if self.player.rect.top > self.height:
+            print("player dead")
+            self.player.kill()
+            self.player_alive = False
             
-        #Make sure enemy doesn't go above or below map. Remember y-axis goes down
+        #Make sure enemy doesn't go below map. Remember y-axis goes down
         #If the enemy goes below we assume they're dead
         for enemyObj in self._enemies:
             if enemyObj.rect.top > self.height:
                 enemyObj.kill() #removes from all sprite groups
-            elif enemyObj.rect.top < 0:
-                enemyObj.rect.top = 0
-                enemyObj.stallY()
 
         #detect terrain collisions for player
         collidedTerrain = pygame.sprite.spritecollide(self.player,self._terrain,False)
@@ -110,6 +109,7 @@ class Level(object):
 class Level1(Level):
 
     def __init__(self):
+        Level.__init__(self)
         self.height = SCREEN_HEIGHT
         self.player = player.Hulk(0,0)
 

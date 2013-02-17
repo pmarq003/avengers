@@ -38,6 +38,9 @@ while True:
 
     if startMenu.isPlaying():
 
+        if not currLevel.player_alive:
+            currLevel = level.Level1()
+
         #Update player and enemies positions/current actions
         currLevel.update()
 
