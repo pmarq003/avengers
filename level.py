@@ -5,6 +5,8 @@ import enemy
 import levelobject
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 
+from enemy import EMPTY, FLOOR
+
 class Level(object):
 
     def __init__(self):
@@ -123,10 +125,11 @@ class Level1(Level):
         self._addTerrain( levelobject.BasicPlatform(500,500) )
         self._addTerrain( levelobject.BasicPlatform(900,300) )
         self._addTerrain( levelobject.BasicPlatform2(1400,300) )
-        self._addEnemy( enemy.CaptainRussia(600,0) )
-        self._addEnemy( enemy.CaptainRussia(300,0) )
-        self._addEnemy( enemy.CaptainRussia(100,0) )
-        
+
+        self._addEnemy( enemy.CaptainRussia(600,0, self.player, EMPTY) )
+        self._addEnemy( enemy.CaptainRussia(300,0, self.player, EMPTY) )
+        self._addEnemy( enemy.CaptainRussia(100,0, self.player, FLOOR) )
+
 #        for i in range(0,1000):
 #            self._addTerrain( levelobject.MarioGround(16*i,SCREEN_HEIGHT-16) )
 
