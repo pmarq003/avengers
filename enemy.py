@@ -58,12 +58,18 @@ class Enemy(Character):
     #orientation is used to track whether the character is facing left or right
     def update(self):
         self.anim.update()
-        self.__load_image( self.stand )
+        #self.__load_image( self.stand )
 
         #choose AI to implement
         updateAI = {NONE: self.AI_nothing, FLOOR: self.AI_floor,
                 PLATFORM: self.AI_platform}
         updateAI[self.ai]()
+
+        #update rect with new image
+        #we use bottomleft so it doesn't mess with collision detection
+        oldxy = self.rect.bottomleft
+        self.rect = self.anim.get_rect()
+        self.rect.bottomleft = oldxy
 
         #Oh snap gravity!
         self.velY += 1
@@ -91,8 +97,8 @@ class Enemy(Character):
         if self.rect.left - self.player.rect.left <= self.playerRadius:
             self.canMove = True
 
-        self.anim.update()
-        self.__load_image( self.stand )
+        if self.velX == 0:
+            self.__load_image( self.stand )
 
         if self.canMove:
 
@@ -110,18 +116,22 @@ class Enemy(Character):
 
     #AI for enemes that patrol a platform
     def AI_platform(self):
-        self.anim.update()
-        self.__load_image( self.stand )
 
         if self.facingRight == True:
             self.velX = self.runVel / 2
             self.__load_image( self.walk )
-        if self.facingRight == False:
+        elif self.facingRight == False:
             self.velX = -self.runVel / 2
             self.__load_image( self.walk )
+        else:
+            self.__load_image( self.stand )
 
     def handleNodeCollision(self, node):
         if self.ai == PLATFORM:
+            if self.facingRight:
+                self.rect.right = node.rect.left
+            else:
+                self.rect.left = node.rect.right
             self.facingRight = not self.facingRight
 
     def __populate_image_variables(self):
