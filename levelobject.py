@@ -35,6 +35,7 @@ class LevelObject(Sprite):
     def die(self):
         pass
 
+
 class BasicPlatform(LevelObject):
     base_img_path = 'images/basicplatform.png'
     
