@@ -42,13 +42,13 @@ class Node(LevelObject):
 
 class BasicPlatform(LevelObject):
     base_img_path = 'images/basicplatform.png'
-    
+
 class BasicPlatform2(LevelObject):
     base_img_path = 'images/basicplatform2.png'
-    
+
 class MarioGround(LevelObject):
     base_img_path = 'images/marioground.png'
-    
+
 class MarioPlatform(LevelObject):
     base_img_path = 'images/marioPlatform.jpg'
 

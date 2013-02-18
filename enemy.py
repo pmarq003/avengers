@@ -108,7 +108,7 @@ class Enemy(Character):
                 self.stallX()
                 self.__load_image( self.stand )
 
-    #AI for enemy that patrols a platform
+    #AI for enemes that patrol a platform
     def AI_platform(self):
         self.anim.update()
         self.__load_image( self.stand )
