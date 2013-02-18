@@ -6,8 +6,9 @@ from pygame.sprite import Sprite
 
 
 
-NONE = 0
-FLOOR = 1
+NONE = 0        #AI that does nothing
+FLOOR = 1       #AI that runs only on floor
+PLATFORM = 2    #AI that patrols a platform
 
 class Enemy(Character):
     can_get_hurt  = True
@@ -60,7 +61,8 @@ class Enemy(Character):
         self.__load_image( self.stand )
 
         #choose AI to implement
-        updateAI = {NONE: self.AI_nothing, FLOOR: self.AI_floor}
+        updateAI = {NONE: self.AI_nothing, FLOOR: self.AI_floor,
+                PLATFORM: self.AI_platform}
         updateAI[self.ai]()
 
         #Oh snap gravity!
@@ -78,28 +80,12 @@ class Enemy(Character):
         self.stallX()
         self.stallY()
 
-    def __populate_image_variables(self):
-        animd = self.animFolder
-        self.norm_attack = StaticAnimation('images/' + animd + '/norm_attack_left.gif'),\
-                           StaticAnimation('images/' + animd + '/norm_attack_right.gif')
-        self.jump_attack = StaticAnimation('images/' + animd + '/jump_attack_left.gif'),\
-                           StaticAnimation('images/' + animd + '/jump_attack_right.gif')
-        #self.spec_attack = StaticAnimation(''),\
-        #                   StaticAnimation('')
-        self.fall        = StaticAnimation('images/' + animd + '/jump_left.gif'),\
-                           StaticAnimation('images/' + animd + '/jump_right.gif')
-        self.jump        = StaticAnimation('images/' + animd + '/jump_left.gif'),\
-                           StaticAnimation('images/' + animd + '/jump_right.gif')
-        self.jump_peak   = StaticAnimation('images/' + animd + '/jump_left.gif'),\
-                           StaticAnimation('images/' + animd + '/jump_right.gif')
-        self.stand       = StaticAnimation('images/' + animd + '/stand_left.gif'),\
-                           StaticAnimation('images/' + animd + '/stand_right.gif')
-        self.walk        = Animation('images/' + animd + '/move_left{0}.gif',  self.numWalkFrames, self.walkDelay ),\
-                           Animation('images/' + animd + '/move_right{0}.gif', self.numWalkFrames, self.walkDelay )
 
+    #AI for enemy that does nothing
     def AI_nothing(self):
         pass
 
+    #AI for enemy that runs only on floor, following the player
     def AI_floor(self):
         #checks player radius
         if self.rect.left - self.player.rect.left <= self.playerRadius:
@@ -121,6 +107,42 @@ class Enemy(Character):
             else:
                 self.stallX()
                 self.__load_image( self.stand )
+
+    #AI for enemy that patrols a platform
+    def AI_platform(self):
+        self.anim.update()
+        self.__load_image( self.stand )
+
+        if self.facingRight == True:
+            self.velX = self.runVel / 2
+            self.__load_image( self.walk )
+        if self.facingRight == False:
+            self.velX = -self.runVel / 2
+            self.__load_image( self.walk )
+
+    def handleNodeCollision(self, node):
+        if self.ai == PLATFORM:
+            self.facingRight = not self.facingRight
+
+    def __populate_image_variables(self):
+        animd = self.animFolder
+        self.norm_attack = StaticAnimation('images/' + animd + '/norm_attack_left.gif'),\
+                           StaticAnimation('images/' + animd + '/norm_attack_right.gif')
+        self.jump_attack = StaticAnimation('images/' + animd + '/jump_attack_left.gif'),\
+                           StaticAnimation('images/' + animd + '/jump_attack_right.gif')
+        #self.spec_attack = StaticAnimation(''),\
+        #                   StaticAnimation('')
+        self.fall        = StaticAnimation('images/' + animd + '/jump_left.gif'),\
+                           StaticAnimation('images/' + animd + '/jump_right.gif')
+        self.jump        = StaticAnimation('images/' + animd + '/jump_left.gif'),\
+                           StaticAnimation('images/' + animd + '/jump_right.gif')
+        self.jump_peak   = StaticAnimation('images/' + animd + '/jump_left.gif'),\
+                           StaticAnimation('images/' + animd + '/jump_right.gif')
+        self.stand       = StaticAnimation('images/' + animd + '/stand_left.gif'),\
+                           StaticAnimation('images/' + animd + '/stand_right.gif')
+        self.walk        = Animation('images/' + animd + '/move_left{0}.gif',  self.numWalkFrames, self.walkDelay ),\
+                           Animation('images/' + animd + '/move_right{0}.gif', self.numWalkFrames, self.walkDelay )
+
 
 
 class CaptainRussia(Enemy):

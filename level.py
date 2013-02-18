@@ -5,13 +5,14 @@ import enemy
 import levelobject
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 
-from enemy import NONE, FLOOR
+from enemy import NONE, FLOOR, PLATFORM
 
 class Level(object):
 
     def __init__(self):
         self._terrain = pygame.sprite.Group()
         self._enemies = pygame.sprite.Group()
+        self._nodes = pygame.sprite.Group()
 
         self.player_alive = True
 
@@ -26,7 +27,7 @@ class Level(object):
             print("player dead")
             self.player.kill()
             self.player_alive = False
-            
+
         #Make sure enemy doesn't go below map. Remember y-axis goes down
         #If the enemy goes below we assume they're dead
         for enemyObj in self._enemies:
@@ -49,6 +50,16 @@ class Level(object):
             for ter in terObjs:
                 self._handleCollision(enemy,ter)
 
+        #detect AI nodes for enemies
+        enemyNodeCollisions = pygame.sprite.groupcollide(self._enemies,self._nodes,False,False)
+        for enemy,nodeObjs in enemyNodeCollisions.iteritems():
+            for node in nodeObjs:
+                self._handleNodeCollision(enemy,node)
+
+
+
+    def _handleNodeCollision(self, enemy, node):
+        enemy.handleNodeCollision(node);
 
     def _handleCollision(self,a,b):
 
@@ -95,9 +106,13 @@ class Level(object):
 
         for terrainObj in self._terrain:
             terrainObj.draw(camera)
-            
+
         for enemyObj in self._enemies:
             enemyObj.draw(camera)
+
+        #TODO delete
+        for nodeObj in self._nodes:
+            nodeObj.draw(camera)
 
     def get_player_rect(self):
         return self.player.get_rect()
@@ -107,6 +122,9 @@ class Level(object):
 
     def _addEnemy(self,enemyObj):
         self._enemies.add(enemyObj)
+
+    def _addNode(self, nodeObj):
+        self._nodes.add(nodeObj);
 
 class Level1(Level):
 
@@ -121,13 +139,20 @@ class Level1(Level):
         #    self.blit( bg,(x,0))
         self.background = levelobject.StaticImage('images/level5.jpg',-500,-350)
 
+        #terrain objects
         self._addTerrain( levelobject.BasicPlatform(100,400) )
         self._addTerrain( levelobject.BasicPlatform(500,500) )
         self._addTerrain( levelobject.BasicPlatform(900,300) )
         self._addTerrain( levelobject.BasicPlatform2(1400,300) )
 
+        #AI nodes
+        self._addNode( levelobject.Node(450,400) ) #nodes for first platform
+        self._addNode( levelobject.Node(700,400) )
+
+
+        #enemies
         self._addEnemy( enemy.CaptainRussia(300,0, self.player, NONE) )
-        self._addEnemy( enemy.CaptainRussia(600,0, self.player, FLOOR) )
+        self._addEnemy( enemy.CaptainRussia(600,400, self.player, PLATFORM) )
         self._addEnemy( enemy.CaptainRussia(800,0, self.player, FLOOR) )
 
 #        for i in range(0,1000):

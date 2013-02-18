@@ -35,6 +35,11 @@ class LevelObject(Sprite):
     def die(self):
         pass
 
+#Node class for AI use only
+#should give hints to AI on jumping, etc.
+class Node(LevelObject):
+    base_img_path = 'images/node.jpg'
+
 class BasicPlatform(LevelObject):
     base_img_path = 'images/basicplatform.png'
     
