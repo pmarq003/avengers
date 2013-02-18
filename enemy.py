@@ -1,6 +1,14 @@
+from levelobject import LevelObject
 from character import Character
+from animation import Animation,StaticAnimation
+from levelobject import LevelObject
+from pygame.sprite import Sprite
 
-<<<<<<< HEAD
+
+
+NONE = 0
+FLOOR = 1
+
 class Enemy(Character):
     can_get_hurt  = True
     can_give_hurt = True
@@ -14,12 +22,6 @@ class Enemy(Character):
             self.die()
         elif by.can_get_hurt:
             by.die()
-=======
-
-EMPTY = 0
-FLOOR = 1
-
-class Enemy(LevelObject):
 
     def __init__(self, x, y, player, ai):
         #general stuff
@@ -27,6 +29,7 @@ class Enemy(LevelObject):
         self.peaking = False     #is player at the peak of its jump?
         self.facingRight = True  #player facing right?
         self.attacking = False   #player attacking?
+        self.canMove = False
         self.canJump = False
         self.velX = 0
         self.velY = 0
@@ -57,7 +60,7 @@ class Enemy(LevelObject):
         self.__load_image( self.stand )
 
         #choose AI to implement
-        updateAI = {EMPTY: self.AI_nothing, FLOOR: self.AI_floor}
+        updateAI = {NONE: self.AI_nothing, FLOOR: self.AI_floor}
         updateAI[self.ai]()
 
         #Oh snap gravity!
@@ -119,8 +122,6 @@ class Enemy(LevelObject):
                 self.stallX()
                 self.__load_image( self.stand )
 
-        
->>>>>>> test
 
 class CaptainRussia(Enemy):
     numWalkFrames = 4        #number pics in move anim
