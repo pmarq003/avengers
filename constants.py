@@ -14,4 +14,5 @@ DEFAULT_BGCOLOR = 36, 48, 59
 NONE = 0        #doesn't do anything
 FLOOR = 1       #runs on floor
 PLATFORM = 2    #patrols platform
-JUMP = 3        #static jump 
+JUMP = 3        #static jump (randomly)
+HOP = 4         #hop around (randomly)

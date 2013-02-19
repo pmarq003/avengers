@@ -60,7 +60,8 @@ class Enemy(Character):
 
         #choose AI to implement
         updateAI = {NONE: self.AI_nothing,      FLOOR: self.AI_floor,
-                    PLATFORM: self.AI_platform, JUMP: self.AI_jump
+                    PLATFORM: self.AI_platform, JUMP: self.AI_jump,
+                    HOP: self.AI_hop
                     }
         updateAI[self.ai]()
 
@@ -86,11 +87,11 @@ class Enemy(Character):
         self.stallY()
 
 
-    #0: AI for enemy that does nothing
+    #0: NONE - AI for enemy that does nothing
     def AI_nothing(self):
         pass
 
-    #1: AI for enemy that runs only on floor, following the player
+    #1: FLOOR - AI for enemy that runs only on floor, following the player
     def AI_floor(self):
         #checks player radius
         if self.rect.left - self.player.rect.left <= self.playerRadius:
@@ -113,7 +114,7 @@ class Enemy(Character):
                 self.stallX()
                 self.__load_image( self.stand )
 
-    #2: AI for enemes that patrol a platform
+    #2: PLATFORM - AI for enemes that patrol a platform
     def AI_platform(self):
 
         if self.facingRight == True:
@@ -125,7 +126,7 @@ class Enemy(Character):
         else:
             self.__load_image( self.stand )
 
-    #3: AI for static jumping enemies
+    #3: JUMP - AI for static jumping enemies
     def AI_jump(self):
 
         #set character orientation
@@ -151,6 +152,33 @@ class Enemy(Character):
         elif self.velY == 0 and not self.isJumping:
             self.canJump = True
 
+    #4: HOP
+    def AI_hop(self):
+
+        #character is ready to jump again
+        if self.canJump:
+            #random chance to jump again
+            if random.random() < 0.10:
+                self.canJump = False
+                self.isJumping = True
+                self.velY -= self.jumpVel
+                #small chance to reverse direction
+                if random.random() < 0.15:
+                    self.facingRight = not self.facingRight
+                #move left or right to hop
+                if self.facingRight:
+                    self.velX = self.runVel / 2
+                else:
+                    self.velX = -self.runVel / 2
+                self.__load_image( self.jump )
+            else:
+                self.__load_image( self.stand )
+        #enemy has reached peak
+        elif self.velY == 0 and self.isJumping:
+            self.isJumping = False
+        #enemy has reached floor
+        elif self.velY == 0 and not self.isJumping:
+            self.canJump = True
 
 
     #handles specific AI interactions with nodes in level
