@@ -1,14 +1,10 @@
 from levelobject import LevelObject
 from character import Character
+from constants import *
 from animation import Animation,StaticAnimation
 from levelobject import LevelObject
 from pygame.sprite import Sprite
 
-
-
-NONE = 0        #AI that does nothing
-FLOOR = 1       #AI that runs only on floor
-PLATFORM = 2    #AI that patrols a platform
 
 class Enemy(Character):
     can_get_hurt  = True
