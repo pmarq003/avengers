@@ -131,7 +131,7 @@ class Level1(Level):
     def __init__(self):
         Level.__init__(self)
         self.height = SCREEN_HEIGHT
-        self.player = player.Hulk(0,0)
+        self.player = player.Thor(0,0)
 
         #TODO do some smart screen scrolling here later
         #bg = pygame.image.load("images/backgrounds/bg1.gif").convert_alpha()
@@ -146,14 +146,14 @@ class Level1(Level):
         self._addTerrain( levelobject.BasicPlatform2(1400,300) )
 
         #AI nodes
-        self._addNode( levelobject.Node(450,400) ) #nodes for first platform
-        self._addNode( levelobject.Node(700,400) )
+        self._addNode( levelobject.Node(450,450) ) #nodes for first platform
+        self._addNode( levelobject.Node(700,450) )
 
 
         #enemies
-        self._addEnemy( enemy.CaptainRussia(300,0, self.player, NONE) )
-        self._addEnemy( enemy.CaptainRussia(600,400, self.player, PLATFORM) )
-        self._addEnemy( enemy.CaptainRussia(800,0, self.player, FLOOR) )
+        self._addEnemy( enemy.Luigi(250,50, self.player, NONE) )
+        self._addEnemy( enemy.Goomba(600,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Mario(800,0, self.player, FLOOR) )
 
 #        for i in range(0,1000):
 #            self._addTerrain( levelobject.MarioGround(16*i,SCREEN_HEIGHT-16) )

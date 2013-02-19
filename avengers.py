@@ -11,6 +11,11 @@ import startmenu
 from pygame.locals import *
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 
+import os
+
+#center screen
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+
 #initialize pygame lib
 pygame.init()
 

@@ -167,3 +167,46 @@ class CaptainRussia(Enemy):
     playerRadius = 500
 
     animFolder = 'captnrussia'
+
+"""
+Mario-themed enemies
+"""
+
+class Goomba(Enemy):
+    numWalkFrames = 2        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'goomba'
+
+class Mario(Enemy):
+    numWalkFrames = 2        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 10     #xcoord movement velocity
+    jumpVel = 15    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'mario'
+
+class Luigi(Enemy):
+    numWalkFrames = 2        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 10     #xcoord movement velocity
+    jumpVel = 20    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'luigi'

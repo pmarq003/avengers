@@ -71,3 +71,13 @@ class IronMan(Player):
     jumpVel = 25    #jumping velocity
 
     animFolder = 'ironman'
+
+class Thor(Player):
+    numWalkFrames = 5        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 20     #xcoord movement velocity
+    jumpVel = 20    #jumping velocity
+
+    animFolder = 'thor'
