@@ -130,7 +130,7 @@ class Level1(Level):
     def __init__(self):
         Level.__init__(self)
         self.height = SCREEN_HEIGHT
-        self.player = player.IronMan(0,0)
+        self.player = player.Thor(0,0)
 
         #TODO do some smart screen scrolling here later
         #bg = pygame.image.load("images/backgrounds/bg1.gif").convert_alpha()
