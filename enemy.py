@@ -5,6 +5,8 @@ from animation import Animation,StaticAnimation
 from levelobject import LevelObject
 from pygame.sprite import Sprite
 
+import random
+
 
 class Enemy(Character):
     can_get_hurt  = True
@@ -57,8 +59,9 @@ class Enemy(Character):
         #self.__load_image( self.stand )
 
         #choose AI to implement
-        updateAI = {NONE: self.AI_nothing, FLOOR: self.AI_floor,
-                PLATFORM: self.AI_platform}
+        updateAI = {NONE: self.AI_nothing,      FLOOR: self.AI_floor,
+                    PLATFORM: self.AI_platform, JUMP: self.AI_jump
+                    }
         updateAI[self.ai]()
 
         #update rect with new image
@@ -83,11 +86,11 @@ class Enemy(Character):
         self.stallY()
 
 
-    #AI for enemy that does nothing
+    #0: AI for enemy that does nothing
     def AI_nothing(self):
         pass
 
-    #AI for enemy that runs only on floor, following the player
+    #1: AI for enemy that runs only on floor, following the player
     def AI_floor(self):
         #checks player radius
         if self.rect.left - self.player.rect.left <= self.playerRadius:
@@ -110,7 +113,7 @@ class Enemy(Character):
                 self.stallX()
                 self.__load_image( self.stand )
 
-    #AI for enemes that patrol a platform
+    #2: AI for enemes that patrol a platform
     def AI_platform(self):
 
         if self.facingRight == True:
@@ -122,6 +125,35 @@ class Enemy(Character):
         else:
             self.__load_image( self.stand )
 
+    #3: AI for static jumping enemies
+    def AI_jump(self):
+
+        #set character orientation
+        if(self.player.rect.left > self.rect.right):
+            self.facingRight = True
+        elif(self.player.rect.right < self.rect.left):
+            self.facingRight = False
+
+        #character is ready to jump again
+        if self.canJump:
+            #random chance to jump again
+            if random.random() < 0.10:
+                self.canJump = False
+                self.isJumping = True
+                self.velY -= self.jumpVel
+                self.__load_image( self.jump )
+            else:
+                self.__load_image( self.stand )
+        #enemy has reached peak
+        elif self.velY == 0 and self.isJumping:
+            self.isJumping = False
+        #enemy has reached floor
+        elif self.velY == 0 and not self.isJumping:
+            self.canJump = True
+
+
+
+    #handles specific AI interactions with nodes in level
     def handleNodeCollision(self, node):
         if self.ai == PLATFORM:
             if self.facingRight:
@@ -206,3 +238,16 @@ class Luigi(Enemy):
     playerRadius = 500
 
     animFolder = 'luigi'
+
+class Fuzzy(Enemy):
+    numWalkFrames = 1        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 15    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'fuzzy'
