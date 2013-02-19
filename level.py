@@ -151,7 +151,7 @@ class Level1(Level):
 
         #enemies
         self._addEnemy( enemy.Fuzzy(250,50, self.player, JUMP) )
-        self._addEnemy( enemy.Goomba(600,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.KoopaRed(600,400, self.player, PLATFORM) )
         self._addEnemy( enemy.Mario(800,0, self.player, FLOOR) )
 
 #        for i in range(0,1000):

@@ -137,7 +137,7 @@ class Enemy(Character):
         #character is ready to jump again
         if self.canJump:
             #random chance to jump again
-            if random.random() < 0.10:
+            if random.random() < 0.05:
                 self.canJump = False
                 self.isJumping = True
                 self.velY -= self.jumpVel
@@ -251,3 +251,16 @@ class Fuzzy(Enemy):
     playerRadius = 500
 
     animFolder = 'fuzzy'
+
+class KoopaRed(Enemy):
+    numWalkFrames = 2        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 7     #xcoord movement velocity
+    jumpVel = 15    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'koopared'
