@@ -151,7 +151,7 @@ class Level1(Level):
 
         #enemies
         self._addEnemy( enemy.Fuzzy(250,100, self.player, JUMP) )
-        self._addEnemy( enemy.KoopaRed(600,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.ParaKoopa(600,400, self.player, PLATFORM) )
         self._addEnemy( enemy.Fuzzy(700,400, self.player, HOP) )
         self._addEnemy( enemy.Mario(800,0, self.player, FLOOR) )
 

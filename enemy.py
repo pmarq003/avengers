@@ -280,8 +280,8 @@ class Fuzzy(Enemy):
 
     animFolder = 'fuzzy'
 
-class KoopaRed(Enemy):
-    numWalkFrames = 2        #number pics in move anim
+class RedKoopa(Enemy):
+    numWalkFrames = 4        #number pics in move anim
     walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
@@ -291,4 +291,30 @@ class KoopaRed(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'koopared'
+    animFolder = 'redkoopa'
+
+class ParaKoopa(Enemy):
+    numWalkFrames = 5        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 7     #xcoord movement velocity
+    jumpVel = 15    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'parakoopa'
+
+class ShyGuy(Enemy):
+    numWalkFrames = 5        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 15    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'shyguy'
