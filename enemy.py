@@ -26,6 +26,7 @@ class Enemy(Character):
         #general stuff
         self.isJumping = False   #used to detect the peak of player's jump
         self.peaking = False     #is player at the peak of its jump?
+        self.isFlying = False   #is the player flying?
         self.facingRight = True  #player facing right?
         self.attacking = False   #player attacking?
         self.canMove = False
@@ -61,7 +62,8 @@ class Enemy(Character):
         #choose AI to implement
         updateAI = {NONE: self.AI_nothing,      FLOOR: self.AI_floor,
                     PLATFORM: self.AI_platform, JUMP: self.AI_jump,
-                    HOP: self.AI_hop
+                    HOP: self.AI_hop,           FLYVERT: self.AI_flyvert,
+                    FLYSWOOP: self.AI_flyswoop
                     }
         updateAI[self.ai]()
 
@@ -71,8 +73,9 @@ class Enemy(Character):
         self.rect = self.anim.get_rect()
         self.rect.bottomleft = oldxy
 
-        #Oh snap gravity!
-        self.velY += 1
+        #gravity
+        if not self.isFlying:
+            self.velY += 1
         self.attacking = False #TODO remove?
         self.rect.move_ip(self.velX,self.velY)
 
@@ -86,6 +89,9 @@ class Enemy(Character):
         self.stallX()
         self.stallY()
 
+    """
+    AI
+    """
 
     #0: NONE - AI for enemy that does nothing
     def AI_nothing(self):
@@ -152,7 +158,7 @@ class Enemy(Character):
         elif self.velY == 0 and not self.isJumping:
             self.canJump = True
 
-    #4: HOP
+    #4: HOP - hop, like a rabbit
     def AI_hop(self):
 
         #character is ready to jump again
@@ -180,6 +186,83 @@ class Enemy(Character):
         elif self.velY == 0 and not self.isJumping:
             self.canJump = True
 
+    #5: FLYVERT - fly up and down only
+    def AI_flyvert(self):
+        #self.peaking keeps track of up or down movement
+
+        #negate gravity
+        self.isFlying = True
+        #set character orientation
+        if(self.player.rect.left > self.rect.right):
+            self.facingRight = True
+        elif(self.player.rect.right < self.rect.left):
+            self.facingRight = False
+        #going up
+        if not self.peaking:
+            self.velY = self.jumpVel
+            self.currentDist = self.currentDist + 1
+            #hit top of vertical distance
+            if self.currentDist == self.vertDist:
+                self.peaking = True
+        #going down
+        elif self.peaking:
+            self.velY = -self.jumpVel
+            self.currentDist = self.currentDist - 1
+            #hit bottom of vertical distance
+            if self.currentDist <= 0:
+                self.peaking = False
+
+        self.__load_image( self.walk )
+
+    #6: FLYSWOOP - fly in a parabola
+    def AI_flyswoop(self):
+        #self.isJumping keeps track of left or right movement
+        #self.peaking keeps track of up or down movement
+
+        #negate gravity
+        self.isFlying = True
+        #going left
+        if not self.isJumping:
+            self.facingRight = True
+            self.velX = self.runVel
+            self.currentDist = self.currentDist + 1
+            #going down
+            if not self.peaking:
+                self.velY = self.jumpVel
+                #hit bottom of parabola
+                if self.currentDist == self.horizRadius / 2:
+                    self.peaking = True
+            #going up
+            elif self.peaking:
+                self.velY = -self.jumpVel
+                #hit end of parabola
+                if self.currentDist == self.horizRadius:
+                    self.peaking = False
+                    self.isJumping = True
+        #going right
+        if self.isJumping:
+            self.facingRight = False
+            self.velX = -self.runVel
+            self.currentDist = self.currentDist - 1
+            #going down
+            if not self.peaking:
+                self.velY = self.jumpVel
+                #hit bottom of parabola
+                if self.currentDist == self.horizRadius / 2:
+                    self.peaking = True
+            #going up
+            elif self.peaking:
+                self.velY = -self.jumpVel
+                #hit end of parabola
+                if self.currentDist == 0:
+                    self.peaking = False
+                    self.isJumping = False
+
+        self.__load_image( self.walk )
+
+    """
+    AI Node Collision
+    """
 
     #handles specific AI interactions with nodes in level
     def handleNodeCollision(self, node):
@@ -189,6 +272,10 @@ class Enemy(Character):
             else:
                 self.rect.left = node.rect.right
             self.facingRight = not self.facingRight
+
+    """
+    Image population
+    """
 
     def __populate_image_variables(self):
         animd = self.animFolder
@@ -280,8 +367,8 @@ class Fuzzy(Enemy):
 
     animFolder = 'fuzzy'
 
-class KoopaRed(Enemy):
-    numWalkFrames = 2        #number pics in move anim
+class RedKoopa(Enemy):
+    numWalkFrames = 4        #number pics in move anim
     walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
@@ -291,4 +378,37 @@ class KoopaRed(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'koopared'
+    animFolder = 'redkoopa'
+
+class ParaKoopa(Enemy):
+    numWalkFrames = 5        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 7     #xcoord movement velocity
+    jumpVel = 4    #jumping velocity
+
+    #for FLYVERT
+    vertDist = 40       #increase for longer vertical distance
+    currentDist = 0     #KEEP ZERO
+    #for FLYSWOOP
+    horizRadius = 60    #increase for wider swoop
+    currentHoriz = 0
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'parakoopa'
+
+class ShyGuy(Enemy):
+    numWalkFrames = 5        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 15    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'shyguy'

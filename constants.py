@@ -16,3 +16,5 @@ FLOOR = 1       #runs on floor
 PLATFORM = 2    #patrols platform
 JUMP = 3        #static jump (randomly)
 HOP = 4         #hop around (randomly)
+FLYVERT = 5     #fly up and down
+FLYSWOOP = 6    #fly in a parabola
