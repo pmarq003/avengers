@@ -1,5 +1,6 @@
 import pygame
 import pygame.sprite
+import pygame.mixer
 import player
 import enemy
 import levelobject
@@ -35,6 +36,9 @@ class Level(object):
             self.player.kill()
             self.player_alive = False
 
+        if self.player.rect.left < 0:
+            self.player.rect.left = 0
+
         #Make sure enemy doesn't go below map. Remember y-axis goes down
         #If the enemy goes below we assume they're dead
         for enemyObj in self._enemies:
@@ -53,13 +57,13 @@ class Level(object):
 
         #detect terrain collisions for enemy
         enemyTerrainCollisions = pygame.sprite.groupcollide(self._enemies,self._terrain,False,False)
-        for enemy,terObjs in enemyTerrainCollisions.iteritems():
+        for enemy,terObjs in enemyTerrainCollisions.items():
             for ter in terObjs:
                 self._handleCollision(enemy,ter)
 
         #detect AI nodes for enemies
         enemyNodeCollisions = pygame.sprite.groupcollide(self._enemies,self._nodes,False,False)
-        for enemy,nodeObjs in enemyNodeCollisions.iteritems():
+        for enemy,nodeObjs in enemyNodeCollisions.items():
             for node in nodeObjs:
                 self._handleNodeCollision(enemy,node)
 
@@ -72,8 +76,6 @@ class Level(object):
 
         #If either object isn't solid we don't care
         if not a.solid or not b.solid: return
-
-        b.try_hurt(a)
 
         #sentinel overlap values
         topOverlap = -500
@@ -97,7 +99,7 @@ class Level(object):
             a.rect.top = b.rect.bottom
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == botOverlap:
             a.stallY()
-            a.canJump = True
+            a.isJumping = False
             a.rect.bottom = b.rect.top
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == abs(leftOverlap):
             a.stallX()
@@ -105,6 +107,9 @@ class Level(object):
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == rightOverlap:
             a.stallX()
             a.rect.right = b.rect.left
+
+        b.try_hurt(a)
+
 
     def draw(self,camera):
         if self.background:
@@ -142,6 +147,9 @@ class Level1(Level):
         Level.__init__(self)
         self.height = SCREEN_HEIGHT
         self.player = player.Thor(0,0)
+        bgm = pygame.mixer.Channel(0)
+        level1_bgm = pygame.mixer.Sound("sounds/SureShot.wav")
+        bgm.play(level1_bgm, -1)
 
         #TODO do some smart screen scrolling here later
         #bg = pygame.image.load("images/backgrounds/bg1.gif").convert_alpha()
@@ -160,14 +168,14 @@ class Level1(Level):
         self._addNode( levelobject.Node(700,450) )
 
         #enemies
-        self._addEnemy( enemy.Fuzzy(250,100, self.player, JUMP) )
+        self._addEnemy( enemy.Fuzzy(200,100, self.player, JUMP) )
         self._addEnemy( enemy.ParaKoopa(300,100, self.player, FLYSWOOP) )
         self._addEnemy( enemy.RedKoopa(600,400, self.player, PLATFORM) )
         self._addEnemy( enemy.Fuzzy(700,400, self.player, HOP) )
         self._addEnemy( enemy.ParaKoopa(800,100, self.player, FLYVERT) )
 
 #        for i in range(0,1000):
-#            self._addTerrain( levelobject.MarioGround(16*i,SCREEN_HEIGHT-16) )
+#        self._addTerrain( levelobject.MarioGround(16*i,SCREEN_HEIGHT-16) )
 
         self._addTerrain( levelobject.MarioPlatform(-500, SCREEN_HEIGHT-16) )
 

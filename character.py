@@ -11,10 +11,8 @@ class Character(LevelObject):
         #general stuff
         self.alive = True
         self.isJumping = False   #used to detect the peak of player's jump
-        self.peaking = False     #is player at the peak of its jump?
         self.facingRight = True  #player facing right?
         self.attacking = False   #player attacking?
-        self.canJump = False
         self.velX = 0
         self.velY = 0
 
@@ -54,23 +52,6 @@ class Character(LevelObject):
             try: self.charSpecificUpdate()
             except AttributeError: pass
 
-            #downward falling animation
-            if(self.velY > 0):
-                self.isJumping = False
-                self.canJump = False    #remove if you want to jump in midair while falling
-                self._load_image( self.fall )
-
-            #detect frame after peak jump 
-            #show peak frame for consistency
-            if(self.peaking):
-                self.peaking = False
-                self._load_image( self.jump_peak )
-
-            #detect jump peak
-            if(self.velY == 0 and self.isJumping):
-                self.peaking = True
-                self._load_image( self.jump_peak )
-
         #update rect with new image
         #we use bottomleft so it doesn't mess with collision detection
         oldxy = self.rect.bottomleft
@@ -86,6 +67,8 @@ class Character(LevelObject):
         self.stallX()
         self.alive = False
         self.solid = False
+        self._load_image( self.jump )
+        self.anim.blink = True
 
     def stallX(self):
         self.velX = 0
@@ -105,11 +88,7 @@ class Character(LevelObject):
                            StaticAnimation('images/' + animd + '/jump_attack_right.gif')
         #self.spec_attack = StaticAnimation(''),\
         #                   StaticAnimation('')
-        self.fall        = StaticAnimation('images/' + animd + '/jump_left.gif'),\
-                           StaticAnimation('images/' + animd + '/jump_right.gif')
         self.jump        = StaticAnimation('images/' + animd + '/jump_left.gif'),\
-                           StaticAnimation('images/' + animd + '/jump_right.gif')
-        self.jump_peak   = StaticAnimation('images/' + animd + '/jump_left.gif'),\
                            StaticAnimation('images/' + animd + '/jump_right.gif')
         self.stand       = StaticAnimation('images/' + animd + '/stand_left.gif'),\
                            StaticAnimation('images/' + animd + '/stand_right.gif')

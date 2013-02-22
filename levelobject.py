@@ -23,7 +23,9 @@ class LevelObject(Sprite):
         pass
 
     def draw(self,camera):
-        camera.draw(self.anim.get_image(),self.rect)
+        image = self.anim.get_image()
+        if image != None:
+            camera.draw(image,self.rect)
 
     def get_rect(self):
         return self.rect

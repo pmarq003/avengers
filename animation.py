@@ -9,6 +9,7 @@ class Animation(object):
         self.delay_factor = delay
         self.num_frames = num_frames
         self.frames = []
+        self.blink = False
         for i in range(0,num_frames):
             #python's format is cool: "blah{0}-{1}".format(1,2) == "blah1-2"
             self.frames.append( pygame.image.load( base.format(i) ) )
@@ -18,13 +19,25 @@ class Animation(object):
         self.toshow = (int)(self.curr_frame / self.delay_factor)
 
     def reset(self):
+        self.blink = False
         self.curr_frame = 0
 
     def get_image(self):
-        return self.frames[self.toshow]
+        if self.blink == False:
+            return self.frames[self.toshow]
+        elif not isinstance(self.blink,int):
+            self.blink = 0
+    
+        self.blink += 1
+
+        if (self.blink / 2) % 2:
+            return None
+        else:
+            return self.frames[self.toshow]
+
 
     def get_rect(self):
-        return self.get_image().get_rect()
+        return self.frames[self.toshow].get_rect()
 
 #Might as well just make a new class instead of extending Animation since this one has a
 #completely different implementation. Just gotta make sure they keep the same interface so
@@ -34,6 +47,7 @@ class StaticAnimation(object):
     def __init__( self, base ):
         self.base = base #makes debugging easier
         self.image = pygame.image.load( base )
+        self.blink = False
 
     def update(self):
         pass
@@ -42,8 +56,18 @@ class StaticAnimation(object):
         pass
 
     def get_image(self):
-        return self.image
+        if self.blink == False:
+            return self.image
+        elif not isinstance(self.blink,int):
+            self.blink = 0
+    
+        self.blink += 1
+
+        if (self.blink / 2) % 2:
+            return None
+        else:
+            return self.image
 
     def get_rect(self):
-        return self.get_image().get_rect()
+        return self.image.get_rect()
 
