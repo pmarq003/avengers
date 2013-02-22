@@ -77,8 +77,6 @@ class Level(object):
         #If either object isn't solid we don't care
         if not a.solid or not b.solid: return
 
-        b.try_hurt(a)
-
         #sentinel overlap values
         topOverlap = -500
         botOverlap = 500
@@ -109,6 +107,9 @@ class Level(object):
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == rightOverlap:
             a.stallX()
             a.rect.right = b.rect.left
+
+        b.try_hurt(a)
+
 
     def draw(self,camera):
         if self.background:
