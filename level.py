@@ -36,6 +36,9 @@ class Level(object):
             self.player.kill()
             self.player_alive = False
 
+        if self.player.rect.left < 0:
+            self.player.rect.left = 0
+
         #Make sure enemy doesn't go below map. Remember y-axis goes down
         #If the enemy goes below we assume they're dead
         for enemyObj in self._enemies:
@@ -98,7 +101,7 @@ class Level(object):
             a.rect.top = b.rect.bottom
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == botOverlap:
             a.stallY()
-            a.canJump = True
+            a.isJumping = False
             a.rect.bottom = b.rect.top
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == abs(leftOverlap):
             a.stallX()

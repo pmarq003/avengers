@@ -9,54 +9,42 @@ class Player(Character):
     def charSpecificUpdate(self):
 
         evman = eventmanager.get()
-        self.attacking = False
+
+        if evman.LEFTPRESSED: #left key pressed
+            self.velX = -self.runVel
+            self.facingRight = False
+            self._load_image( self.walk )
+
+        elif evman.RIGHTPRESSED: #right key pressed
+            self.velX = self.runVel
+            self.facingRight = True
+            self._load_image( self.walk )
+
+        else:
+            self.velX = 0
+            if not self.isJumping:
+                self._load_image( self.stand )
+
+        if self.isJumping:
+            self._load_image( self.jump )
+
+        #jumping upwards
+        elif evman.SPACEPRESSED and not self.attacking:
+            self.isJumping = True
+            self.velY -= self.jumpVel
+            self._load_image( self.jump )
+
         if evman.NORMPRESSED:                   #normal attack pressed
             self.attacking = True
-            if(self.velY != 0):
+            pygame.mixer.Sound("sounds/SSB_Kick_Hit1.wav").play()
+            if self.isJumping:
                 self._load_image( self.jump_attack )
             else:
                 self.stallX()
                 self._load_image( self.norm_attack )
-            pygame.mixer.Sound("sounds/SSB_Kick_Hit1.wav").play()
-        elif evman.LEFTPRESSED and self.rect.left > 5:      #left key pressed
-            self.velX = -self.runVel
-            self.facingRight = False
-            if(self.velY == 0):
-                self._load_image( self.walk )
-        elif evman.RIGHTPRESSED:                #right key pressed
-            self.velX = self.runVel
-            self.facingRight = True
-            if(self.velY == 0):
-                self._load_image( self.walk )
+
         else:
-            self.velX = 0
-            if(self.velY == 0):
-                self._load_image( self.stand )
-
-        #jumping upwards
-        if evman.SPACEPRESSED and self.canJump:
-            self.isJumping = True
-            self.canJump = False
-            self.velY -= self.jumpVel
-            self._load_image( self.jump )
-
-        #downward falling animation
-        if(self.velY > 0):
-            self.isJumping = False
-            self.canJump = False    #remove if you want to jump in midair while falling
-            self._load_image( self.fall )
-
-        #detect frame after peak jump 
-        #show peak frame for consistency
-        if(self.peaking):
-            self.peaking = False
-            self._load_image( self.jump_peak )
-
-        #detect jump peak
-        if(self.velY == 0 and self.isJumping):
-            self.peaking = True
-            self._load_image( self.jump_peak )
-
+            self.attacking = False
 
     def got_hurt(self,by):
         self.die()

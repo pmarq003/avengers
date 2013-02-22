@@ -26,7 +26,9 @@ class Enemy(Character):
         #general stuff
         self.isFlying = False   #is the player flying?
         self.facingRight = True  #player facing right?
+        self.peaking = False     #is player at the peak of its jump?
         self.canMove = False
+        self.canJump = False
         self.player = player
         self.ai = ai
 

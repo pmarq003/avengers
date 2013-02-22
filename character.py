@@ -11,10 +11,8 @@ class Character(LevelObject):
         #general stuff
         self.alive = True
         self.isJumping = False   #used to detect the peak of player's jump
-        self.peaking = False     #is player at the peak of its jump?
         self.facingRight = True  #player facing right?
         self.attacking = False   #player attacking?
-        self.canJump = False
         self.velX = 0
         self.velY = 0
 
@@ -88,11 +86,7 @@ class Character(LevelObject):
                            StaticAnimation('images/' + animd + '/jump_attack_right.gif')
         #self.spec_attack = StaticAnimation(''),\
         #                   StaticAnimation('')
-        self.fall        = StaticAnimation('images/' + animd + '/jump_left.gif'),\
-                           StaticAnimation('images/' + animd + '/jump_right.gif')
         self.jump        = StaticAnimation('images/' + animd + '/jump_left.gif'),\
-                           StaticAnimation('images/' + animd + '/jump_right.gif')
-        self.jump_peak   = StaticAnimation('images/' + animd + '/jump_left.gif'),\
                            StaticAnimation('images/' + animd + '/jump_right.gif')
         self.stand       = StaticAnimation('images/' + animd + '/stand_left.gif'),\
                            StaticAnimation('images/' + animd + '/stand_right.gif')
