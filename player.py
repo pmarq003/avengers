@@ -17,7 +17,6 @@ class Player(Character):
             else:
                 self.stallX()
                 self._load_image( self.norm_attack )
-            pygame.mixer.init()
             pygame.mixer.Sound("sounds/SSB_Kick_Hit1.wav").play()
         elif evman.LEFTPRESSED and self.rect.left > 5:      #left key pressed
             self.velX = -self.runVel
