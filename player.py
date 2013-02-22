@@ -1,6 +1,7 @@
 from character import Character
 import eventmanager
 import pygame.mixer
+from startmenu import sfx
 
 class Player(Character):
     can_get_hurt  = True
@@ -34,7 +35,7 @@ class Player(Character):
             elif self.attack_timer == 0:
                 self.attacking = True
                 self.attack_timer = self.primary_attack_length
-                pygame.mixer.Sound("sounds/SSB_Kick_Hit1.wav").play()
+                sfx.play(pygame.mixer.Sound('sounds/SSB_Kick_Hit1.wav'))
 
             #mid recovery
             else:
