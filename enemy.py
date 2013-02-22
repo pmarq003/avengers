@@ -36,6 +36,15 @@ class Enemy(Character):
         self.player = player
         self.ai = ai
 
+        #choose AI to implement
+        self.AI_implementations = { NONE:     self.AI_nothing,
+                                    FLOOR:    self.AI_floor,
+                                    PLATFORM: self.AI_platform,
+                                    JUMP:     self.AI_jump,
+                                    HOP:      self.AI_hop,
+                                    FLYVERT:  self.AI_flyvert,
+                                    FLYSWOOP: self.AI_flyswoop }
+
         #load images and do rest of constructor
         self.__populate_image_variables()
         self.anim = None
@@ -59,13 +68,7 @@ class Enemy(Character):
         self.anim.update()
         #self.__load_image( self.stand )
 
-        #choose AI to implement
-        updateAI = {NONE: self.AI_nothing,      FLOOR: self.AI_floor,
-                    PLATFORM: self.AI_platform, JUMP: self.AI_jump,
-                    HOP: self.AI_hop,           FLYVERT: self.AI_flyvert,
-                    FLYSWOOP: self.AI_flyswoop
-                    }
-        updateAI[self.ai]()
+        self.AI_implementations[self.ai]()
 
         #update rect with new image
         #we use bottomleft so it doesn't mess with collision detection
