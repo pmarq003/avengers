@@ -67,6 +67,8 @@ class Character(LevelObject):
         self.stallX()
         self.alive = False
         self.solid = False
+        self._load_image( self.jump )
+        self.anim.blink = True
 
     def stallX(self):
         self.velX = 0
