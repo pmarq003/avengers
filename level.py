@@ -168,7 +168,7 @@ class Level1(Level):
         self._addNode( levelobject.Node(700,450) )
 
         #enemies
-        self._addEnemy( enemy.Fuzzy(250,100, self.player, JUMP) )
+        self._addEnemy( enemy.Fuzzy(200,100, self.player, JUMP) )
         self._addEnemy( enemy.ParaKoopa(300,100, self.player, FLYSWOOP) )
         self._addEnemy( enemy.RedKoopa(600,400, self.player, PLATFORM) )
         self._addEnemy( enemy.Fuzzy(700,400, self.player, HOP) )
