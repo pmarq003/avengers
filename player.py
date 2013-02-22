@@ -40,6 +40,24 @@ class Player(Character):
             self.velY -= self.jumpVel
             self._load_image( self.jump )
 
+        #downward falling animation
+        if(self.velY > 0):
+            self.isJumping = False
+            self.canJump = False    #remove if you want to jump in midair while falling
+            self._load_image( self.fall )
+
+        #detect frame after peak jump 
+        #show peak frame for consistency
+        if(self.peaking):
+            self.peaking = False
+            self._load_image( self.jump_peak )
+
+        #detect jump peak
+        if(self.velY == 0 and self.isJumping):
+            self.peaking = True
+            self._load_image( self.jump_peak )
+
+
     def got_hurt(self,by):
         self.die()
 
