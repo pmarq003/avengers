@@ -68,7 +68,8 @@ class Enemy(Character):
         self.anim.update()
         #self.__load_image( self.stand )
 
-        self.AI_implementations[self.ai]()
+        if self.alive:
+            self.AI_implementations[self.ai]()
 
         #update rect with new image
         #we use bottomleft so it doesn't mess with collision detection
@@ -77,7 +78,7 @@ class Enemy(Character):
         self.rect.bottomleft = oldxy
 
         #gravity
-        if not self.isFlying:
+        if not self.isFlying or not self.alive:
             self.velY += 1
         self.attacking = False #TODO remove?
         self.rect.move_ip(self.velX,self.velY)
