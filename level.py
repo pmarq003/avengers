@@ -4,6 +4,10 @@ import player
 import enemy
 import levelobject
 from constants import *
+from levelobject import LevelObject,StaticImage
+import eventmanager
+import startmenu
+import sound
 
 """
 	level.py
@@ -13,7 +17,6 @@ from constants import *
 			levels found at bottom of file
 """
 
-
 class Level(object):
 
 	def __init__(self):
@@ -21,6 +24,14 @@ class Level(object):
 		self._enemies = pygame.sprite.Group()
 		self._nodes = pygame.sprite.Group()
 		self._entities = pygame.sprite.Group()
+		self.volume_button	   = StaticImage( "images/menusprites/volume.png",	   970, 0   )
+		self.mute_button		 = StaticImage( "images/menusprites/mute.png",		 970, 0   )
+	   
+		#why doesn't this work?
+		#self.vol = startmenu.getVol()
+		#i'm thinking vol gets destroyed when you leave the startmenu?
+
+		self.vol = True
 
 		self.player_alive = True
 
@@ -75,7 +86,14 @@ class Level(object):
 			for node in nodeObjs:
 				self._handleNodeCollision(enemy,node)
 
+		evman = eventmanager.get()
 
+		if evman.MOUSE1CLICK != False:
+			event = evman.MOUSE1CLICK
+			clickpoint = event.pos
+
+			if self.volume_button.get_rect().collidepoint(clickpoint):
+				self.vol = not self.vol
 
 	def _handleNodeCollision(self, enemy, node):
 		enemy.handleNodeCollision(node);
@@ -133,6 +151,15 @@ class Level(object):
 		for entObj in self._entities:
 			entObj.draw(camera)
 
+		if self.vol:
+			self.volume_button.draw(camera)
+			sound.set_bgm_vol(100)
+			sound.set_sfx_vol(100)
+		else:
+			self.mute_button.draw(camera)
+			sound.set_bgm_vol(0)
+			sound.set_sfx_vol(0)
+
 		#TODO uncomment for debugging
 		#for nodeObj in self._nodes:
 		#	nodeObj.draw(camera)
@@ -150,7 +177,7 @@ class Level(object):
 		self._enemies.add(enemyObj)
 
 	def _addNode(self, nodeObj):
-		self._nodes.add(nodeObj)
+		self._nodes.add(nodeObj);
 
 	def addEntity(self, entObj):
 		self._entities.add(entObj)
@@ -191,4 +218,3 @@ class Level1(Level):
 #		self._addTerrain( levelobject.MarioGround(16*i,SCREEN_HEIGHT-16) )
 
 		self._addTerrain( levelobject.MarioPlatform(-500, SCREEN_HEIGHT-16) )
-
