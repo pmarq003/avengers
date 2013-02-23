@@ -1,8 +1,10 @@
 import pygame
 import sys
+import charsel
 
 from levelobject import LevelObject,StaticImage
 import eventmanager
+import sound
 
 class StartMenu(object):
 
@@ -19,12 +21,17 @@ class StartMenu(object):
         self.instructions_bg     = StaticImage( "images/instructions.png",             0,   0   )
         self.back_button         = StaticImage( "images/back.png",                     414, 500 )
         
+        self.bgm = 'sounds/SureShot.wav'
+        
         self.playing = False
         self.vol = True
         self.show_instructions = False
 
     def isPlaying(self):
         return self.playing
+        
+    def getVol(self):
+        return self.vol
 
     def draw(self,camera):
         
@@ -37,8 +44,12 @@ class StartMenu(object):
 
             if self.vol:
                 self.volume_button.draw(camera)
+                sound.set_bgm_vol(100)
+                sound.set_sfx_vol(100)
             else:
                 self.mute_button.draw(camera)
+                sound.set_bgm_vol(0)
+                sound.set_sfx_vol(0)
 
         else:
             self.instructions_bg.draw(camera)
