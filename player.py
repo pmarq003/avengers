@@ -22,7 +22,8 @@ class Player(Character):
 		if evman.SPECPRESSED or self.sattack_timer != 0:
 			#Special attack takes precedence and stops normal attack
 			self.attack_timer = 0
-			self.special_attack()
+			try: self.special_attack()
+			except AttributeError: pass
 
 		elif evman.NORMPRESSED or self.attack_timer != 0: #normal attack pressed
 
