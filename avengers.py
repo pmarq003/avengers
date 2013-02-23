@@ -13,6 +13,7 @@ from pygame.locals import *
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 
 import os
+import sys
 
 #center screen
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -32,6 +33,10 @@ currLevel = level.Level1()
 startMenu = startmenu.StartMenu()
 
 logger.get().set(camera, currLevel, screen, startMenu)
+
+#I wanna listen to my music while I develop dammit!
+if "-m" in sys.argv:
+    startMenu.vol = False
 
 #Game loop
 wasplaying = True #Hack to figure out when we need to change sounds
