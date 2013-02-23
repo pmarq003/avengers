@@ -24,9 +24,9 @@ class Level(object):
 		self._enemies = pygame.sprite.Group()
 		self._nodes = pygame.sprite.Group()
 		self._entities = pygame.sprite.Group()
-		self.volume_button	   = StaticImage( "images/menusprites/volume.png",	   970, 0   )
-		self.mute_button		 = StaticImage( "images/menusprites/mute.png",		 970, 0   )
-	   
+		self.volume_button = StaticImage( "images/menusprites/volume.png",	   970, 0   )
+		self.mute_button = StaticImage( "images/menusprites/mute.png",		 970, 0   )
+
 		#why doesn't this work?
 		#self.vol = startmenu.getVol()
 

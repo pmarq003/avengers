@@ -9,16 +9,16 @@ class CharSel(object):
 
     def __init__(self):
 
-        self.splash_bg     = StaticImage( "images/charsel.png",                   0,   0   )
-        self.hulk          = StaticImage( "images/hulk/hulkselect.png",    466, 200 )
+        self.splash_bg     = StaticImage( "images/charsel.png",                0,   0   )
+        self.hulk          = StaticImage( "images/hulk/hulkselect.png",        466, 200 )
         self.america       = StaticImage( "images/america/america_select.png", 200, 358 )
-        self.mario         = StaticImage( "images/mario/jump_right.gif",      200, 251 )
-        self.luigi         = StaticImage( "images/luigi/jump_left.gif",         675, 251 )
-        self.ironman       = StaticImage( "images/ironman/ironman_select.png",       440, 580   )
-        self.thor          = StaticImage( "images/thor/norm_attack_left.gif",         603, 339   )
-        self.back          = StaticImage( "images/back.png",                     414, 500 )
-        self.volume_button = StaticImage( "images/menusprites/volume.png",       970, 0   )
-        self.mute_button   = StaticImage( "images/menusprites/mute.png",         970, 0   )
+        self.mario         = StaticImage( "images/mario/jump_right.gif",       200, 251 )
+        self.luigi         = StaticImage( "images/luigi/jump_left.gif",        675, 251 )
+        self.ironman       = StaticImage( "images/ironman/ironman_select.png", 440, 580   )
+        self.thor          = StaticImage( "images/thor/norm_attack_left.gif",  603, 339   )
+        self.back          = StaticImage( "images/back.png",                   414, 500 )
+        self.volume_button = StaticImage( "images/menusprites/volume.png",     970, 0   )
+        self.mute_button   = StaticImage( "images/menusprites/mute.png",       970, 0   )
 
         self.bgm = 'sounds/SureShot.wav'
 
