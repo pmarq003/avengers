@@ -79,3 +79,6 @@ class StartMenu(object):
             else:
                 if self.back_button.get_rect().collidepoint(clickpoint):
                         self.show_instructions = False
+                        
+    def getVol(self):
+        return self.vol
