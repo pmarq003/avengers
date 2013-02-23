@@ -14,14 +14,6 @@ class Character(LevelObject):
 		self.facingRight = True  #player facing right?
 		self.attacking = False   #player attacking?
 
-
-		#During an update it's possible the sprite changed, changing the rect size.
-		#In this case we need to update the character's rect object to reflect the new
-		#sprite size. However if the charspecificupdate already handled the changing
-		#rect size then we don't want to overwrite it afterwards, so in that case this
-		#should be set false
-		self.fixRectAfterUpdate = True
-
 		self.velX = 0
 		self.velY = 0
 
@@ -61,12 +53,11 @@ class Character(LevelObject):
 			try: self.charSpecificUpdate()
 			except AttributeError: pass
 
-		if self.fixRectAfterUpdate:
-			#update rect with new image
-			#we use bottomleft so it doesn't mess with collision detection
-			oldxy = self.rect.bottomleft
-			self.rect = self.anim.get_rect()
-			self.rect.bottomleft = oldxy
+		#update rect with new image
+		#we use bottomleft so it doesn't mess with collision detection
+		oldxy = self.rect.bottomleft
+		self.rect = self.anim.get_rect()
+		self.rect.bottomleft = oldxy
 
 		#Oh snap gravity!
 		self.velY += 1

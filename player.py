@@ -19,7 +19,12 @@ class Player(Character):
 
 		evman = eventmanager.get()
 
-		if evman.NORMPRESSED or self.attack_timer != 0: #normal attack pressed
+		if evman.SPECPRESSED or self.sattack_timer != 0:
+			#Special attack takes precedence and stops normal attack
+			self.attack_timer = 0
+			self.special_attack()
+
+		elif evman.NORMPRESSED or self.attack_timer != 0: #normal attack pressed
 
 			if self.isJumping:
 				self._load_image( self.jump_attack )
@@ -50,8 +55,6 @@ class Player(Character):
 				self.attack_timer += 1
 				if not self.isJumping: self.stallX()
 
-		elif evman.SPECPRESSED or self.sattack_timer != 0:
-			self.special_attack()
 
 		elif evman.LEFTPRESSED: #left key pressed
 			self.velX = -self.runVel
@@ -157,6 +160,8 @@ class Thor(Player):
 		self.stallX()
 		self.velY = -1 #counter gravity
 
+		#On the second frame the rect for the player will be updated
+		#so we can position the lightning correctly relative to that
 		if self.sattack_timer == 9:
 			if self.facingRight:
 				entity = self.ThorLightningRight(0,0)
@@ -170,7 +175,6 @@ class Thor(Player):
 
 		#mid attack
 		elif self.sattack_timer > 1:
-			self.attacking = True
 			self.sattack_timer -= 1
 
 		#end of attack
@@ -180,4 +184,5 @@ class Thor(Player):
 
 		#start of attack
 		else:
+			self.attacking = True
 			self.sattack_timer = 10
