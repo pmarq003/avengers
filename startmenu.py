@@ -1,5 +1,6 @@
 import pygame
 import sys
+import charsel
 
 from levelobject import LevelObject,StaticImage
 import eventmanager
@@ -28,6 +29,9 @@ class StartMenu(object):
 
     def isPlaying(self):
         return self.playing
+        
+    def getVol(self):
+        return self.vol
 
     def draw(self,camera):
         
@@ -79,6 +83,3 @@ class StartMenu(object):
             else:
                 if self.back_button.get_rect().collidepoint(clickpoint):
                         self.show_instructions = False
-                        
-    def getVol(self):
-        return self.vol

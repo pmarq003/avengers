@@ -29,7 +29,6 @@ class Level(object):
 	   
 		#why doesn't this work?
 		#self.vol = startmenu.getVol()
-		#i'm thinking vol gets destroyed when you leave the startmenu?
 
 		self.vol = True
 
