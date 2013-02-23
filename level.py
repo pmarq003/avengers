@@ -79,6 +79,8 @@ class Level(object):
 		for enemy,entObjs in enemyEntityCollisions.items():
 			for ent in entObjs:
 				enemy.try_hurt(ent)
+				if ent.kill_on_collide:
+					ent.kill()
 
 		#detect AI nodes for enemies
 		enemyNodeCollisions = pygame.sprite.groupcollide(self._enemies,self._nodes,False,False)
@@ -187,7 +189,7 @@ class Level1(Level):
 	def __init__(self):
 		Level.__init__(self)
 		self.height = SCREEN_HEIGHT
-		self.player = player.Thor(0,0,self)
+		self.player = player.IronMan(0,0,self)
 
 		self.bgm = 'sounds/ToughGuy.wav'
 

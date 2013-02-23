@@ -61,6 +61,7 @@ class StaticImage(LevelObject):
 
 class TransientEntity(LevelObject):
 	attacking = False
+	kill_on_collide = False
 
 	def update(self):
 		self.timeout -= 1
