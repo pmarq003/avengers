@@ -1,11 +1,9 @@
 import pygame
 import pygame.sprite
-import pygame.mixer
 import player
 import enemy
 import levelobject
 from constants import *
-from startmenu import bgm
 
 """
     level.py
@@ -148,9 +146,8 @@ class Level1(Level):
         Level.__init__(self)
         self.height = SCREEN_HEIGHT
         self.player = player.Thor(0,0)
-        level1_bgm = pygame.mixer.Sound('sounds/ToughGuy.wav')
-        if(bgm.get_sound() != level1_bgm):
-            bgm.play(level1_bgm, -1)
+
+        self.bgm = 'sounds/ToughGuy.wav'
 
         #TODO do some smart screen scrolling here later
         #bg = pygame.image.load("images/backgrounds/bg1.gif").convert_alpha()

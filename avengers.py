@@ -7,6 +7,7 @@ import pygame
 import time
 import logger
 import startmenu
+import sound
 
 from pygame.locals import *
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
@@ -33,6 +34,7 @@ startMenu = startmenu.StartMenu()
 logger.get().set(camera, currLevel, screen, startMenu)
 
 #Game loop
+wasplaying = True #Hack to figure out when we need to change sounds
 while True:
 
 	#Start timer and handle events
@@ -42,6 +44,8 @@ while True:
 	logger.get().add(logger.LogNode(events))
 
 	if startMenu.isPlaying():
+
+		if not wasplaying: sound.play_bgm(currLevel.bgm)
 
 		if not currLevel.player_alive:
 			logger.get().clear()
@@ -57,12 +61,15 @@ while True:
 		#Fill the screen, draw level, flip the buffer
 		screen.fill(constants.DEFAULT_BGCOLOR)
 		currLevel.draw(camera)
+		wasplaying = True
 
 	else:
 
+		if wasplaying: sound.play_bgm(startMenu.bgm)
 		startMenu.update()
 		camera.zeroPosition()
 		startMenu.draw(camera)
+		wasplaying = False
 
 	pygame.display.flip()
 

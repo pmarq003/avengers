@@ -1,15 +1,9 @@
 import pygame
-import pygame.mixer
 import sys
-
 
 from levelobject import LevelObject,StaticImage
 import eventmanager
-
-
-pygame.mixer.init()
-bgm = pygame.mixer.Channel(0)
-sfx = pygame.mixer.Channel(1)
+import sound
 
 class StartMenu(object):
 
@@ -26,9 +20,7 @@ class StartMenu(object):
         self.instructions_bg     = StaticImage( "images/instructions.png",             0,   0   )
         self.back_button         = StaticImage( "images/back.png",                     414, 500 )
         
-        
-        menu_theme = pygame.mixer.Sound('sounds/SureShot.wav')
-        bgm.play(menu_theme, -1)
+        self.bgm = 'sounds/SureShot.wav'
         
         self.playing = False
         self.vol = True
@@ -48,12 +40,12 @@ class StartMenu(object):
 
             if self.vol:
                 self.volume_button.draw(camera)
-                bgm.set_volume(100)
-                sfx.set_volume(100)
+                sound.set_bgm_vol(100)
+                sound.set_sfx_vol(100)
             else:
                 self.mute_button.draw(camera)
-                bgm.set_volume(0)
-                sfx.set_volume(0)
+                sound.set_bgm_vol(0)
+                sound.set_sfx_vol(0)
 
         else:
             self.instructions_bg.draw(camera)
