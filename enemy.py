@@ -94,6 +94,7 @@ class Enemy(Character):
                 self._load_image( self.stand )
 
     #2: PLATFORM - AI for enemes that patrol a platform
+    #   requires nodes for start and end points
     def AI_platform(self):
 
         if self.facingRight == True:
@@ -160,6 +161,7 @@ class Enemy(Character):
             self.canJump = True
 
     #5: FLYVERT - fly up and down only
+    #   requires nodes to start and end points
     def AI_flyvert(self):
         #self.peaking keeps track of up or down movement
 
