@@ -7,7 +7,6 @@ import pygame
 import time
 import logger
 import startmenu
-import charsel
 import sound
 
 from pygame.locals import *
@@ -32,7 +31,6 @@ camera = camera.Camera(screen)
 currLevel = level.Level1()
 
 startMenu = startmenu.StartMenu()
-charsel = charsel.CharSel()
 
 logger.get().set(camera, currLevel, screen, startMenu)
 

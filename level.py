@@ -1,3 +1,4 @@
+import charsel
 import pygame
 import pygame.sprite
 import player
@@ -20,6 +21,8 @@ import sound
 class Level(object):
 
     def __init__(self):
+        self.charsel = charsel.CharSel()
+        self.charSelected = False
         self._terrain = pygame.sprite.Group()
         self._enemies = pygame.sprite.Group()
         self._nodes = pygame.sprite.Group()
@@ -36,66 +39,82 @@ class Level(object):
 
     def update(self):
 
-        self.player.update()
-        for enemyObj in self._enemies:
-            enemyObj.update()
+        if not self.charSelected:
+            self.charsel.update()
+            choice = self.charsel.getChar()
+            if choice == 1:
+                self.player = player.Hulk(0,0,self)
+            elif choice == 2:
+                self.player = player.Thor(0,0,self)
+            elif choice == 3:
+                self.player = player.CaptainAmerica(0,0,self)
+            elif choice == 4:
+                self.player = player.IronMan(0,0,self)
 
-        for entObj in self._entities:
-            entObj.update()
+            if choice > 0 : self.charSelected = True
 
-        #Make sure player doesn't go below map. Remember y-axis goes down
-        #If the player goes below we assume they're dead
-        if self.player.rect.top > self.height:
-            print("player dead")
-            self.player.kill()
-            self.player_alive = False
+        else:
 
-        if self.player.rect.left < 0:
-            self.player.rect.left = 0
+            self.player.update()
+            for enemyObj in self._enemies:
+                enemyObj.update()
 
-        #Make sure enemy doesn't go below map. Remember y-axis goes down
-        #If the enemy goes below we assume they're dead
-        for enemyObj in self._enemies:
-            if enemyObj.rect.top > self.height:
-                enemyObj.kill() #removes from all sprite groups
+            for entObj in self._entities:
+                entObj.update()
 
-        #detect terrain collisions for player
-        collidedTerrain = pygame.sprite.spritecollide(self.player,self._terrain,False)
-        for ter in collidedTerrain:
-            self._handleCollision(self.player,ter)
+            #Make sure player doesn't go below map. Remember y-axis goes down
+            #If the player goes below we assume they're dead
+            if self.player.rect.top > self.height:
+                print("player dead")
+                self.player.kill()
+                self.player_alive = False
 
-        #detect enemy collisions for player
-        collidedEnemies = pygame.sprite.spritecollide(self.player,self._enemies,False)
-        for enemy in collidedEnemies:
-            self._handleCollision(self.player,enemy)
+            if self.player.rect.left < 0:
+                self.player.rect.left = 0
 
-        #detect terrain collisions for enemy
-        enemyTerrainCollisions = pygame.sprite.groupcollide(self._enemies,self._terrain,False,False)
-        for enemy,terObjs in enemyTerrainCollisions.items():
-            for ter in terObjs:
-                self._handleCollision(enemy,ter)
+            #Make sure enemy doesn't go below map. Remember y-axis goes down
+            #If the enemy goes below we assume they're dead
+            for enemyObj in self._enemies:
+                if enemyObj.rect.top > self.height:
+                    enemyObj.kill() #removes from all sprite groups
 
-        enemyEntityCollisions = pygame.sprite.groupcollide(self._enemies,self._entities,False,False)
-        for enemy,entObjs in enemyEntityCollisions.items():
-            for ent in entObjs:
-                enemy.try_hurt(ent)
-                if ent.kill_on_collide:
-                    ent.kill()
+            #detect terrain collisions for player
+            collidedTerrain = pygame.sprite.spritecollide(self.player,self._terrain,False)
+            for ter in collidedTerrain:
+                self._handleCollision(self.player,ter)
 
-        #detect AI nodes for enemies
-        enemyNodeCollisions = pygame.sprite.groupcollide(self._enemies,self._nodes,False,False)
-        for enemy,nodeObjs in enemyNodeCollisions.items():
-            for node in nodeObjs:
-                self._handleNodeCollision(enemy,node)
+            #detect enemy collisions for player
+            collidedEnemies = pygame.sprite.spritecollide(self.player,self._enemies,False)
+            for enemy in collidedEnemies:
+                self._handleCollision(self.player,enemy)
 
-        evman = eventmanager.get()
+            #detect terrain collisions for enemy
+            enemyTerrainCollisions = pygame.sprite.groupcollide(self._enemies,self._terrain,False,False)
+            for enemy,terObjs in enemyTerrainCollisions.items():
+                for ter in terObjs:
+                    self._handleCollision(enemy,ter)
 
-        if evman.MOUSE1CLICK != False:
-            event = evman.MOUSE1CLICK
-            clickpoint = event.pos
+            enemyEntityCollisions = pygame.sprite.groupcollide(self._enemies,self._entities,False,False)
+            for enemy,entObjs in enemyEntityCollisions.items():
+                for ent in entObjs:
+                    enemy.try_hurt(ent)
+                    if ent.kill_on_collide:
+                        ent.kill()
 
-            if self.volume_button.get_rect().collidepoint(clickpoint):
-                self.vol = not self.vol
+            #detect AI nodes for enemies
+            enemyNodeCollisions = pygame.sprite.groupcollide(self._enemies,self._nodes,False,False)
+            for enemy,nodeObjs in enemyNodeCollisions.items():
+                for node in nodeObjs:
+                    self._handleNodeCollision(enemy,node)
+
+            evman = eventmanager.get()
+
+            if evman.MOUSE1CLICK != False:
+                event = evman.MOUSE1CLICK
+                clickpoint = event.pos
+
+                if self.volume_button.get_rect().collidepoint(clickpoint):
+                    self.vol = not self.vol
 
     def _handleNodeCollision(self, enemy, node):
         enemy.handleNodeCollision(node);
@@ -140,37 +159,41 @@ class Level(object):
 
 
     def draw(self,camera):
-        if self.background:
-            self.background.draw(camera)
-        self.player.draw(camera)
 
-        #update '-30' to width of the volume image
-        self.volume_button = StaticImage( "images/menusprites/volume.png",
-                camera.window.right-30, camera.window.top )
-        self.mute_button = StaticImage( "images/menusprites/mute.png",
-                camera.window.right-30, camera.window.top )
-
-        for terrainObj in self._terrain:
-            terrainObj.draw(camera)
-
-        for enemyObj in self._enemies:
-            enemyObj.draw(camera)
-
-        for entObj in self._entities:
-            entObj.draw(camera)
-
-        if self.vol:
-            self.volume_button.draw(camera)
-            sound.set_bgm_vol(100)
-            sound.set_sfx_vol(100)
+        if not self.charSelected:
+            self.charsel.draw(camera)
         else:
-            self.mute_button.draw(camera)
-            sound.set_bgm_vol(0)
-            sound.set_sfx_vol(0)
+            if self.background:
+                self.background.draw(camera)
+            self.player.draw(camera)
 
-        #TODO uncomment for debugging
-        #for nodeObj in self._nodes:
-        #	nodeObj.draw(camera)
+            #update '-30' to width of the volume image
+            self.volume_button = StaticImage( "images/menusprites/volume.png",
+                    camera.window.right-30, camera.window.top )
+            self.mute_button = StaticImage( "images/menusprites/mute.png",
+                    camera.window.right-30, camera.window.top )
+
+            for terrainObj in self._terrain:
+                terrainObj.draw(camera)
+
+            for enemyObj in self._enemies:
+                enemyObj.draw(camera)
+
+            for entObj in self._entities:
+                entObj.draw(camera)
+
+            if self.vol:
+                self.volume_button.draw(camera)
+                sound.set_bgm_vol(100)
+                sound.set_sfx_vol(100)
+            else:
+                self.mute_button.draw(camera)
+                sound.set_bgm_vol(0)
+                sound.set_sfx_vol(0)
+
+            #TODO uncomment for debugging
+            #for nodeObj in self._nodes:
+            #	nodeObj.draw(camera)
 
     def get_player_rect(self):
         return self.player.get_rect()
