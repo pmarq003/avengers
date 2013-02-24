@@ -173,17 +173,9 @@ class Enemy(Character):
         #going up
         if not self.peaking:
             self.velY = self.jumpVel
-            self.currentDist = self.currentDist + 1
-            #hit top of vertical distance
-            if self.currentDist == self.vertDist:
-                self.peaking = True
         #going down
         elif self.peaking:
             self.velY = -self.jumpVel
-            self.currentDist = self.currentDist - 1
-            #hit bottom of vertical distance
-            if self.currentDist <= 0:
-                self.peaking = False
 
         self._load_image( self.walk )
 
@@ -245,6 +237,9 @@ class Enemy(Character):
             else:
                 self.rect.left = node.rect.right
             self.facingRight = not self.facingRight
+
+        elif self.ai == FLYVERT:
+            self.peaking = not self.peaking
 
 
 class CaptainRussia(Enemy):

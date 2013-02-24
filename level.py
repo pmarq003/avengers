@@ -175,8 +175,8 @@ class Level(object):
             for entObj in self._entities:
                 entObj.draw(camera)
             #TODO uncomment for debugging
-            #for nodeObj in self._nodes:
-            #	nodeObj.draw(camera)
+            for nodeObj in self._nodes:
+            	nodeObj.draw(camera)
 
     def get_player_rect(self):
         return self.player.get_rect()
@@ -220,6 +220,8 @@ class Level1(Level):
         #AI nodes
         self._addNode( levelobject.Node(450,450) ) #nodes for first platform
         self._addNode( levelobject.Node(700,450) )
+        self._addNode( levelobject.Node(800,0) )    #nodes for FLYVERT
+        self._addNode( levelobject.Node(800, 300) )
 
         #enemies
         self._addEnemy( enemy.Fuzzy(200,100, self.player, JUMP) )
