@@ -175,8 +175,8 @@ class Level(object):
             for entObj in self._entities:
                 entObj.draw(camera)
             #TODO uncomment for debugging
-            for nodeObj in self._nodes:
-            	nodeObj.draw(camera)
+            #for nodeObj in self._nodes:
+                #nodeObj.draw(camera)
 
     def get_player_rect(self):
         return self.player.get_rect()

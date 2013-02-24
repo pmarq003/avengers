@@ -19,10 +19,10 @@ class CharSel(object):
             self.camera = camera
 
         self.splash_bg     = StaticImage("images/charsel.png",camera.window.left, camera.window.top)
-        self.hulk          = StaticImage("images/hulk/hulkselect.png",camera.window.left,300+camera.window.top)
-        self.america       = StaticImage("images/america/america_select.png",camera.window.left+150,300+camera.window.top)
-        self.ironman       = StaticImage("images/ironman/ironman_select.png",camera.window.left+300,300+camera.window.top)
-        self.thor          = StaticImage("images/thor/norm_attack_left.gif",camera.window.left+500,300+camera.window.top)
+        self.hulk          = StaticImage("images/hulk/hulkselect.png",camera.window.left+220,300+camera.window.top)
+        self.america       = StaticImage("images/america/america_select.png",camera.window.left+550,300+camera.window.top)
+        self.ironman       = StaticImage("images/ironman/ironman_select.png",camera.window.left+350,300+camera.window.top)
+        self.thor          = StaticImage("images/thor/norm_attack_left.gif",camera.window.left+700,300+camera.window.top)
         self.volume_button = StaticImage("images/menusprites/volume.png",camera.window.right-30,camera.window.top+10)
         self.mute_button   = StaticImage("images/menusprites/mute.png",camera.window.right-30,camera.window.top+10)
 
