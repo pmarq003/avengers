@@ -7,7 +7,6 @@ import pygame
 import time
 import logger
 import startmenu
-import charsel
 import sound
 import hud
 
@@ -33,8 +32,11 @@ camera = camera.Camera(screen)
 currLevel = level.Level1()
 
 startMenu = startmenu.StartMenu()
+<<<<<<< HEAD
 charsel = charsel.CharSel()
 hud = hud.HUD()
+=======
+>>>>>>> test
 
 logger.get().set(camera, currLevel, screen, startMenu)
 
