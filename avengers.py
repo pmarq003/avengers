@@ -9,6 +9,7 @@ import logger
 import startmenu
 import charsel
 import sound
+import hud
 
 from pygame.locals import *
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
@@ -33,6 +34,7 @@ currLevel = level.Level1()
 
 startMenu = startmenu.StartMenu()
 charsel = charsel.CharSel()
+hud = hud.HUD()
 
 logger.get().set(camera, currLevel, screen, startMenu)
 
@@ -49,6 +51,7 @@ while True:
 	events = pygame.event.get()
 	eventmanager.get().handleEvents(events)
 	logger.get().add(logger.LogNode(events))
+
 
 	if startMenu.isPlaying():
 
@@ -77,6 +80,10 @@ while True:
 		camera.zeroPosition()
 		startMenu.draw(camera)
 		wasplaying = False
+
+
+	hud.update()
+	hud.draw(camera)
 
 	pygame.display.flip()
 

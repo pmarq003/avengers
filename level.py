@@ -8,6 +8,7 @@ from levelobject import LevelObject,StaticImage
 import eventmanager
 import startmenu
 import sound
+import hud
 
 """
     level.py
@@ -24,8 +25,8 @@ class Level(object):
         self._enemies = pygame.sprite.Group()
         self._nodes = pygame.sprite.Group()
         self._entities = pygame.sprite.Group()
-        self.volume_button = StaticImage( "images/menusprites/volume.png", 970, 0 )
-        self.mute_button = StaticImage( "images/menusprites/mute.png", 970, 0 )
+        #self.volume_button = StaticImage( "images/menusprites/volume.png",       970, 0   )
+        #self.mute_button = StaticImage( "images/menusprites/mute.png",         970, 0   )
 
         #why doesn't this work?
         #self.vol = startmenu.getVol()
@@ -35,7 +36,6 @@ class Level(object):
         self.player_alive = True
 
     def update(self):
-
         self.player.update()
         for enemyObj in self._enemies:
             enemyObj.update()
@@ -90,12 +90,13 @@ class Level(object):
 
         evman = eventmanager.get()
 
-        if evman.MOUSE1CLICK != False:
-            event = evman.MOUSE1CLICK
-            clickpoint = event.pos
-
-            if self.volume_button.get_rect().collidepoint(clickpoint):
-                self.vol = not self.vol
+#        moved to hud class
+#        if evman.MOUSE1CLICK != False:
+#            event = evman.MOUSE1CLICK
+#            clickpoint = event.pos
+#
+#            if self.volume_button.get_rect().collidepoint(clickpoint):
+#                self.vol = not self.vol
 
     def _handleNodeCollision(self, enemy, node):
         enemy.handleNodeCollision(node);
@@ -144,12 +145,6 @@ class Level(object):
             self.background.draw(camera)
         self.player.draw(camera)
 
-        #update '-30' to width of the volume image
-        self.volume_button = StaticImage( "images/menusprites/volume.png",
-                camera.window.right-30, camera.window.top )
-        self.mute_button = StaticImage( "images/menusprites/mute.png",
-                camera.window.right-30, camera.window.top )
-
         for terrainObj in self._terrain:
             terrainObj.draw(camera)
 
@@ -159,18 +154,18 @@ class Level(object):
         for entObj in self._entities:
             entObj.draw(camera)
 
-        if self.vol:
-            self.volume_button.draw(camera)
-            sound.set_bgm_vol(100)
-            sound.set_sfx_vol(100)
-        else:
-            self.mute_button.draw(camera)
-            sound.set_bgm_vol(0)
-            sound.set_sfx_vol(0)
+#        if self.vol:
+#            self.volume_button.draw(camera)
+#            sound.set_bgm_vol(100)
+#            sound.set_sfx_vol(100)
+#        else:
+#            self.mute_button.draw(camera)
+#            sound.set_bgm_vol(0)
+#            sound.set_sfx_vol(0)
 
         #TODO uncomment for debugging
         #for nodeObj in self._nodes:
-        #	nodeObj.draw(camera)
+        #    nodeObj.draw(camera)
 
     def get_player_rect(self):
         return self.player.get_rect()
@@ -202,7 +197,7 @@ class Level1(Level):
         #TODO do some smart screen scrolling here later
         #bg = pygame.image.load("images/backgrounds/bg1.gif").convert_alpha()
         #for x in range(0, 3000, 1918):
-        #	self.blit( bg,(x,0))
+        #    self.blit( bg,(x,0))
         self.background = levelobject.StaticImage('images/level5.jpg',-500,-350)
 
         #terrain objects
@@ -222,7 +217,7 @@ class Level1(Level):
         self._addEnemy( enemy.Fuzzy(700,400, self.player, HOP) )
         self._addEnemy( enemy.ParaKoopa(800,100, self.player, FLYVERT) )
 
-#		for i in range(0,1000):
-#		self._addTerrain( levelobject.MarioGround(16*i,SCREEN_HEIGHT-16) )
+#        for i in range(0,1000):
+#        self._addTerrain( levelobject.MarioGround(16*i,SCREEN_HEIGHT-16) )
 
         self._addTerrain( levelobject.MarioPlatform(-500, SCREEN_HEIGHT-16) )
