@@ -100,6 +100,72 @@ class CaptainAmerica(Player):
 	primary_attack_length = 5
 	primary_attack_recovery = 5
 
+class Hawkeye(Player):
+	numWalkFrames = 4		#number pics in move anim
+	walkDelay = 2		#delay factor to make anims visible
+
+	#movement vars
+	runVel = 10	 #xcoord movement velocity
+	jumpVel = 20	#jumping velocity
+
+	animFolder = 'hawkeye'
+
+	primary_attack_speed = 10
+	primary_attack_length = 5
+	primary_attack_recovery = 5
+	
+	class ArrowLeft(TransientEntity):
+		attacking = True
+		can_give_hurt = True
+		kill_on_collide = True
+		base_img_path = 'images/hawkeye/arrow_left.png'
+		timeout = 100
+
+		def update(self):
+			TransientEntity.update(self)
+			self.rect.left -= 20
+
+	class ArrowRight(TransientEntity):
+		attacking = True
+		can_give_hurt = True
+		kill_on_collide = True
+		base_img_path = 'images/hawkeye/arrow_right.png'
+		timeout = 100
+
+		def update(self):
+			TransientEntity.update(self)
+			self.rect.left += 20
+
+	def special_attack(self):
+		self._load_image( self.norm_attack )
+		self.stallX()
+
+		#On the second frame the rect for the player will be updated
+		#so we can position the lightning correctly relative to that
+		if self.sattack_timer == 2:
+			if self.facingRight:
+				entity = self.ArrowRight(0,0)
+				entity.rect.topleft = self.rect.topright
+				self.level.addEntity(entity)
+			else:
+				entity = self.ArrowLeft(0,0)
+				entity.rect.topright = self.rect.topleft
+				self.level.addEntity(entity)
+			self.sattack_timer -= 1
+
+		#mid attack
+		elif self.sattack_timer > 1:
+			self.sattack_timer -= 1
+
+		#end of attack
+		elif self.sattack_timer == 1:
+			self.attacking = False
+			self.sattack_timer = 0
+
+		#start of attack
+		else:
+			self.attacking = True
+			self.sattack_timer = 5
 
 class Hulk(Player):
 	numWalkFrames = 4		#number pics in move anim

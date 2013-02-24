@@ -51,6 +51,8 @@ class Level(object):
                 self.player = player.CaptainAmerica(0,0,self)
             elif choice == 4:
                 self.player = player.IronMan(0,0,self)
+            elif choice == 5:
+                self.player = player.Hawkeye(0,0,self)
 
             if choice > 0 : self.charSelected = True
 
