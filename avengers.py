@@ -62,15 +62,14 @@ while True:
             logger.get().clear()
             currLevel = level.Level1()
 
-        if not isPaused:
-            #Update player and enemies positions/current actions
-            currLevel.update()
+        #Update player and enemies positions/current actions
+        currLevel.update()
 
-            #Update camera position using player's
-            player_rect = currLevel.get_player_rect()
-            camera.updatePosition(player_rect)
+        #Update camera position using player's
+        player_rect = currLevel.get_player_rect()
+        camera.updatePosition(player_rect)
 
-            currLevel.draw(camera)
+        currLevel.draw(camera)
 
         #Fill the screen, draw level, flip the buffer
         screen.fill(constants.DEFAULT_BGCOLOR)
