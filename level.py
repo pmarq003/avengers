@@ -23,6 +23,7 @@ class Level(object):
 
     def __init__(self):
         self.charsel = charsel.CharSel()
+        self.hud = hud.HUD()
         self.charSelected = False
         self._terrain = pygame.sprite.Group()
         self._enemies = pygame.sprite.Group()
@@ -39,6 +40,8 @@ class Level(object):
         self.player_alive = True
 
     def update(self):
+        self.hud.update()
+
         if not self.charSelected:
             self.charsel.update()
             choice = self.charsel.getChar()
@@ -178,6 +181,8 @@ class Level(object):
             #TODO uncomment for debugging
             #for nodeObj in self._nodes:
                 #nodeObj.draw(camera)
+
+        self.hud.draw(camera)
 
     def get_player_rect(self):
         return self.player.get_rect()
