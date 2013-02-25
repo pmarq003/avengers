@@ -39,7 +39,6 @@ class Level(object):
         self.player_alive = True
 
     def update(self):
-
         if not self.charSelected:
             self.charsel.update()
             choice = self.charsel.getChar()
