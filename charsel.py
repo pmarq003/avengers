@@ -21,6 +21,7 @@ class CharSel(object):
         self.splash_bg     = StaticImage("images/charsel.png",camera.window.left, camera.window.top)
         self.hulk          = StaticImage("images/hulk/hulkselect.png",camera.window.left+220,300+camera.window.top)
         self.america       = StaticImage("images/america/america_select.png",camera.window.left+550,300+camera.window.top)
+        self.hawkeye       = StaticImage("images/hawkeye/hawkeye_select.png",camera.window.left+30,300+camera.window.top)
         self.ironman       = StaticImage("images/ironman/ironman_select.png",camera.window.left+350,300+camera.window.top)
         self.thor          = StaticImage("images/thor/norm_attack_left.gif",camera.window.left+700,300+camera.window.top)
         self.volume_button = StaticImage("images/menusprites/volume.png",camera.window.right-30,camera.window.top+10)
@@ -29,6 +30,7 @@ class CharSel(object):
         self.splash_bg.draw(camera)
         self.hulk.draw(camera)
         self.america.draw(camera)
+        self.hawkeye.draw(camera)
         self.ironman.draw(camera)
         self.thor.draw(camera)
 
@@ -62,6 +64,9 @@ class CharSel(object):
 
             elif self.ironman.get_rect().collidepoint(clickpoint):
                 self.setChar(4)
+            
+            elif self.hawkeye.get_rect().collidepoint(clickpoint):
+                self.setChar(5)
 
     def setChar(self, thechar):
         self.char = thechar
