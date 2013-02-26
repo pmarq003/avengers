@@ -3,15 +3,19 @@ import constants
 import eventmanager
 import level
 import player
+import pausemenu
 import pygame
 import time
 import logger
 import startmenu
+import sound
 
 from pygame.locals import *
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 
 import os
+import sys
+
 
 #center screen
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -29,44 +33,61 @@ camera = camera.Camera(screen)
 currLevel = level.Level1()
 
 startMenu = startmenu.StartMenu()
+pauseMenu = pausemenu.PauseMenu()
 
 logger.get().set(camera, currLevel, screen, startMenu)
 
+#I wanna listen to my music while I develop dammit!
+if "-m" in sys.argv:
+    startMenu.vol = False
+
 #Game loop
+wasplaying = True #Hack to figure out when we need to change sounds
 while True:
 
-	#Start timer and handle events
-	milliStart = pygame.time.get_ticks()
-	events = pygame.event.get()
-	eventmanager.get().handleEvents(events)
-	logger.get().add(logger.LogNode(events))
+    #Start timer and handle events
+    milliStart = pygame.time.get_ticks()
+    events = pygame.event.get()
+    eventmanager.get().handleEvents(events)
+    logger.get().add(logger.LogNode(events))
 
-	if startMenu.isPlaying():
+    if startMenu.isPlaying():
 
-		if not currLevel.player_alive:
-			logger.get().clear()
-			currLevel = level.Level1()
+        if not wasplaying: sound.play_bgm(currLevel.bgm)
 
-		#Update player and enemies positions/current actions
-		currLevel.update()
+        if not currLevel.player_alive:
+            logger.get().clear()
+            currLevel = level.Level1()
 
-		#Update camera position using player's
-		player_rect = currLevel.get_player_rect()
-		camera.updatePosition(player_rect)
+        screen.fill(constants.DEFAULT_BGCOLOR)
+        currLevel.draw(camera)
 
-		#Fill the screen, draw level, flip the buffer
-		screen.fill(constants.DEFAULT_BGCOLOR)
-		currLevel.draw(camera)
+        #Update player and enemies positions/current actions
+        if not eventmanager.get().isPaused():
+            currLevel.update()
+        else:
+            pauseMenu.draw(camera)
+            pauseMenu.update()
 
-	else:
+        #Update camera position using player's
+        player_rect = currLevel.get_player_rect()
+        camera.updatePosition(player_rect)
 
-		startMenu.update()
-		camera.zeroPosition()
-		startMenu.draw(camera)
+        #Fill the screen, draw level, flip the buffer
+        wasplaying = True
+    else:
 
-	pygame.display.flip()
+        if wasplaying: sound.play_bgm(startMenu.bgm)
+        startMenu.update()
+        camera.zeroPosition()
+        startMenu.draw(camera)
+        wasplaying = False
 
-	#Stop timer and sleep for remainder of time
-	milliEnd = pygame.time.get_ticks()
-	leftover = constants.mSPF - (milliEnd - milliStart)
-	if leftover > 0: pygame.time.wait(int(leftover))
+    pygame.display.flip()
+
+    #Stop timer and sleep for remainder of time
+    milliEnd = pygame.time.get_ticks()
+    leftover = constants.mSPF - (milliEnd - milliStart)
+    if leftover > 0: pygame.time.wait(int(leftover))
+
+

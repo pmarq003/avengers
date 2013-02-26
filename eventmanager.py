@@ -5,6 +5,7 @@ from pygame.locals import *
 class EventManager:
 
     def __init__(self):
+        self.PAUSED = False
         self.LEFTPRESSED = False
         self.RIGHTPRESSED = False
         self.UPPRESSED = False
@@ -48,6 +49,13 @@ class EventManager:
                 elif event.key == K_a     : self.NORMPRESSED = event.type == KEYDOWN
                 elif event.key == K_s     : self.SPECPRESSED = event.type == KEYDOWN
                 elif event.key == K_r     : self.REPLAYPRESSED = event.type == KEYDOWN
+                elif   event.key == K_p and event.type == KEYDOWN    : self.PAUSED = not self.PAUSED
+
+    def isPaused(self):
+        return self.PAUSED
+    def togglePause(self):
+        self.PAUSED = not self.PAUSED
+
 
 #Create singleton accessible through eventmanager.get()
 __instance = EventManager()
