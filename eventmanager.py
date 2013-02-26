@@ -51,7 +51,11 @@ class EventManager:
                 elif event.key == K_r     : self.REPLAYPRESSED = event.type == KEYDOWN
                 elif   event.key == K_p and event.type == KEYDOWN    : self.PAUSED = not self.PAUSED
 
+    def isPaused(self):
         return self.PAUSED
+    def togglePause(self):
+        self.PAUSED = not self.PAUSED
+
 
 #Create singleton accessible through eventmanager.get()
 __instance = EventManager()

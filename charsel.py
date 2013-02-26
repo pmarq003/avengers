@@ -64,7 +64,7 @@ class CharSel(object):
 
             elif self.ironman.get_rect().collidepoint(clickpoint):
                 self.setChar(4)
-            
+
             elif self.hawkeye.get_rect().collidepoint(clickpoint):
                 self.setChar(5)
 

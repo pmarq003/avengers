@@ -3,6 +3,7 @@ import constants
 import eventmanager
 import level
 import player
+import pausemenu
 import pygame
 import time
 import logger
@@ -15,7 +16,6 @@ from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 import os
 import sys
 
-isPaused = False
 
 #center screen
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -33,6 +33,7 @@ camera = camera.Camera(screen)
 currLevel = level.Level1()
 
 startMenu = startmenu.StartMenu()
+pauseMenu = pausemenu.PauseMenu()
 
 logger.get().set(camera, currLevel, screen, startMenu)
 
@@ -47,7 +48,7 @@ while True:
     #Start timer and handle events
     milliStart = pygame.time.get_ticks()
     events = pygame.event.get()
-    isPaused = eventmanager.get().handleEvents(events)
+    eventmanager.get().handleEvents(events)
     logger.get().add(logger.LogNode(events))
 
     if startMenu.isPlaying():
@@ -62,8 +63,11 @@ while True:
         currLevel.draw(camera)
 
         #Update player and enemies positions/current actions
-        if not isPaused:
+        if not eventmanager.get().isPaused():
             currLevel.update()
+        else:
+            pauseMenu.draw(camera)
+            pauseMenu.update()
 
         #Update camera position using player's
         player_rect = currLevel.get_player_rect()
