@@ -6,11 +6,11 @@ import levelobject
 from constants import *
 
 """
-    level.py
-            holds player collision detection
-            to see AI nodes uncomment line 120-121
-            AI constants can be found in constants.py
-            levels found at bottom of file
+	level.py
+			holds player collision detection
+			to see AI nodes uncomment line 120-121
+			AI constants can be found in constants.py
+			levels found at bottom of file
 """
 
 
@@ -159,12 +159,12 @@ class Level1(Level):
 		self._addNode( levelobject.Node(450,450) ) #nodes for first platform
 		self._addNode( levelobject.Node(700,450) )
 
-        #enemies
-        self._addEnemy( enemy.Fuzzy(250,100, self.player, JUMP) )
-        self._addEnemy( enemy.ParaKoopa(300,100, self.player, FLYSWOOP) )
-        self._addEnemy( enemy.RedKoopa(600,400, self.player, PLATFORM) )
-        self._addEnemy( enemy.Fuzzy(700,400, self.player, HOP) )
-        self._addEnemy( enemy.ParaKoopa(800,100, self.player, FLYVERT) )
+		#enemies
+		self._addEnemy( enemy.Fuzzy(250,100, self.player, JUMP) )
+		self._addEnemy( enemy.ParaKoopa(300,100, self.player, FLYSWOOP) )
+		self._addEnemy( enemy.RedKoopa(600,400, self.player, PLATFORM) )
+		self._addEnemy( enemy.Fuzzy(700,400, self.player, HOP) )
+		self._addEnemy( enemy.ParaKoopa(800,100, self.player, FLYVERT) )
 
 #        for i in range(0,1000):
 #            self._addTerrain( levelobject.MarioGround(16*i,SCREEN_HEIGHT-16) )
