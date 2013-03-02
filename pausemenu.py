@@ -10,6 +10,7 @@ class PauseMenu(object):
     def __init__(self):
 
         self.camera = None
+        self.showMainMenu = False
 
         #self.bgm = 'sounds/SureShot.wav'
 
@@ -41,5 +42,6 @@ class PauseMenu(object):
                 eventmanager.get().togglePause()
             #elif self.restartIm.get_rect().collidepoint(clickpoint):
             elif self.quitIm.get_rect().collidepoint(clickpoint):
-                pygame.quit()
-                sys.exit(0)
+                self.showMainMenu = True
+                #pygame.quit()
+                #sys.exit(0)

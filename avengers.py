@@ -16,78 +16,91 @@ from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 import os
 import sys
 
+class AvengersGame:
 
+    def __init__(self):
 #center screen
-os.environ['SDL_VIDEO_CENTERED'] = '1'
+        os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 #initialize pygame lib
-pygame.init()
+        pygame.init()
 
 #creates window
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('The Avengers - Six Guys')
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        pygame.display.set_caption('The Avengers - Six Guys')
 
 #Make a camera (this might need to go inside the level object, but that's ok)
-camera = camera.Camera(screen)
+        self.camera = camera.Camera(self.screen)
 
-currLevel = level.Level1()
+        self.currLevel = level.Level1()
 
-startMenu = startmenu.StartMenu()
-pauseMenu = pausemenu.PauseMenu()
+        self.startMenu = startmenu.StartMenu()
+        self.pauseMenu = pausemenu.PauseMenu()
 
-logger.get().set(camera, currLevel, screen, startMenu)
+        logger.get().set(self.camera, self.currLevel, self.screen, self.startMenu)
 
 #I wanna listen to my music while I develop dammit!
-if "-m" in sys.argv:
-    startMenu.vol = False
+        if "-m" in sys.argv:
+            startMenu.vol = False
 
+    def update(self):
 #Game loop
-wasplaying = True #Hack to figure out when we need to change sounds
-while True:
+        wasplaying = True #Hack to figure out when we need to change sounds
+        while True:
 
-    #Start timer and handle events
-    milliStart = pygame.time.get_ticks()
-    events = pygame.event.get()
-    eventmanager.get().handleEvents(events)
-    logger.get().add(logger.LogNode(events))
+            #Start timer and handle events
+            milliStart = pygame.time.get_ticks()
+            events = pygame.event.get()
+            eventmanager.get().handleEvents(events)
+            logger.get().add(logger.LogNode(events))
 
-    if startMenu.isPlaying():
+            if self.startMenu.isPlaying():
 
-        if not wasplaying: sound.play_bgm(currLevel.bgm)
+                if not wasplaying: sound.play_bgm(self.currLevel.bgm)
 
-        if not currLevel.player_alive:
-            logger.get().clear()
-            currLevel = level.Level1()
+                if not self.currLevel.player_alive:
+                    logger.get().clear()
+                    self.currLevel = level.Level1()
 
-        screen.fill(constants.DEFAULT_BGCOLOR)
-        currLevel.draw(camera)
+                self.screen.fill(constants.DEFAULT_BGCOLOR)
+                self.currLevel.draw(self.camera)
 
-        #Update player and enemies positions/current actions
-        if not eventmanager.get().isPaused():
-            currLevel.update()
-        else:
-            pauseMenu.draw(camera)
-            pauseMenu.update()
+                #Update player and enemies positions/current actions
+                if not eventmanager.get().isPaused():
+                    self.currLevel.update()
+                else:
+                    self.pauseMenu.draw(self.camera)
+                    self.pauseMenu.update()
+                    if self.pauseMenu.showMainMenu:
+                        self.startMenu.playing = False
+                        self.currLevel = level.Level1()
+                        self.pauseMenu.showMainMenu = False
+                        eventmanager.get().PAUSED = False
 
-        #Update camera position using player's
-        player_rect = currLevel.get_player_rect()
-        camera.updatePosition(player_rect)
+                #Update camera position using player's
+                player_rect = self.currLevel.get_player_rect()
+                self.camera.updatePosition(player_rect)
 
-        #Fill the screen, draw level, flip the buffer
-        wasplaying = True
-    else:
+                #Fill the screen, draw level, flip the buffer
+                wasplaying = True
+            else:
 
-        if wasplaying: sound.play_bgm(startMenu.bgm)
-        startMenu.update()
-        camera.zeroPosition()
-        startMenu.draw(camera)
-        wasplaying = False
+                if wasplaying: sound.play_bgm(self.startMenu.bgm)
+                self.startMenu.update()
+                self.camera.zeroPosition()
+                self.startMenu.draw(self.camera)
+                wasplaying = False
 
-    pygame.display.flip()
+            pygame.display.flip()
 
-    #Stop timer and sleep for remainder of time
-    milliEnd = pygame.time.get_ticks()
-    leftover = constants.mSPF - (milliEnd - milliStart)
-    if leftover > 0: pygame.time.wait(int(leftover))
+            #Stop timer and sleep for remainder of time
+            milliEnd = pygame.time.get_ticks()
+            leftover = constants.mSPF - (milliEnd - milliStart)
+            if leftover > 0: pygame.time.wait(int(leftover))
+
+
+if __name__ == '__main__':
+    _game = AvengersGame()
+    _game.update()
 
 
