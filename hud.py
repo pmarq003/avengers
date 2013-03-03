@@ -10,6 +10,8 @@ class HUD(object):
         self.mute_button = StaticImage( "images/menusprites/mute.png", 0, 0 )
 
         self.heart = StaticImage( "images/heart.png", 0, 0 )
+        self.sattackbar = StaticImage( "images/sattackbar.png", 0, 0 )
+        self.sattackblock = StaticImage( "images/sattackblock.png", 0, 0 )
 
     def update(self):
         evman = eventmanager.get()
@@ -26,8 +28,7 @@ class HUD(object):
                     sound.set_bgm_vol(0)
                     sound.set_sfx_vol(0)
 
-    def draw(self,camera,avengers_obj):
-
+    def drawVol(self,camera):
         if self.vol:
             self.volume_button.rect.topleft = ( camera.window.right - 30, camera.window.top )
             self.volume_button.draw(camera)
@@ -35,10 +36,22 @@ class HUD(object):
             self.mute_button.rect.topleft = ( camera.window.right - 30, camera.window.top )
             self.mute_button.draw(camera)
 
+    def draw(self,camera,avengers_obj):
+
+        self.drawVol(camera)
+
         for i in range(0,avengers_obj.player_lives):
             self.heart.rect.topleft = ( camera.window.left + i*( self.heart.rect.width + 10) + 10,
                                         camera.window.top + 10 )
             self.heart.draw(camera)
+
+        self.sattackbar.rect.topleft = camera.window.left + 10, camera.window.top + 55
+        self.sattackbar.draw(camera)
+
+        for i in range(0, avengers_obj.currLevel.player.sattack_ammo):
+            self.sattackblock.rect.topleft = ( camera.window.left + 13 + i*self.sattackblock.rect.width,
+                                               camera.window.top + 58 )
+            self.sattackblock.draw(camera)
         
 
     def getVol(self):

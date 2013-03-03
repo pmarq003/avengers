@@ -92,7 +92,11 @@ class AvengersGame:
 
                 self.screen.fill(constants.DEFAULT_BGCOLOR)
                 self.currLevel.draw(self.camera)
-                self.hud.draw(self.camera, self)
+
+                if self.currLevel.charSelected:
+                    self.hud.draw(self.camera, self)
+                else:
+                    self.hud.drawVol(self.camera)
 
                 #Update player and enemies positions/current actions
                 if not eventmanager.get().isPaused():
