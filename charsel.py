@@ -34,17 +34,6 @@ class CharSel(object):
         self.ironman.draw(camera)
         self.thor.draw(camera)
 
-        """
-        if self.vol:
-            self.volume_button.draw(camera)
-            sound.set_bgm_vol(100)
-            sound.set_sfx_vol(100)
-        else:
-            self.mute_button.draw(camera)
-            sound.set_bgm_vol(0)
-            sound.set_sfx_vol(0)
-            """
-
     def update(self):
 
         evman = eventmanager.get()

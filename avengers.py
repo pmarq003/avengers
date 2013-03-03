@@ -8,7 +8,10 @@ import pygame
 import time
 import logger
 import startmenu
+import hud
 import sound
+from levelobject import StaticImage
+import time
 
 from pygame.locals import *
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
@@ -36,17 +39,23 @@ class AvengersGame:
         self.levelNumber = 1
         self.currLevel = self.getCurrentLevel()
 
+        #player starts with 3 lives
+        self.player_lives = constants.PLAYER_LIVES
+
         #menus
         self.startMenu = startmenu.StartMenu()
         self.pauseMenu = pausemenu.PauseMenu()
 
+        #the hud
+        self.hud = hud.HUD()
+        
         logger.get().set(self.camera, self.currLevel, self.screen, self.startMenu)
 
         #I wanna listen to my music while I develop dammit!
         if "-m" in sys.argv:
             sound.set_bgm_vol(0)
             sound.set_sfx_vol(0)
-            self.currLevel.hud.vol = False
+            self.hud.vol = False
 
     def update(self):
         #Game loop
@@ -64,15 +73,32 @@ class AvengersGame:
                 if not wasplaying: sound.play_bgm(self.currLevel.bgm)
 
                 if not self.currLevel.player_alive:
+                    self.player_lives -= 1
+
                     logger.get().clear()
                     self.loadLevel()
 
+                    if self.player_lives < 1:
+                        self.currLevel.charSelected = False
+                        self.currLevel.charsel.char = 0
+                        self.screen.fill(0)
+                        gameover = StaticImage( "images/gameover.jpg", 0, 0 )
+                        gameover.rect.topleft = self.camera.window.centerx - gameover.rect.width/2,\
+                                                self.camera.window.centery - gameover.rect.width/2
+                        gameover.draw(self.camera)
+                        pygame.display.flip()
+                        time.sleep(3)
+                        self.player_lives = constants.PLAYER_LIVES
+
                 self.screen.fill(constants.DEFAULT_BGCOLOR)
                 self.currLevel.draw(self.camera)
+                self.hud.draw(self.camera, self)
 
                 #Update player and enemies positions/current actions
                 if not eventmanager.get().isPaused():
                     self.currLevel.update()
+                    if self.currLevel.charSelected:
+                        self.hud.update()
                 else:
                 #show pause menu
                     self.pauseMenu.draw(self.camera)
