@@ -44,7 +44,9 @@ class AvengersGame:
 
         #I wanna listen to my music while I develop dammit!
         if "-m" in sys.argv:
-            startMenu.vol = False
+            sound.set_bgm_vol(0)
+            sound.set_sfx_vol(0)
+            self.currLevel.hud.vol = False
 
     def update(self):
         #Game loop

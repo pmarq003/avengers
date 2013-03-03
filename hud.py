@@ -14,6 +14,12 @@ class HUD(object):
 
             if self.volume_button.get_rect().collidepoint(clickpoint):
                 self.vol = not self.vol
+                if self.vol:
+                    sound.set_bgm_vol(100)
+                    sound.set_sfx_vol(100)
+                else:
+                    sound.set_bgm_vol(0)
+                    sound.set_sfx_vol(0)
 
     def draw(self,camera):
         self.volume_button = StaticImage( "images/menusprites/volume.png",
@@ -23,12 +29,8 @@ class HUD(object):
 
         if self.vol:
             self.volume_button.draw(camera)
-            sound.set_bgm_vol(100)
-            sound.set_sfx_vol(100)
         else:
             self.mute_button.draw(camera)
-            sound.set_bgm_vol(0)
-            sound.set_sfx_vol(0)
 
     def getVol(self):
         return self.vol
