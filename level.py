@@ -14,7 +14,7 @@ import hud
 """
     level.py
             holds player collision detection
-            to see AI nodes uncomment line 120-121
+            to see AI nodes uncomment line 183-184
             AI constants can be found in constants.py
             levels found at bottom of file
 """
@@ -29,6 +29,7 @@ class Level(object):
         self._enemies = pygame.sprite.Group()
         self._nodes = pygame.sprite.Group()
         self._entities = pygame.sprite.Group()
+        self._checkpoints = []
         #self.volume_button = StaticImage( "images/menusprites/volume.png",       970, 0   )
         #self.mute_button = StaticImage( "images/menusprites/mute.png",         970, 0   )
 
@@ -112,6 +113,22 @@ class Level(object):
                 for node in nodeObjs:
                     self._handleNodeCollision(enemy,node)
 
+            #player / checkpoint collisions
+            i = 0
+            while i < len(self._checkpoints) :
+                if self.player.rect.x > self._checkpoints[i]:
+                    #remove previous checkpoints
+                    self._checkpoints.remove( self._checkpoints[i] )
+                    i -= 1
+                    #save state
+                    f = open('save', 'w')
+                    f.write( str(self.number) +
+                            " " + str( self.charsel.getChar() ) +
+                            " " + str( self.player.rect.x ) +
+                            " " + str( self.player.rect.y ) )
+                    f.close()
+                i += 1
+
 
     def _handleNodeCollision(self, enemy, node):
         enemy.handleNodeCollision(node);
@@ -178,6 +195,7 @@ class Level(object):
 
             for entObj in self._entities:
                 entObj.draw(camera)
+
             #TODO uncomment for debugging
             #for nodeObj in self._nodes:
                 #nodeObj.draw(camera)
@@ -199,6 +217,9 @@ class Level(object):
     def _addNode(self, nodeObj):
         self._nodes.add(nodeObj);
 
+    def _addCheckpoint(self, x):
+        self._checkpoints.append(x)
+
     def addEntity(self, entObj):
         self._entities.add(entObj)
 
@@ -206,6 +227,10 @@ class Level1(Level):
 
     def __init__(self):
         Level.__init__(self)
+
+        #level number
+        self.number = 1
+
         self.height = SCREEN_HEIGHT
         self.player = player.IronMan(0,0,self)
 
@@ -217,9 +242,13 @@ class Level1(Level):
         #    self.blit( bg,(x,0))
         self.background = levelobject.StaticImage('images/level5.jpg',-500,-350)
 
+        #checkpoints
+        self._addCheckpoint(1000)
+        self._addCheckpoint(1500)
+
         #terrain objects
         self._addTerrain( levelobject.BasicPlatform(100,400) )
-        self._addTerrain( levelobject.BasicPlatform(500,500) )
+        self._addTerrain( levelobject.BasicPlatform(500,500) ) 
         self._addTerrain( levelobject.BasicPlatform(900,300) )
         self._addTerrain( levelobject.BasicPlatform2(1400,300) )
 

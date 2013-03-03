@@ -32,8 +32,11 @@ class AvengersGame:
         #Make a camera (this might need to go inside the level object, but that's ok)
         self.camera = camera.Camera(self.screen)
 
-        self.currLevel = level.Level1()
+        #number of the current level
+        self.levelNumber = 1
+        self.currLevel = self.getCurrentLevel()
 
+        #menus
         self.startMenu = startmenu.StartMenu()
         self.pauseMenu = pausemenu.PauseMenu()
 
@@ -60,7 +63,7 @@ class AvengersGame:
 
                 if not self.currLevel.player_alive:
                     logger.get().clear()
-                    self.currLevel = level.Level1()
+                    self.currLevel = self.getCurrentLevel()
 
                 self.screen.fill(constants.DEFAULT_BGCOLOR)
                 self.currLevel.draw(self.camera)
@@ -75,11 +78,11 @@ class AvengersGame:
                     #'quit to main' clicked
                     if self.pauseMenu.showMainMenu:
                         self.startMenu.playing = False
-                        self.currLevel = level.Level1()
+                        self.currLevel = self.getCurrentLevel()
                         self.pauseMenu.showMainMenu = False
                         eventmanager.get().PAUSED = False
                     elif self.pauseMenu.restartLevel:
-                        self.currLevel = level.Level1()
+                        self.currLevel = self.getCurrentLevel()
                         self.pauseMenu.restartLevel = False
                         eventmanager.get().PAUSED = False
 
@@ -98,12 +101,50 @@ class AvengersGame:
                 self.startMenu.draw(self.camera)
                 wasplaying = False
 
+                if self.startMenu.loadLevel == True:
+                    self.loadLevel()
+
+
             pygame.display.flip()
 
             #Stop timer and sleep for remainder of time
             milliEnd = pygame.time.get_ticks()
             leftover = constants.mSPF - (milliEnd - milliStart)
             if leftover > 0: pygame.time.wait(int(leftover))
+
+    def getCurrentLevel(self):
+        if self.levelNumber == 0:
+            return None
+        elif self.levelNumber == 1:
+            return level.Level1()
+        else:
+            return None
+
+    def loadLevel(self):
+        #get level number from save file (from start menu)
+        self.levelNumber = self.startMenu.levelNumber
+        #set current level
+        self.currLevel = self.getCurrentLevel()
+        choice = self.startMenu.charChoice
+        #set chosen player
+        if choice == 1:
+            self.currLevel.player = player.Hulk(0,0,self)
+        elif choice == 2:
+            self.currLevel.player = player.Thor(0,0,self)
+        elif choice == 3:
+            self.currLevel.player = player.CaptainAmerica(0,0,self)
+        elif choice == 4:
+            self.currLevel.player = player.IronMan(0,0,self)
+        elif choice == 5:
+            self.currLevel.player = player.Hawkeye(0,0,self)
+        #set player coords
+        self.currLevel.player.rect.x = self.startMenu.currentX
+        self.currLevel.player.rect.y = self.startMenu.currentY
+        self.currLevel.charSelected = True
+        #begin playing level
+        self.startMenu.loadLevel = False
+        self.startMenu.playing = True
+
 
 
 if __name__ == '__main__':

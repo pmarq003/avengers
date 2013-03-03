@@ -1,4 +1,5 @@
 import pygame
+import os
 import sys
 import charsel
 
@@ -27,6 +28,7 @@ class StartMenu(object):
         
         self.playing = False
 #        self.vol = True
+        self.loadLevel = False
         self.show_instructions = False
 
     def isPlaying(self):
@@ -72,7 +74,14 @@ class StartMenu(object):
                     self.playing = True
 
                 elif self.loadgame_button.get_rect().collidepoint(clickpoint):
-                    print "load"
+                    if os.path.isfile('save'):
+                        f = open('save', 'r')
+                        data = f.readline().split()
+                        self.levelNumber = int(data[0])
+                        self.charChoice = int(data[1])
+                        self.currentX = int(data[2])
+                        self.currentY = int(data[3])
+                        self.loadLevel = True
 
                 elif self.options_button.get_rect().collidepoint(clickpoint):
                     print("options hit")
