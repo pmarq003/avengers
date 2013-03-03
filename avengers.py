@@ -19,17 +19,17 @@ import sys
 class AvengersGame:
 
     def __init__(self):
-#center screen
+        #center screen
         os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-#initialize pygame lib
+        #initialize pygame lib
         pygame.init()
 
-#creates window
+        #creates window
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption('The Avengers - Six Guys')
 
-#Make a camera (this might need to go inside the level object, but that's ok)
+        #Make a camera (this might need to go inside the level object, but that's ok)
         self.camera = camera.Camera(self.screen)
 
         self.currLevel = level.Level1()
@@ -39,12 +39,12 @@ class AvengersGame:
 
         logger.get().set(self.camera, self.currLevel, self.screen, self.startMenu)
 
-#I wanna listen to my music while I develop dammit!
+        #I wanna listen to my music while I develop dammit!
         if "-m" in sys.argv:
             startMenu.vol = False
 
     def update(self):
-#Game loop
+        #Game loop
         wasplaying = True #Hack to figure out when we need to change sounds
         while True:
 
@@ -69,13 +69,20 @@ class AvengersGame:
                 if not eventmanager.get().isPaused():
                     self.currLevel.update()
                 else:
+                #show pause menu
                     self.pauseMenu.draw(self.camera)
                     self.pauseMenu.update()
+                    #'quit to main' clicked
                     if self.pauseMenu.showMainMenu:
                         self.startMenu.playing = False
                         self.currLevel = level.Level1()
                         self.pauseMenu.showMainMenu = False
                         eventmanager.get().PAUSED = False
+                    elif self.pauseMenu.restartLevel:
+                        self.currLevel = level.Level1()
+                        self.pauseMenu.restartLevel = False
+                        eventmanager.get().PAUSED = False
+
 
                 #Update camera position using player's
                 player_rect = self.currLevel.get_player_rect()
