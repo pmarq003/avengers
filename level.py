@@ -22,6 +22,7 @@ import hud
 class Level(object):
 
     def __init__(self):
+        self.levelNumber = -1   #override in specific levels
         self.charsel = charsel.CharSel()
         self.hud = hud.HUD()
         self.charSelected = False
@@ -30,11 +31,6 @@ class Level(object):
         self._nodes = pygame.sprite.Group()
         self._entities = pygame.sprite.Group()
         self._checkpoints = []
-        #self.volume_button = StaticImage( "images/menusprites/volume.png",       970, 0   )
-        #self.mute_button = StaticImage( "images/menusprites/mute.png",         970, 0   )
-
-        #why doesn't this work?
-        #self.vol = startmenu.getVol()
 
         self.vol = True
 
@@ -121,12 +117,7 @@ class Level(object):
                     self._checkpoints.remove( self._checkpoints[i] )
                     i -= 1
                     #save state
-                    f = open('save', 'w')
-                    f.write( str(self.number) +
-                            " " + str( self.charsel.getChar() ) +
-                            " " + str( self.player.rect.x ) +
-                            " " + str( self.player.rect.y ) )
-                    f.close()
+                    self.saveLevel()
                 i += 1
 
 
@@ -204,7 +195,7 @@ class Level(object):
 
     def get_player_rect(self):
         return self.player.get_rect()
-        
+
     def get_player(self):
         return self.player
 
@@ -223,13 +214,21 @@ class Level(object):
     def addEntity(self, entObj):
         self._entities.add(entObj)
 
+    def saveLevel(self):
+        f = open('save', 'w')
+        f.write( str(self.levelNumber) +
+                " " + str( self.charsel.getChar() ) +
+                " " + str( self.player.rect.x ) +
+                " " + str( self.player.rect.y ) )
+        f.close()
+
 class Level1(Level):
 
     def __init__(self):
         Level.__init__(self)
 
         #level number
-        self.number = 1
+        self.levelNumber = 1
 
         self.height = SCREEN_HEIGHT
         self.player = player.IronMan(0,0,self)
@@ -243,12 +242,13 @@ class Level1(Level):
         self.background = levelobject.StaticImage('images/level5.jpg',-500,-350)
 
         #checkpoints
+        self._addCheckpoint(0)      #add checkpoint where player begins
         self._addCheckpoint(1000)
         self._addCheckpoint(1500)
 
         #terrain objects
         self._addTerrain( levelobject.BasicPlatform(100,400) )
-        self._addTerrain( levelobject.BasicPlatform(500,500) ) 
+        self._addTerrain( levelobject.BasicPlatform(500,500) )
         self._addTerrain( levelobject.BasicPlatform(900,300) )
         self._addTerrain( levelobject.BasicPlatform2(1400,300) )
 

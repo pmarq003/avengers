@@ -75,12 +75,6 @@ class StartMenu(object):
 
                 elif self.loadgame_button.get_rect().collidepoint(clickpoint):
                     if os.path.isfile('save'):
-                        f = open('save', 'r')
-                        data = f.readline().split()
-                        self.levelNumber = int(data[0])
-                        self.charChoice = int(data[1])
-                        self.currentX = int(data[2])
-                        self.currentY = int(data[3])
                         self.loadLevel = True
 
                 elif self.options_button.get_rect().collidepoint(clickpoint):

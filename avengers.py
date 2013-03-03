@@ -63,7 +63,7 @@ class AvengersGame:
 
                 if not self.currLevel.player_alive:
                     logger.get().clear()
-                    self.currLevel = self.getCurrentLevel()
+                    self.loadLevel()
 
                 self.screen.fill(constants.DEFAULT_BGCOLOR)
                 self.currLevel.draw(self.camera)
@@ -82,6 +82,7 @@ class AvengersGame:
                         self.pauseMenu.showMainMenu = False
                         eventmanager.get().PAUSED = False
                     elif self.pauseMenu.restartLevel:
+                    #'restart level' clicked 
                         self.currLevel = self.getCurrentLevel()
                         self.pauseMenu.restartLevel = False
                         eventmanager.get().PAUSED = False
@@ -95,15 +96,16 @@ class AvengersGame:
                 wasplaying = True
             else:
 
+                #update inputs from startMenu
                 if wasplaying: sound.play_bgm(self.startMenu.bgm)
                 self.startMenu.update()
                 self.camera.zeroPosition()
                 self.startMenu.draw(self.camera)
                 wasplaying = False
 
+                #'Load Game' clicked
                 if self.startMenu.loadLevel == True:
                     self.loadLevel()
-
 
             pygame.display.flip()
 
@@ -121,12 +123,15 @@ class AvengersGame:
             return None
 
     def loadLevel(self):
-        #get level number from save file (from start menu)
-        self.levelNumber = self.startMenu.levelNumber
+        f = open('save', 'r')
+        data = f.readline().split()
+        f.close()
+        #get level number from save file 
+        self.levelNumber = int(data[0])
         #set current level
         self.currLevel = self.getCurrentLevel()
-        choice = self.startMenu.charChoice
         #set chosen player
+        choice = int(data[1])
         if choice == 1:
             self.currLevel.player = player.Hulk(0,0,self)
         elif choice == 2:
@@ -137,9 +142,10 @@ class AvengersGame:
             self.currLevel.player = player.IronMan(0,0,self)
         elif choice == 5:
             self.currLevel.player = player.Hawkeye(0,0,self)
+        self.currLevel.charsel.setChar(choice)
         #set player coords
-        self.currLevel.player.rect.x = self.startMenu.currentX
-        self.currLevel.player.rect.y = self.startMenu.currentY
+        self.currLevel.player.rect.x = int(data[2])
+        self.currLevel.player.rect.y = int(data[3])
         self.currLevel.charSelected = True
         #begin playing level
         self.startMenu.loadLevel = False
