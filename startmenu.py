@@ -9,9 +9,11 @@ import sound
 class StartMenu(object):
 
     def __init__(self):
+        self.currentLevel = 0
 
         self.splash_bg           = StaticImage( "images/menusprites/splash.png",                   0,   0   )
-        self.start_button        = StaticImage( "images/menusprites/startgame.png",    369, 363 )
+        self.newgame_button     = StaticImage("images/menusprites/newgame.png",    450, 310 )
+        self.loadgame_button    = StaticImage("images/menusprites/loadgame.png", 450, 353)
         self.instructions_button = StaticImage( "images/menusprites/instructions.png", 367, 393 )
         self.options_button      = StaticImage( "images/menusprites/options.png",      383, 423 )
         self.quit_button         = StaticImage( "images/menusprites/quit.png",         371, 453 )
@@ -37,7 +39,8 @@ class StartMenu(object):
         
         if not self.show_instructions:
             self.splash_bg.draw(camera)
-            self.start_button.draw(camera)
+            self.newgame_button.draw(camera)
+            self.loadgame_button.draw(camera)
             self.instructions_button.draw(camera)
             self.options_button.draw(camera)
             self.quit_button.draw(camera)
@@ -64,8 +67,12 @@ class StartMenu(object):
             clickpoint = event.pos
 
             if not self.show_instructions:
-                if self.start_button.get_rect().collidepoint(clickpoint):
+                if self.newgame_button.get_rect().collidepoint(clickpoint):
+                    self.currentLevel = 1
                     self.playing = True
+
+                elif self.loadgame_button.get_rect().collidepoint(clickpoint):
+                    print "load"
 
                 elif self.options_button.get_rect().collidepoint(clickpoint):
                     print("options hit")
