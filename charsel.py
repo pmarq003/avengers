@@ -18,7 +18,7 @@ class CharSel(object):
         if self.camera == None:
             self.camera = camera
 
-        self.splash_bg     = StaticImage("images/charsel.png",camera.window.left, camera.window.top)
+        self.splash_bg     = StaticImage("images/menusprites/charsel.png",camera.window.left, camera.window.top)
         self.hulk          = StaticImage("images/hulk/hulkselect.png",camera.window.left+220,300+camera.window.top)
         self.america       = StaticImage("images/america/america_select.png",camera.window.left+550,300+camera.window.top)
         self.hawkeye       = StaticImage("images/hawkeye/hawkeye_select.png",camera.window.left+30,300+camera.window.top)

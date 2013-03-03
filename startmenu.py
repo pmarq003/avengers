@@ -10,7 +10,7 @@ class StartMenu(object):
 
     def __init__(self):
 
-        self.splash_bg           = StaticImage( "images/splash.png",                   0,   0   )
+        self.splash_bg           = StaticImage( "images/menusprites/splash.png",                   0,   0   )
         self.start_button        = StaticImage( "images/menusprites/startgame.png",    369, 363 )
         self.instructions_button = StaticImage( "images/menusprites/instructions.png", 367, 393 )
         self.options_button      = StaticImage( "images/menusprites/options.png",      383, 423 )
@@ -18,8 +18,8 @@ class StartMenu(object):
 #        self.volume_button       = StaticImage( "images/menusprites/volume.png",       970, 0   )
 #        self.mute_button         = StaticImage( "images/menusprites/mute.png",         970, 0   )
 
-        self.instructions_bg     = StaticImage( "images/instructions.png",             0,   0   )
-        self.back_button         = StaticImage( "images/back.png",                     414, 500 )
+        self.instructions_bg     = StaticImage( "images/menusprites/instrScreen.png",             0,   0   )
+        self.back_button         = StaticImage( "images/menusprites/back.png",                     414, 500 )
         
         self.bgm = 'sounds/SureShot.wav'
         

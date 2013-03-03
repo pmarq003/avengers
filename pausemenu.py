@@ -11,6 +11,7 @@ class PauseMenu(object):
 
         self.camera = None
         self.showMainMenu = False
+        self.restartLevel = False
 
         #self.bgm = 'sounds/SureShot.wav'
 
@@ -19,14 +20,14 @@ class PauseMenu(object):
             self.camera = camera
 
         #to center: x:camera window + window width/2 - img width
-        self.bgIm = StaticImage("images/pauseScreen.png",camera.window.left+500-149,camera.window.top+300-218)
+        self.bgIm = StaticImage("images/menusprites/pauseScreen.png",camera.window.left+500-149,camera.window.top+300-218)
         self.resumeIm = StaticImage("images/menusprites/resume.png",camera.window.left+500-52,camera.window.top+300-70)
-        #self.restartIm = StaticImage("images/menusprites/restart.png",camera.window.left+500-57,camera.window.top+300-10)
-        self.quitIm = StaticImage("images/menusprites/quitt.png",camera.window.left+500-32,camera.window.top+300+50)
+        self.restartIm = StaticImage("images/menusprites/restart.png",camera.window.left+500-57,camera.window.top+300-10)
+        self.quitIm = StaticImage("images/menusprites/quittomain.png",camera.window.left+500-32,camera.window.top+300+50)
 
         self.bgIm.draw(camera)
         self.resumeIm.draw(camera)
-        #self.restartIm.draw(camera)
+        self.restartIm.draw(camera)
         self.quitIm.draw(camera)
 
 
@@ -40,7 +41,8 @@ class PauseMenu(object):
             clickpoint = (self.camera.window.left+clickpoint[0],self.camera.window.top+clickpoint[1])
             if self.resumeIm.get_rect().collidepoint(clickpoint):
                 eventmanager.get().togglePause()
-            #elif self.restartIm.get_rect().collidepoint(clickpoint):
+            elif self.restartIm.get_rect().collidepoint(clickpoint):
+                self.restartLevel = True
             elif self.quitIm.get_rect().collidepoint(clickpoint):
                 self.showMainMenu = True
                 #pygame.quit()
