@@ -18,8 +18,6 @@ class StartMenu(object):
         self.instructions_button = StaticImage( "images/menusprites/instructions.png", 367, 393 )
         self.options_button      = StaticImage( "images/menusprites/options.png",      383, 423 )
         self.quit_button         = StaticImage( "images/menusprites/quit.png",         371, 453 )
-#        self.volume_button       = StaticImage( "images/menusprites/volume.png",       970, 0   )
-#        self.mute_button         = StaticImage( "images/menusprites/mute.png",         970, 0   )
 
         self.instructions_bg     = StaticImage( "images/menusprites/instrScreen.png",             0,   0   )
         self.back_button         = StaticImage( "images/menusprites/back.png",                     414, 500 )
@@ -46,15 +44,6 @@ class StartMenu(object):
             self.instructions_button.draw(camera)
             self.options_button.draw(camera)
             self.quit_button.draw(camera)
-
-#            if self.vol:
-#                self.volume_button.draw(camera)
-#                sound.set_bgm_vol(100)
-#                sound.set_sfx_vol(100)
-#            else:
-#                self.mute_button.draw(camera)
-#                sound.set_bgm_vol(0)
-#                sound.set_sfx_vol(0)
 
         else:
             self.instructions_bg.draw(camera)
@@ -83,9 +72,6 @@ class StartMenu(object):
                 elif self.quit_button.get_rect().collidepoint(clickpoint):
                     print("Exiting....")
                     sys.exit(0)
-
-#                elif self.volume_button.get_rect().collidepoint(clickpoint):
-#                    self.vol = not self.vol
 
                 elif self.instructions_button.get_rect().collidepoint(clickpoint):
                     self.show_instructions = True

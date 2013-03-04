@@ -10,6 +10,7 @@ class Player(Character):
 	can_give_hurt = True
 	attack_timer = 0
 	sattack_timer = 0
+	sattack_ammo = 10
 
 	def __init__(self,x,y,level):
 		Character.__init__(self,x,y)
@@ -19,9 +20,13 @@ class Player(Character):
 
 		evman = eventmanager.get()
 
-		if evman.SPECPRESSED or self.sattack_timer != 0:
+		if (evman.SPECPRESSED and self.sattack_ammo > 0) or self.sattack_timer != 0:
 			#Special attack takes precedence and stops normal attack
 			self.attack_timer = 0
+
+			if self.sattack_timer == 0:
+				self.decAmmo()
+			
 			try: self.special_attack()
 			except AttributeError: pass
 
@@ -85,6 +90,12 @@ class Player(Character):
 
 	def got_hurt(self,by):
 		self.die()
+
+	def incAmmo(self):
+		self.sattack_ammo = 10 if self.sattack_ammo >= 10 else self.sattack_ammo + 1
+
+	def decAmmo(self):
+		self.sattack_ammo = 0 if self.sattack_ammo <= 0 else self.sattack_ammo - 1
 
 class CaptainAmerica(Player):
 	numWalkFrames = 4		#number pics in move anim
