@@ -246,40 +246,33 @@ class Level1(Level):
         #background
         self.background = levelobject.StaticImage('images/levelsprites/smw/background.png',0,-55)
 
-        #floor
+        #level objects in order
+            #floor + checkpoint
         self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-16) )
-        self._addTerrain( levelobject.MarioGround1632(2600,SCREEN_HEIGHT-16) )
-
-        #checkpoints
-            #add checkpoint where player begins
         self._addCheckpoint(0)
-        self._addCheckpoint(2700)
-
-        #terrain objects
-        self._addTerrain( levelobject.MarioPlatform6(1750,400) )
-        self._addTerrain( levelobject.MarioPlatform6(2050,200) )
-        self._addTerrain( levelobject.MarioPlatform6(2350,350) )
-
-        #AI nodes
-            #nodes for first goombas
+            #goombas
         self._addNode( levelobject.Node(20,550) )
-        self._addNode( levelobject.Node(1500,550) )
-            #for fist ParaKoopa
-        self._addNode( levelobject.Node(1700, 200) )
-        self._addNode( levelobject.Node(1700, 500) )
-            #for second ParaKoopa
-        self._addNode( levelobject.Node(2000, 0) )
-        self._addNode( levelobject.Node(2000, 400) )
-
-        #enemies
-            #first goombas
         self._addEnemy( enemy.Goomba(500,400, self.player, PLATFORM) )
         self._addEnemy( enemy.Goomba(700,400, self.player, PLATFORM) )
         self._addEnemy( enemy.Goomba(900,400, self.player, PLATFORM) )
         self._addEnemy( enemy.Goomba(1100,400, self.player, PLATFORM) )
         self._addEnemy( enemy.Goomba(1300,400, self.player, PLATFORM) )
-            #first ParaKoopa
+        self._addNode( levelobject.Node(1500,550) )
+            #ParaKoopa
+        self._addNode( levelobject.Node(1700, 200) )
         self._addEnemy( enemy.ParaKoopa(1700,400, self.player, FLYVERT) )
-            #second ParaKoopa
+        self._addNode( levelobject.Node(1700, 500) )
+        self._addTerrain( levelobject.MarioPlatform6(1750,400) )
+            #ParaKoopa
+        self._addNode( levelobject.Node(2000, 0) )
         self._addEnemy( enemy.ParaKoopa(2000,300, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(2000, 400) )
+        self._addTerrain( levelobject.MarioPlatform6(2050,200) )
+            #empty platform
+        self._addTerrain( levelobject.MarioPlatform6(2350,350) )
+            #floor + checkpoint
+        self._addTerrain( levelobject.MarioGround1632(2600,SCREEN_HEIGHT-16) )
+        self._addCheckpoint(2700)
+            #fuzzies
+        self._addEnemy( enemy.Fuzzy(2800, 500, self.player, HOP) )
 
