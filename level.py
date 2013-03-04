@@ -222,6 +222,17 @@ class Level(object):
                 " " + str( self.player.rect.y ) )
         f.close()
 
+"""
+    Tutorial level
+"""
+
+class Level0(Level):
+    None
+
+"""
+    Mario level
+"""
+
 class Level1(Level):
 
     def __init__(self):

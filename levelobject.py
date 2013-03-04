@@ -48,6 +48,10 @@ class BasicPlatform(LevelObject):
 class BasicPlatform2(LevelObject):
 	base_img_path = 'images/basicplatform2.png'
 
+"""
+    Mario-related level objects
+"""
+
 class MarioGround(LevelObject):
 	base_img_path = 'images/marioground.png'
 
