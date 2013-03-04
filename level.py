@@ -56,12 +56,17 @@ class Level(object):
 
         else:
 
+            #update player
             self.player.update()
+            #update enemies
             for enemyObj in self._enemies:
                 enemyObj.update()
-
+            #update entities
             for entObj in self._entities:
                 entObj.update()
+            #update terrain
+            for terr in self._terrain:
+                terr.update()
 
             #Make sure player doesn't go below map. Remember y-axis goes down
             #If the player goes below we assume they're dead
@@ -107,6 +112,12 @@ class Level(object):
             for enemy,nodeObjs in enemyNodeCollisions.items():
                 for node in nodeObjs:
                     self._handleNodeCollision(enemy,node)
+
+            #detect AI nodes for terrain
+            terrNodeCollisions = pygame.sprite.groupcollide(self._terrain,self._nodes,False,False)
+            for terr,nodeObjs in terrNodeCollisions.items():
+                for node in nodeObjs:
+                    self._handleNodeCollision(terr,node)
 
             #player / checkpoint collisions
             i = 0
@@ -283,3 +294,15 @@ class Level1(Level):
         self._addEnemy( enemy.Fuzzy(3400, 500, self.player, HOP) )
         self._addEnemy( enemy.Fuzzy(3600, 500, self.player, HOP) )
         self._addEnemy( enemy.Fuzzy(3800, 500, self.player, HOP) )
+        self._addEnemy( enemy.Fuzzy(4000, 500, self.player, HOP) )
+            #mushroom platforms
+        self._addTerrain( levelobject.MarioMushroomPlatform(4450,500) )
+        self._addEnemy( enemy.Fuzzy(4470, 500, self.player, JUMP) )
+        self._addTerrain( levelobject.MarioMushroomPlatform(4700,300) )
+        self._addEnemy( enemy.Fuzzy(4720, 300, self.player, JUMP) )
+        self._addTerrain( levelobject.MarioMushroomPlatform(5000,300) )
+        self._addEnemy( enemy.Fuzzy(5050, 300, self.player, JUMP) )
+            #movable platform
+        self._addNode( levelobject.Node(5200,300,0,0,-1))
+        self._addTerrain( levelobject.MarioMovablePlatform(5400,300, 5) )
+        self._addNode( levelobject.Node(6000,300,0,0,-1))
