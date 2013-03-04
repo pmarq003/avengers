@@ -112,6 +112,21 @@ class CaptainAmerica(Player):
     primary_attack_length = 5
     primary_attack_recovery = 5
 
+class BlackWidow(Player):
+    numWalkFrames = 3        #number pics in move anim
+    walkDelay = 3        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 10     #xcoord movement velocity
+    jumpVel = 25    #jumping velocity
+
+    animFolder = 'blackwidow'
+
+    primary_attack_speed = 10
+    primary_attack_length = 5
+    primary_attack_recovery = 5
+
+
 class Hawkeye(Player):
     numWalkFrames = 4		#number pics in move anim
     walkDelay = 2		#delay factor to make anims visible
