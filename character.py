@@ -11,7 +11,7 @@ class Character(LevelObject):
 		#general stuff
 		self.alive = True
 		self.isJumping = False   #used to detect the peak of player's jump
-		self.facingRight = True  #player facing right?
+		self.facingRight = False #player facing right?
 		self.attacking = False   #player attacking?
 
 		self.velX = 0

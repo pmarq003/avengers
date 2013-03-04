@@ -40,15 +40,15 @@ class Level(object):
             self.charsel.update()
             choice = self.charsel.getChar()
             if choice == 1:
-                self.player = player.Hulk(0,0,self)
+                self.player = player.Hulk(0,500,self)
             elif choice == 2:
-                self.player = player.Thor(0,0,self)
+                self.player = player.Thor(0,500,self)
             elif choice == 3:
-                self.player = player.CaptainAmerica(0,0,self)
+                self.player = player.CaptainAmerica(0,500,self)
             elif choice == 4:
-                self.player = player.IronMan(0,0,self)
+                self.player = player.IronMan(0,500,self)
             elif choice == 5:
-                self.player = player.Hawkeye(0,0,self)
+                self.player = player.Hawkeye(0,500,self)
 
             if choice > 0 : self.charSelected = True
 
@@ -185,8 +185,8 @@ class Level(object):
                 entObj.draw(camera)
 
             #TODO uncomment for debugging
-            #for nodeObj in self._nodes:
-                #nodeObj.draw(camera)
+            for nodeObj in self._nodes:
+                nodeObj.draw(camera)
 
     def get_player_rect(self):
         return self.player.get_rect()
@@ -237,41 +237,49 @@ class Level1(Level):
         self.levelNumber = 1
 
         self.height = SCREEN_HEIGHT
-        self.player = player.IronMan(0,0,self)
+        #default player to init enemies TODO doesn't update position...
+        self.player = player.IronMan(100,100,self)
 
+        #background music
         self.bgm = 'sounds/ToughGuy.wav'
 
-        #TODO do some smart screen scrolling here later
-        #bg = pygame.image.load("images/backgrounds/bg1.gif").convert_alpha()
-        #for x in range(0, 3000, 1918):
-        #    self.blit( bg,(x,0))
-        self.background = levelobject.StaticImage('images/level5.jpg',-500,-350)
+        #background
+        self.background = levelobject.StaticImage('images/levelsprites/smw/background.png',0,-55)
+
+        #floor
+        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-16) )
+        self._addTerrain( levelobject.MarioGround1632(2600,SCREEN_HEIGHT-16) )
 
         #checkpoints
-        self._addCheckpoint(0)      #add checkpoint where player begins
-        self._addCheckpoint(1000)
-        self._addCheckpoint(1500)
+            #add checkpoint where player begins
+        self._addCheckpoint(0)
+        self._addCheckpoint(2700)
 
         #terrain objects
-        self._addTerrain( levelobject.BasicPlatform(100,400) )
-        self._addTerrain( levelobject.BasicPlatform(500,500) )
-        self._addTerrain( levelobject.BasicPlatform(900,300) )
-        self._addTerrain( levelobject.BasicPlatform2(1400,300) )
+        self._addTerrain( levelobject.MarioPlatform6(1750,400) )
+        self._addTerrain( levelobject.MarioPlatform6(2050,200) )
+        self._addTerrain( levelobject.MarioPlatform6(2350,350) )
 
         #AI nodes
-        self._addNode( levelobject.Node(450,450) ) #nodes for first platform
-        self._addNode( levelobject.Node(700,450) )
-        self._addNode( levelobject.Node(800,0) )    #nodes for FLYVERT
-        self._addNode( levelobject.Node(800, 300) )
+            #nodes for first goombas
+        self._addNode( levelobject.Node(20,550) )
+        self._addNode( levelobject.Node(1500,550) )
+            #for fist ParaKoopa
+        self._addNode( levelobject.Node(1700, 200) )
+        self._addNode( levelobject.Node(1700, 500) )
+            #for second ParaKoopa
+        self._addNode( levelobject.Node(2000, 0) )
+        self._addNode( levelobject.Node(2000, 400) )
 
         #enemies
-        self._addEnemy( enemy.Fuzzy(200,100, self.player, JUMP) )
-        self._addEnemy( enemy.ParaKoopa(300,100, self.player, FLYSWOOP) )
-        self._addEnemy( enemy.RedKoopa(600,400, self.player, PLATFORM) )
-        self._addEnemy( enemy.Fuzzy(700,400, self.player, HOP) )
-        self._addEnemy( enemy.ParaKoopa(800,100, self.player, FLYVERT) )
+            #first goombas
+        self._addEnemy( enemy.Goomba(500,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Goomba(700,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Goomba(900,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Goomba(1100,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Goomba(1300,400, self.player, PLATFORM) )
+            #first ParaKoopa
+        self._addEnemy( enemy.ParaKoopa(1700,400, self.player, FLYVERT) )
+            #second ParaKoopa
+        self._addEnemy( enemy.ParaKoopa(2000,300, self.player, FLYVERT) )
 
-#        for i in range(0,1000):
-#        self._addTerrain( levelobject.MarioGround(16*i,SCREEN_HEIGHT-16) )
-
-        self._addTerrain( levelobject.MarioPlatform(-500, SCREEN_HEIGHT-16) )

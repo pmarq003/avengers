@@ -42,6 +42,10 @@ class LevelObject(Sprite):
 class Node(LevelObject):
 	base_img_path = 'images/node.jpg'
 
+"""
+    Basic level objects...
+"""
+
 class BasicPlatform(LevelObject):
 	base_img_path = 'images/basicplatform.png'
 
@@ -52,11 +56,24 @@ class BasicPlatform2(LevelObject):
     Mario-related level objects
 """
 
-class MarioGround(LevelObject):
-	base_img_path = 'images/marioground.png'
+class MarioGround1632(LevelObject):
+	base_img_path = 'images/levelsprites/smw/marioground1632.png'
 
-class MarioPlatform(LevelObject):
-	base_img_path = 'images/marioPlatform.jpg'
+class MarioGroundLeft(LevelObject):
+    base_img_path = 'images/levelsprites/smw/marioground_left.png'
+
+class MarioGroundRight(LevelObject):
+    base_img_path = 'images/levelsprites/smw/marioground_right.png'
+
+class MarioPlatform6(LevelObject):
+	base_img_path = 'images/levelsprites/smw/marioplatform6.png'
+
+class MarioCloud(LevelObject):
+    base_img_path = 'images/levelsprites/smw/mariocloud.png'
+
+"""
+
+"""
 
 class StaticImage(LevelObject):
 	def __init__(self,image_path,x,y):
