@@ -184,9 +184,6 @@ class AvengersGame:
         self.startMenu.playing = True
 
 
-
 if __name__ == '__main__':
     _game = AvengersGame()
     _game.update()
-
-
