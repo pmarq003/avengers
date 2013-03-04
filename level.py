@@ -273,6 +273,11 @@ class Level1(Level):
             #floor + checkpoint
         self._addTerrain( levelobject.MarioGround1632(2600,SCREEN_HEIGHT-16) )
         self._addCheckpoint(2700)
-            #fuzzies
-        self._addEnemy( enemy.Fuzzy(2800, 500, self.player, HOP) )
-
+            #enemies
+        self._addEnemy( enemy.Fuzzy(2900, 500, self.player, HOP) )
+        self._addEnemy( enemy.ParaKoopa(3100, 150, self.player, FLYSWOOP) )
+        self._addEnemy( enemy.Fuzzy(3150, 500, self.player, HOP) )
+        self._addTerrain( levelobject.MarioPlatform6(3200,400) )
+        self._addEnemy( enemy.Fuzzy(3400, 500, self.player, HOP) )
+        self._addEnemy( enemy.Fuzzy(3600, 500, self.player, HOP) )
+        self._addEnemy( enemy.Fuzzy(3800, 500, self.player, HOP) )
