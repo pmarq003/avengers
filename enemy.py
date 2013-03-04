@@ -6,6 +6,7 @@ from levelobject import LevelObject
 from pygame.sprite import Sprite
 
 import random
+import avengers
 
 
 class Enemy(Character):
