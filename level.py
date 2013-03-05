@@ -325,11 +325,34 @@ class Level1(Level):
         self._addNode( levelobject.Node(7300,180,0,0,0,-1) )
         self._addTerrain( levelobject.MarioMovablePlatform(7300,100,0,5) )
         self._addNode( levelobject.Node(7300,-500,0,0,0,-1) )
-            #clouds
+            #clouds + koopas
         self._addTerrain( levelobject.MarioCloud(7510, -500))
         self._addTerrain( levelobject.MarioCloud(7800, -200) )
+        self._addNode( levelobject.Node(7830, -300) )
+        self._addEnemy( enemy.ParaKoopa(7830,-600, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(7830, -600) )
         self._addTerrain( levelobject.MarioCloud(7870, -720) )
-        self._addTerrain( levelobject.MarioCloud(8100, -400))
+        self._addEnemy( enemy.ParaKoopa(7800,-950, self.player, FLYSWOOP) )
+        self._addTerrain( levelobject.MarioCloud(8100, -400) )
+            #two koopas in between two clouds
+        self._addTerrain( levelobject.MarioCloud(8400,-600) )
+        self._addNode( levelobject.Node(8600, -500) )
+        self._addEnemy( enemy.ParaKoopa(8600,-994, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(8600, -1000) )
+        self._addNode( levelobject.Node(8750, -500) )
+        self._addEnemy( enemy.ParaKoopa(8750,-583, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(8750, -1000) )
+        self._addTerrain( levelobject.MarioCloud(8850,-600) )
+            #two koopas in between two clouds
+        self._addTerrain( levelobject.MarioCloud(9200,-700) )
+        self._addNode( levelobject.Node(9400, -600) )
+        self._addEnemy( enemy.ParaKoopa(9400,-1094, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(9400, -1100) )
+        self._addNode( levelobject.Node(9550, -600) )
+        self._addEnemy( enemy.ParaKoopa(9550,-683, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(9550, -1100) )
+        self._addTerrain( levelobject.MarioCloud(9650,-700) )
+            #platform back to ground
 
 """
     Sonic level
