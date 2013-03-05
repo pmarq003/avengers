@@ -92,6 +92,16 @@ class MarioMovablePlatform(LevelObject):
 class MarioCloud(LevelObject):
     base_img_path = 'images/levelsprites/smw/mariocloud.png'
 
+#    Sonic-related level objects
+
+class SonicPlatformThick4(LevelObject):
+    base_img_path = 'images/levelsprites/sonic/sonicplatform_thick4.jpg'
+
+class SonicPlatformThick(LevelObject):
+    base_img_path = 'images/levelsprites/sonic/sonicplatform_thick.jpg'
+    
+class SonicPlatform(LevelObject):
+    base_img_path = 'images/levelsprites/sonic/sonicplatform.jpg'
 
 #   Other stuff 
 

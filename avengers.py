@@ -36,7 +36,7 @@ class AvengersGame:
         self.camera = camera.Camera(self.screen)
 
         #number of the current level
-        self.levelNumber = 1
+        self.levelNumber = 3
         self.currLevel = self.getCurrentLevel()
 
         #player starts with 3 lives
@@ -151,6 +151,10 @@ class AvengersGame:
             return None
         elif self.levelNumber == 1:
             return level.Level1()
+        elif self.levelNumber == 2:
+            return level.Level2()
+        elif self.levelNumber == 3:
+            return level.Level3()
         else:
             return None
 
@@ -174,6 +178,8 @@ class AvengersGame:
             self.currLevel.player = player.IronMan(0,0,self)
         elif choice == 5:
             self.currLevel.player = player.Hawkeye(0,0,self)
+        elif choice == 6:
+            self.currLevel.player = player.BlackWidow(0,0,self)
         self.currLevel.charsel.setChar(choice)
         #set player coords
         self.currLevel.player.rect.x = int(data[2])

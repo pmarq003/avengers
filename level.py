@@ -49,6 +49,8 @@ class Level(object):
                 self.player = player.IronMan(0,500,self)
             elif choice == 5:
                 self.player = player.Hawkeye(0,500,self)
+            elif choice == 6:
+                self.player = player.BlackWidow(0,500,self)
 
             if choice > 0 : self.charSelected = True
 
@@ -310,3 +312,147 @@ class Level1(Level):
         self._addTerrain( levelobject.MarioCloud(6200,200) )
         self._addEnemy( enemy.Fuzzy(6260, 100, self.player, JUMP) )
         self._addNode( levelobject.Node(6700,300,0,0,-1))
+        self._addNode( levelobject.Node(6000,300,0,0,-1))
+
+"""
+    Sonic level
+"""
+
+class Level2(Level):
+
+    def __init__(self):
+        Level.__init__(self)
+
+        #level number
+        self.levelNumber = 2
+
+        self.height = SCREEN_HEIGHT
+        #default player to init enemies TODO doesn't update position...
+        self.player = player.IronMan(100,100,self)
+
+        #background music
+        self.bgm = 'sounds/ToughGuy.wav'
+
+        #background
+        self.background = levelobject.StaticImage('images/levelsprites/sonic/background.jpg',0,-55)
+
+        #level objects in order
+            #floor + checkpoint
+        self._addTerrain( levelobject.MarioPlatform6(0,SCREEN_HEIGHT-32) )
+        self._addCheckpoint(0)
+            #goombas
+            
+        self._addNode( levelobject.Node(20,SCREEN_HEIGHT-232) )
+        self._addEnemy( enemy.Goomba(500,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Goomba(700,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Goomba(900,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Goomba(1100,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Goomba(1300,400, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(1500,550) )
+            #ParaKoopa
+        self._addNode( levelobject.Node(1700, 200) )
+        self._addEnemy( enemy.ParaKoopa(1700,400, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(1700, 500) )
+        self._addTerrain( levelobject.MarioPlatform6(1750,400) )
+            #ParaKoopa
+        self._addNode( levelobject.Node(2000, 0) )
+        self._addEnemy( enemy.ParaKoopa(2000,300, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(2000, 400) )
+        self._addTerrain( levelobject.MarioPlatform6(2050,200) )
+            #empty platform
+        self._addTerrain( levelobject.MarioPlatform6(2350,350) )
+            #floor + checkpoint
+        self._addTerrain( levelobject.MarioGround1632(2600,SCREEN_HEIGHT-16) )
+        self._addCheckpoint(2700)
+            #enemies
+        self._addEnemy( enemy.Fuzzy(2900, 500, self.player, HOP) )
+        self._addEnemy( enemy.ParaKoopa(3100, 150, self.player, FLYSWOOP) )
+        self._addEnemy( enemy.Fuzzy(3150, 500, self.player, HOP) )
+        self._addTerrain( levelobject.MarioPlatform6(3200,400) )
+        self._addEnemy( enemy.Fuzzy(3400, 500, self.player, HOP) )
+        self._addEnemy( enemy.Fuzzy(3600, 500, self.player, HOP) )
+        self._addEnemy( enemy.Fuzzy(3800, 500, self.player, HOP) )
+        self._addEnemy( enemy.Fuzzy(4000, 500, self.player, HOP) )
+            #mushroom platforms
+        self._addTerrain( levelobject.MarioMushroomPlatform(4450,500) )
+        self._addEnemy( enemy.Fuzzy(4470, 500, self.player, JUMP) )
+        self._addTerrain( levelobject.MarioMushroomPlatform(4700,300) )
+        self._addEnemy( enemy.Fuzzy(4720, 300, self.player, JUMP) )
+        self._addTerrain( levelobject.MarioMushroomPlatform(5000,300) )
+        self._addEnemy( enemy.Fuzzy(5050, 300, self.player, JUMP) )
+            #movable platform
+        self._addNode( levelobject.Node(5200,300,0,0,-1))
+        self._addTerrain( levelobject.MarioMovablePlatform(5400,300, 5) )
+        self._addNode( levelobject.Node(6000,300,0,0,-1))
+
+"""
+    Megaman level
+"""
+
+class Level3(Level):
+
+    def __init__(self):
+        Level.__init__(self)
+
+        #level number
+        self.levelNumber = 3
+
+        self.height = SCREEN_HEIGHT
+        #default player to init enemies TODO doesn't update position...
+        self.player = player.IronMan(100,100,self)
+
+        #background music
+        self.bgm = 'sounds/ToughGuy.wav'
+
+        #background
+        self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
+
+        #level objects in order
+            #floor + checkpoint
+        self._addTerrain( levelobject.MarioPlatform6(0,SCREEN_HEIGHT-32) )
+        self._addCheckpoint(0)
+            #goombas
+            
+        self._addNode( levelobject.Node(20,SCREEN_HEIGHT-232) )
+        self._addEnemy( enemy.Goomba(500,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Goomba(700,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Goomba(900,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Goomba(1100,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Goomba(1300,400, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(1500,550) )
+            #ParaKoopa
+        self._addNode( levelobject.Node(1700, 200) )
+        self._addEnemy( enemy.ParaKoopa(1700,400, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(1700, 500) )
+        self._addTerrain( levelobject.MarioPlatform6(1750,400) )
+            #ParaKoopa
+        self._addNode( levelobject.Node(2000, 0) )
+        self._addEnemy( enemy.ParaKoopa(2000,300, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(2000, 400) )
+        self._addTerrain( levelobject.MarioPlatform6(2050,200) )
+            #empty platform
+        self._addTerrain( levelobject.MarioPlatform6(2350,350) )
+            #floor + checkpoint
+        self._addTerrain( levelobject.MarioGround1632(2600,SCREEN_HEIGHT-16) )
+        self._addCheckpoint(2700)
+            #enemies
+        self._addEnemy( enemy.Fuzzy(2900, 500, self.player, HOP) )
+        self._addEnemy( enemy.ParaKoopa(3100, 150, self.player, FLYSWOOP) )
+        self._addEnemy( enemy.Fuzzy(3150, 500, self.player, HOP) )
+        self._addTerrain( levelobject.MarioPlatform6(3200,400) )
+        self._addEnemy( enemy.Fuzzy(3400, 500, self.player, HOP) )
+        self._addEnemy( enemy.Fuzzy(3600, 500, self.player, HOP) )
+        self._addEnemy( enemy.Fuzzy(3800, 500, self.player, HOP) )
+        self._addEnemy( enemy.Fuzzy(4000, 500, self.player, HOP) )
+            #mushroom platforms
+        self._addTerrain( levelobject.MarioMushroomPlatform(4450,500) )
+        self._addEnemy( enemy.Fuzzy(4470, 500, self.player, JUMP) )
+        self._addTerrain( levelobject.MarioMushroomPlatform(4700,300) )
+        self._addEnemy( enemy.Fuzzy(4720, 300, self.player, JUMP) )
+        self._addTerrain( levelobject.MarioMushroomPlatform(5000,300) )
+        self._addEnemy( enemy.Fuzzy(5050, 300, self.player, JUMP) )
+            #movable platform
+        self._addNode( levelobject.Node(5200,300,0,0,-1))
+        self._addTerrain( levelobject.MarioMovablePlatform(5400,300, 5) )
+        self._addNode( levelobject.Node(6000,300,0,0,-1))
+
