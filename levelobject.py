@@ -74,10 +74,13 @@ class MarioGroundRight(LevelObject):
     base_img_path = 'images/levelsprites/smw/marioground_right.png'
 
 class MarioPlatform6(LevelObject):
-    base_img_path = 'images/levelsprites/smw/marioplatform6.png'
+    base_img_path = 'images/levelsprites/smw/marioplatform6.gif'
 
 class MarioMushroomPlatform(LevelObject):
     base_img_path = 'images/levelsprites/smw/mariomushplat.png'
+
+class MarioMushroomPlatformBase(LevelObject):
+    base_img_path = 'images/levelsprites/smw/marioplatformtubing.png'
 
 class MarioMovablePlatform(LevelObject):
     base_img_path = 'images/levelsprites/smw/marioground.png'
