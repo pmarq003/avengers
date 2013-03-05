@@ -7,6 +7,7 @@ import levelobject
 from constants import *
 from levelobject import LevelObject,StaticImage
 import eventmanager
+from parallax import Parallax
 import startmenu
 import sound
 
@@ -119,6 +120,9 @@ class Level(object):
                 for node in nodeObjs:
                     self._handleNodeCollision(terr,node)
 
+            #update parallax
+            self.parallax.update(self.player.velX, self.player.velY)
+
             #player / checkpoint collisions
             i = 0
             while i < len(self._checkpoints) :
@@ -129,6 +133,7 @@ class Level(object):
                     #save state
                     self.saveLevel()
                 i += 1
+
 
 
     def _handleNodeCollision(self, enemy, node):
@@ -178,8 +183,12 @@ class Level(object):
         if not self.charSelected:
             self.charsel.draw(camera)
         else:
+
+            #draw parallax if there is no background
             if self.background:
                 self.background.draw(camera)
+            elif self.parallax:
+                self.parallax.draw(camera)
             self.player.draw(camera)
 
             #update '-30' to width of the volume image
@@ -257,7 +266,10 @@ class Level1(Level):
         self.bgm = 'sounds/ToughGuy.wav'
 
         #background
-        self.background = levelobject.StaticImage('images/levelsprites/smw/background.png',0,-55)
+        self.background = None
+        bg1  = 'images/levelsprites/smw/background.png'
+        self.parallax = Parallax(bg1,0,-55)
+        #self.background = levelobject.StaticImage('images/levelsprites/smw/background.png',0,-55)
 
         #level objects in order
             #floor + checkpoint
