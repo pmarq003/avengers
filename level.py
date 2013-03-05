@@ -121,7 +121,8 @@ class Level(object):
                     self._handleNodeCollision(terr,node)
 
             #update parallax
-            self.parallax.update(self.player.velX, self.player.velY)
+            if self.parallax:
+                self.parallax.update(self.player.rect.x, self.player.rect.y)
 
             #player / checkpoint collisions
             i = 0
@@ -187,7 +188,7 @@ class Level(object):
             #draw parallax if there is no background
             if self.background:
                 self.background.draw(camera)
-            elif self.parallax:
+            if self.parallax:
                 self.parallax.draw(camera)
             self.player.draw(camera)
 
@@ -266,10 +267,11 @@ class Level1(Level):
         self.bgm = 'sounds/ToughGuy.wav'
 
         #background
+        #self.background = levelobject.StaticImage('images/levelsprites/smw/smwbg1.png',0,-2400)
         self.background = None
-        bg1  = 'images/levelsprites/smw/background.png'
-        self.parallax = Parallax(bg1,0,-55)
-        #self.background = levelobject.StaticImage('images/levelsprites/smw/background.png',0,-55)
+        bg1  = 'images/levelsprites/smw/smwbg1.png'
+        bg2  = 'images/levelsprites/smw/smwbg2.png'
+        self.parallax = Parallax(bg1,0,-2400, bg2,0,-2400)
 
         #level objects in order
             #floor + checkpoint
