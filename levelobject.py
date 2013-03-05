@@ -24,9 +24,11 @@ class LevelObject(Sprite):
         self.rect = self.anim.get_rect()
         self.rect.topleft = (x,y)
 
+    #implement in specific classes
     def update(self):
         pass
 
+    #implement in specific classes
     def _handleNodeCollision(self):
         pass
 

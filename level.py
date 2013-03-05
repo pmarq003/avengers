@@ -293,6 +293,8 @@ class Level1(Level):
         self._addEnemy( enemy.Fuzzy(3600, 500, self.player, HOP) )
         self._addEnemy( enemy.Fuzzy(3800, 500, self.player, HOP) )
         self._addEnemy( enemy.Fuzzy(4000, 500, self.player, HOP) )
+            #DELETE this checkpoint
+        self._addCheckpoint(4300)
             #mushroom platforms
         self._addTerrain( levelobject.MarioMushroomPlatform(4450,500) )
         self._addEnemy( enemy.Fuzzy(4470, 500, self.player, JUMP) )
@@ -303,4 +305,8 @@ class Level1(Level):
             #movable platform
         self._addNode( levelobject.Node(5200,300,0,0,-1))
         self._addTerrain( levelobject.MarioMovablePlatform(5400,300, 5) )
-        self._addNode( levelobject.Node(6000,300,0,0,-1))
+        self._addTerrain( levelobject.MarioCloud(5600,200) )
+        self._addEnemy( enemy.Fuzzy(5660, 100, self.player, JUMP) )
+        self._addTerrain( levelobject.MarioCloud(6200,200) )
+        self._addEnemy( enemy.Fuzzy(6260, 100, self.player, JUMP) )
+        self._addNode( levelobject.Node(6700,300,0,0,-1))
