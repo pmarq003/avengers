@@ -29,7 +29,7 @@ class LevelObject(Sprite):
         pass
 
     #implement in specific classes
-    def _handleNodeCollision(self):
+    def handleNodeCollision(self, node):
         pass
 
     def draw(self,camera):
@@ -76,6 +76,9 @@ class MarioGroundRight(LevelObject):
 class MarioPlatform6(LevelObject):
     base_img_path = 'images/levelsprites/smw/marioplatform6.gif'
 
+class MarioPlatform12(LevelObject):
+    base_img_path = 'images/levelsprites/smw/marioplatform12.png'
+
 class MarioMushroomPlatform(LevelObject):
     base_img_path = 'images/levelsprites/smw/mariomushplat.png'
 
@@ -83,7 +86,7 @@ class MarioMushroomPlatformBase(LevelObject):
     base_img_path = 'images/levelsprites/smw/marioplatformtubing.png'
 
 class MarioMovablePlatform(LevelObject):
-    base_img_path = 'images/levelsprites/smw/marioground.png'
+    base_img_path = 'images/levelsprites/smw/mariomovableplat.png'
 
     def update(self):
 		self.rect.move_ip(self.velX,self.velY)

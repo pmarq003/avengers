@@ -295,8 +295,6 @@ class Level1(Level):
         self._addEnemy( enemy.Fuzzy(3600, 500, self.player, HOP) )
         self._addEnemy( enemy.Fuzzy(3800, 500, self.player, HOP) )
         self._addEnemy( enemy.Fuzzy(4000, 500, self.player, HOP) )
-            #DELETE this checkpoint
-        self._addCheckpoint(4200)
             #mushroom platforms
         self._addTerrain( levelobject.MarioMushroomPlatform(4450,500) )
         self._addEnemy( enemy.Fuzzy(4470, 500, self.player, JUMP) )
@@ -308,7 +306,7 @@ class Level1(Level):
         self._addTerrain( levelobject.MarioMushroomPlatformBase(5016,400) )
         self._addTerrain( levelobject.MarioMushroomPlatformBase(5016,502) )
         self._addEnemy( enemy.Fuzzy(5050, 300, self.player, JUMP) )
-            #movable platform
+            #movable platform + enemies on clouds
         self._addNode( levelobject.Node(5200,300,0,0,-1))
         self._addTerrain( levelobject.MarioMovablePlatform(5400,300, 5) )
         self._addTerrain( levelobject.MarioCloud(5600,200) )
@@ -316,6 +314,22 @@ class Level1(Level):
         self._addTerrain( levelobject.MarioCloud(6200,200) )
         self._addEnemy( enemy.Fuzzy(6260, 100, self.player, JUMP) )
         self._addNode( levelobject.Node(6700,300,0,0,-1))
+            #checkpoint
+        self._addCheckpoint(6800)
+            #platforms w shyguy
+        self._addNode( levelobject.Node(6800,180) )
+        self._addTerrain( levelobject.MarioPlatform12(6800,200) )
+        self._addEnemy( enemy.ShyGuy(6970, 180, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(7174,180) )
+            #vertical platform
+        self._addNode( levelobject.Node(7300,180,0,0,0,-1) )
+        self._addTerrain( levelobject.MarioMovablePlatform(7300,100,0,5) )
+        self._addNode( levelobject.Node(7300,-500,0,0,0,-1) )
+            #clouds
+        self._addTerrain( levelobject.MarioCloud(7510, -500))
+        self._addTerrain( levelobject.MarioCloud(7800, -200) )
+        self._addTerrain( levelobject.MarioCloud(7870, -720) )
+        self._addTerrain( levelobject.MarioCloud(8100, -400))
 
 """
     Sonic level

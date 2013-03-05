@@ -36,7 +36,7 @@ class AvengersGame:
         self.camera = camera.Camera(self.screen)
 
         #number of the current level
-        self.levelNumber = 3
+        self.levelNumber = 1    #default 1, change for debugging
         self.currLevel = self.getCurrentLevel()
 
         #player starts with 3 lives
