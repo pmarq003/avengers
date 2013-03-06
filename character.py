@@ -11,7 +11,7 @@ class Character(LevelObject):
 		#general stuff
 		self.alive = True
 		self.isJumping = False   #used to detect the peak of player's jump
-		self.facingRight = True  #player facing right?
+		self.facingRight = False #player facing right?
 		self.attacking = False   #player attacking?
 
 		self.velX = 0
@@ -47,6 +47,7 @@ class Character(LevelObject):
 			#replay
 			if evman.REPLAYPRESSED and logger.get().replayCanRun:
 				logger.get().replay()
+				logger.get().replayCanRun = True
 
 			#Do any updates pertaining to the child character class.
 			#If the child class hasn't implemented the method, don't worry about it

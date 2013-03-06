@@ -6,6 +6,7 @@ from levelobject import LevelObject
 from pygame.sprite import Sprite
 
 import random
+import avengers
 
 
 class Enemy(Character):
@@ -25,7 +26,7 @@ class Enemy(Character):
     def __init__(self, x, y, player, ai):
         #general stuff
         self.isFlying = False   #is the player flying?
-        self.facingRight = True  #player facing right?
+        self.facingRight = False #player facing right?
         self.peaking = False     #is player at the peak of its jump?
         self.canMove = False
         self.canJump = False
@@ -73,7 +74,7 @@ class Enemy(Character):
     #1: FLOOR - AI for enemy that runs only on floor, following the player
     def AI_floor(self):
         #checks player radius
-        if self.rect.left - self.player.rect.left <= self.playerRadius:
+        if not self.canMove and abs(self.rect.left - self.player.rect.left) <= self.playerRadius:
             self.canMove = True
 
         if self.velX == 0:

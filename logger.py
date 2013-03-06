@@ -7,9 +7,11 @@ import levelobject
 import camera
 import constants
 import startmenu
+import time
 
 from constants import SCREEN_WIDTH,SCREEN_HEIGHT
 from pygame.locals import *
+from threading import Lock
 
 class Logger(object):
 	
@@ -17,76 +19,71 @@ class Logger(object):
 		self.first = first
 		self.last = last
 		self.replayCanRun = True
+		self.isRunning = False
 		self.char = 0
+		self.currLevel = None
+		self.lock = Lock()
+		self.timer = time.clock()
+		self.levelNumber = 0
+		
+	def setCamera(self, camera):
+	    self.camera = camera
+	    
+	def getLevel(self, levelNumber):
+		if self.levelNumber == 0:
+			self.currLevel = None
+		elif self.levelNumber == 1:
+			self.currLevel = level.Level1()
+		elif self.levelNumber == 2:
+			self.currLevel = level.Level2()
+		elif self.levelNumber == 3:
+			self.currLevel = level.Level3()
+		else:
+			self.currLevel = None
+					
+	def setLevel(self, levelNumber):
+		self.levelNumber = levelNumber
 	
-	def set(self, camera, currLevel, screen, startMenu):
-		self.camera = camera
-		self.currLevel = currLevel
-		self.screen = screen
-		self.startMenu = startMenu
+	def setScreen(self, screen):
+	    self.screen = screen
 	
-	def setPlayer(self, char):
+	def setMenu(self, startMenu):
+	    self.startMenu = startMenu
+	
+	def setChar(self, char):
 		self.char = char
 	
 	def replay(self):
-		if self.replayCanRun == True:
-			self.replayCanRun = False
-			#start from the beginning of the level
-			self.currLevel = level.Level1()
-			
-			if self.char == 1:
-				self.currLevel.player = player.Hulk(0,0,self.currLevel)
-			elif self.char == 2:
-				self.currLevel.player = player.Thor(0,0,self.currLevel)
-			elif self.char == 3:
-				self.currLevel.player = player.CaptainAmerica(0,0,self.currLevel)
-			elif self.char == 4:
-				self.currLevel.player = player.IronMan(0,0,self.currLevel)
-			elif self.char == 5:
-				self.currLevel.player = player.Hawkeye(0,0,self.currLevel)
-			
-			self.currLevel.charSelected = True
-			self.startMenu.update()
-			self.camera.zeroPosition()
-			self.startMenu.draw(self.camera)
-			print("replay ran")
+		self.lock.acquire()
+		self.replayCanRun = False
+		self.isRunning = True
+		self.lock.release()
+		if time.clock() - self.timer > 2 :
 			node = self.first
+			self.getLevel(self.levelNumber)
+			self.currLevel.setPlayer(self.char)
 			while node != None:
 				milliStart = pygame.time.get_ticks()
 				eventmanager.get().handleEvents(node.events)
-
-				if self.startMenu.isPlaying():
-
-					if not self.currLevel.player_alive:
-						self.currLevel = level.Level1()
-
-					#Update player and enemies positions/current actions
-					self.currLevel.update()
-
-					#Update camera position using player's
-					player_rect = self.currLevel.get_player_rect()
-					self.camera.updatePosition(player_rect)
-
-					#Fill the screen, draw level, flip the buffer
-					self.screen.fill(constants.DEFAULT_BGCOLOR)
-					self.currLevel.draw(self.camera)
-
-				else:
-
-					self.startMenu.update()
-					self.camera.zeroPosition()
-					self.startMenu.draw(self.camera)
-
+				self.screen.fill(constants.DEFAULT_BGCOLOR)
+				self.currLevel.draw(self.camera)
+				self.currLevel.update()
+				player_rect = self.currLevel.get_player_rect()
+				self.camera.updatePosition(player_rect)
 				pygame.display.flip()
 
 				#Stop timer and sleep for remainder of time
 				milliEnd = pygame.time.get_ticks()
 				leftover = constants.mSPF - (milliEnd - milliStart)
-				if leftover > 0: pygame.time.wait(int(leftover))			    
-				
+				if leftover > 0: pygame.time.wait(int(leftover))
 				node = node.next
-			
-			self.replayCanRun = True
+			print("replay ran")
+			self.lock.acquire();
+			self.isRunning = False
+			self.lock.release();
+			self.timer = time.clock()
+		else:
+			print("false replay stopped")
 
 	def add(self, node):
 		if(self.first == None):

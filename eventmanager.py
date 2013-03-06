@@ -21,6 +21,8 @@ class EventManager:
 	def handleEvents(self,events):
 		"""Deal with all the events from pygame. The events have to be passed in since
 		pygame wasn't actually initalized in this module"""
+		
+		returnVal = True
 
 		#Reset the mouse click, we assume it hasn't been clicked this tick
 		self.MOUSE1CLICK = False
@@ -49,10 +51,16 @@ class EventManager:
 				elif event.key == K_SPACE : self.SPACEPRESSED = event.type == KEYDOWN
 				elif event.key == K_a     : self.NORMPRESSED = event.type == KEYDOWN
 				elif event.key == K_s     : self.SPECPRESSED = event.type == KEYDOWN
-				elif event.key == K_r     : self.REPLAYPRESSED = event.type == KEYDOWN
+				elif event.key == K_r     : 
+				    self.REPLAYPRESSED = event.type == KEYDOWN
+				    returnVal = False
 				elif event.key == K_p and event.type == KEYDOWN: 
 					self.PAUSED = not self.PAUSED
 					self.PAUSEPRESSED = event.type == KEYDOWN
+					returnVal = False
+					
+		return returnVal			
+			
 
 	def isPaused(self):
 		return self.PAUSED

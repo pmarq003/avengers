@@ -7,15 +7,14 @@ import levelobject
 from constants import *
 from levelobject import LevelObject,StaticImage
 import eventmanager
+from parallax import Parallax
 import startmenu
 import sound
-import hud
-import logger
 
 """
 	level.py
 			holds player collision detection
-			to see AI nodes uncomment line 120-121
+			to see AI nodes uncomment line 183-184
 			AI constants can be found in constants.py
 			levels found at bottom of file
 """
@@ -23,51 +22,68 @@ import logger
 class Level(object):
 
 	def __init__(self):
+		self.levelNumber = -1   #override in specific levels
 		self.charsel = charsel.CharSel()
-		self.hud = hud.HUD()
 		self.charSelected = False
 		self._terrain = pygame.sprite.Group()
 		self._enemies = pygame.sprite.Group()
 		self._nodes = pygame.sprite.Group()
 		self._entities = pygame.sprite.Group()
-		#self.volume_button = StaticImage( "images/menusprites/volume.png",       970, 0   )
-		#self.mute_button = StaticImage( "images/menusprites/mute.png",         970, 0   )
-
-		#why doesn't this work?
-		#self.vol = startmenu.getVol()
+		self._checkpoints = []
 
 		self.vol = True
 
 		self.player_alive = True
+		
+	def setPlayer(self, choice): 
+		if choice == 1:
+			self.player = player.Hulk(0,500,self)
+		elif choice == 2:
+			self.player = player.Thor(0,500,self)
+		elif choice == 3:
+			self.player = player.CaptainAmerica(0,500,self)
+		elif choice == 4:
+			self.player = player.IronMan(0,500,self)
+		elif choice == 5:
+			self.player = player.Hawkeye(0,500,self)
+		elif choice == 6:
+			self.player = player.BlackWidow(0,500,self)
+		
+		if choice > 0 : self.charSelected = True 
 
 	def update(self):
-		self.hud.update()
 
 		if not self.charSelected:
 			self.charsel.update()
 			choice = self.charsel.getChar()
 			if choice == 1:
-				self.player = player.Hulk(0,0,self)
+				self.player = player.Hulk(0,500,self)
 			elif choice == 2:
-				self.player = player.Thor(0,0,self)
+				self.player = player.Thor(0,500,self)
 			elif choice == 3:
-				self.player = player.CaptainAmerica(0,0,self)
+				self.player = player.CaptainAmerica(0,500,self)
 			elif choice == 4:
-				self.player = player.IronMan(0,0,self)
+				self.player = player.IronMan(0,500,self)
 			elif choice == 5:
-				self.player = player.Hawkeye(0,0,self)
+				self.player = player.Hawkeye(0,500,self)
+			elif choice == 6:
+				self.player = player.BlackWidow(0,500,self)
 
 			if choice > 0 : self.charSelected = True
-			logger.get().setPlayer(choice)
 
 		else:
 
+			#update player
 			self.player.update()
+			#update enemies
 			for enemyObj in self._enemies:
 				enemyObj.update()
-
+			#update entities
 			for entObj in self._entities:
 				entObj.update()
+			#update terrain
+			for terr in self._terrain:
+				terr.update()
 
 			#Make sure player doesn't go below map. Remember y-axis goes down
 			#If the player goes below we assume they're dead
@@ -113,6 +129,28 @@ class Level(object):
 			for enemy,nodeObjs in enemyNodeCollisions.items():
 				for node in nodeObjs:
 					self._handleNodeCollision(enemy,node)
+
+			#detect AI nodes for terrain
+			terrNodeCollisions = pygame.sprite.groupcollide(self._terrain,self._nodes,False,False)
+			for terr,nodeObjs in terrNodeCollisions.items():
+				for node in nodeObjs:
+					self._handleNodeCollision(terr,node)
+
+			#update parallax
+			if self.parallax:
+				self.parallax.update(self.player.rect.x, self.player.rect.y)
+
+			#player / checkpoint collisions
+			i = 0
+			while i < len(self._checkpoints) :
+				if self.player.rect.x > self._checkpoints[i]:
+					#remove previous checkpoints
+					self._checkpoints.remove( self._checkpoints[i] )
+					i -= 1
+					#save state
+					self.saveLevel()
+				i += 1
+
 
 
 	def _handleNodeCollision(self, enemy, node):
@@ -162,8 +200,12 @@ class Level(object):
 		if not self.charSelected:
 			self.charsel.draw(camera)
 		else:
+
+			#draw parallax if there is no background
 			if self.background:
 				self.background.draw(camera)
+			if self.parallax:
+				self.parallax.draw(camera)
 			self.player.draw(camera)
 
 			#update '-30' to width of the volume image
@@ -180,15 +222,14 @@ class Level(object):
 
 			for entObj in self._entities:
 				entObj.draw(camera)
-			#TODO uncomment for debugging
-			#for nodeObj in self._nodes:
-				#nodeObj.draw(camera)
 
-		self.hud.draw(camera)
+			#TODO uncomment for debugging
+			for nodeObj in self._nodes:
+				nodeObj.draw(camera)
 
 	def get_player_rect(self):
 		return self.player.get_rect()
-		
+
 	def get_player(self):
 		return self.player
 
@@ -201,44 +242,198 @@ class Level(object):
 	def _addNode(self, nodeObj):
 		self._nodes.add(nodeObj);
 
+	def _addCheckpoint(self, x):
+		self._checkpoints.append(x)
+
 	def addEntity(self, entObj):
 		self._entities.add(entObj)
+
+	def saveLevel(self):
+		f = open('save', 'w')
+		f.write( str(self.levelNumber) +
+				" " + str( self.charsel.getChar() ) +
+				" " + str( self.player.rect.x ) +
+				" " + str( self.player.rect.y ) )
+		f.close()
+
+"""
+	Tutorial level
+"""
+
+class Level0(Level):
+	None
+
+"""
+	Mario level
+"""
 
 class Level1(Level):
 
 	def __init__(self):
 		Level.__init__(self)
-		self.height = SCREEN_HEIGHT
-		self.player = player.IronMan(0,0,self)
 
+		#level number
+		self.levelNumber = 1
+
+		self.height = SCREEN_HEIGHT
+		#default player to init enemies TODO doesn't update position...
+		self.player = player.IronMan(100,100,self)
+
+		#background music
 		self.bgm = 'sounds/ToughGuy.wav'
 
-		#TODO do some smart screen scrolling here later
-		#bg = pygame.image.load("images/backgrounds/bg1.gif").convert_alpha()
-		#for x in range(0, 3000, 1918):
-		#    self.blit( bg,(x,0))
-		self.background = levelobject.StaticImage('images/level5.jpg',-500,-350)
+		#background
+		#self.background = levelobject.StaticImage('images/levelsprites/smw/smwbg1.png',0,-2400)
+		self.background = None
+		bg1  = 'images/levelsprites/smw/smwbg1.png'
+		bg2  = 'images/levelsprites/smw/smwbg2.png'
+		self.parallax = Parallax(bg1,0,-2400, bg2,0,-2400)
 
-		#terrain objects
-		self._addTerrain( levelobject.BasicPlatform(100,400) )
-		self._addTerrain( levelobject.BasicPlatform(500,500) )
-		self._addTerrain( levelobject.BasicPlatform(900,300) )
-		self._addTerrain( levelobject.BasicPlatform2(1400,300) )
+		#level objects in order
+			#floor + checkpoint
+		self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-16) )
+		self._addCheckpoint(0)
+			#goombas
+		self._addNode( levelobject.Node(20,550) )
+		self._addEnemy( enemy.Goomba(500,400, self.player, PLATFORM) )
+		self._addEnemy( enemy.Goomba(700,400, self.player, PLATFORM) )
+		self._addEnemy( enemy.Goomba(900,400, self.player, PLATFORM) )
+		self._addEnemy( enemy.Goomba(1100,400, self.player, PLATFORM) )
+		self._addEnemy( enemy.Goomba(1300,400, self.player, PLATFORM) )
+		self._addNode( levelobject.Node(1500,550) )
+			#ParaKoopa
+		self._addNode( levelobject.Node(1700, 200) )
+		self._addEnemy( enemy.ParaKoopa(1700,400, self.player, FLYVERT) )
+		self._addNode( levelobject.Node(1700, 500) )
+		self._addTerrain( levelobject.MarioPlatform6(1750,400) )
+			#ParaKoopa
+		self._addNode( levelobject.Node(2000, 0) )
+		self._addEnemy( enemy.ParaKoopa(2000,300, self.player, FLYVERT) )
+		self._addNode( levelobject.Node(2000, 400) )
+		self._addTerrain( levelobject.MarioPlatform6(2050,200) )
+			#empty platform
+		self._addTerrain( levelobject.MarioPlatform6(2350,350) )
+			#floor + checkpoint
+		self._addTerrain( levelobject.MarioGround1632(2600,SCREEN_HEIGHT-16) )
+		self._addCheckpoint(2700)
+			#enemies
+		self._addEnemy( enemy.Fuzzy(2900, 500, self.player, HOP) )
+		self._addEnemy( enemy.ParaKoopa(3100, 150, self.player, FLYSWOOP) )
+		self._addEnemy( enemy.Fuzzy(3150, 500, self.player, HOP) )
+		self._addTerrain( levelobject.MarioPlatform6(3200,400) )
+		self._addEnemy( enemy.Fuzzy(3400, 500, self.player, HOP) )
+		self._addEnemy( enemy.Fuzzy(3600, 500, self.player, HOP) )
+		self._addEnemy( enemy.Fuzzy(3800, 500, self.player, HOP) )
+		self._addEnemy( enemy.Fuzzy(4000, 500, self.player, HOP) )
+			#mushroom platforms
+		self._addTerrain( levelobject.MarioMushroomPlatform(4450,500) )
+		self._addEnemy( enemy.Fuzzy(4470, 500, self.player, JUMP) )
+		self._addTerrain( levelobject.MarioMushroomPlatform(4700,300) )
+		self._addTerrain( levelobject.MarioMushroomPlatformBase(4716,400) )
+		self._addTerrain( levelobject.MarioMushroomPlatformBase(4716,502) )
+		self._addEnemy( enemy.Fuzzy(4720, 300, self.player, JUMP) )
+		self._addTerrain( levelobject.MarioMushroomPlatform(5000,300) )
+		self._addTerrain( levelobject.MarioMushroomPlatformBase(5016,400) )
+		self._addTerrain( levelobject.MarioMushroomPlatformBase(5016,502) )
+		self._addEnemy( enemy.Fuzzy(5050, 300, self.player, JUMP) )
+			#movable platform + enemies on clouds
+		self._addNode( levelobject.Node(5200,300,0,0,-1))
+		self._addTerrain( levelobject.MarioMovablePlatform(5400,300, 5) )
+		self._addTerrain( levelobject.MarioCloud(5600,200) )
+		self._addEnemy( enemy.Fuzzy(5660, 100, self.player, JUMP) )
+		self._addTerrain( levelobject.MarioCloud(6200,200) )
+		self._addEnemy( enemy.Fuzzy(6260, 100, self.player, JUMP) )
+		self._addNode( levelobject.Node(6700,300,0,0,-1))
+			#checkpoint
+		self._addCheckpoint(6800)
+			#platforms w shyguy
+		self._addNode( levelobject.Node(6800,180) )
+		self._addTerrain( levelobject.MarioPlatform12(6800,200) )
+		self._addEnemy( enemy.ShyGuy(6970, 180, self.player, PLATFORM) )
+		self._addNode( levelobject.Node(7174,180) )
+			#vertical platform
+		self._addNode( levelobject.Node(7300,180,0,0,0,-1) )
+		self._addTerrain( levelobject.MarioMovablePlatform(7300,100,0,5) )
+		self._addNode( levelobject.Node(7300,-500,0,0,0,-1) )
+			#clouds + koopas
+		self._addTerrain( levelobject.MarioCloud(7510, -500))
+		self._addTerrain( levelobject.MarioCloud(7800, -200) )
+		self._addNode( levelobject.Node(7830, -300) )
+		self._addEnemy( enemy.ParaKoopa(7830,-600, self.player, FLYVERT) )
+		self._addNode( levelobject.Node(7830, -600) )
+		self._addTerrain( levelobject.MarioCloud(7870, -720) )
+		self._addEnemy( enemy.ParaKoopa(7800,-950, self.player, FLYSWOOP) )
+		self._addTerrain( levelobject.MarioCloud(8100, -400) )
+			#two koopas in between two clouds
+		self._addTerrain( levelobject.MarioCloud(8400,-600) )
+		self._addNode( levelobject.Node(8600, -500) )
+		self._addEnemy( enemy.ParaKoopa(8600,-994, self.player, FLYVERT) )
+		self._addNode( levelobject.Node(8600, -1000) )
+		self._addNode( levelobject.Node(8750, -500) )
+		self._addEnemy( enemy.ParaKoopa(8750,-583, self.player, FLYVERT) )
+		self._addNode( levelobject.Node(8750, -1000) )
+		self._addTerrain( levelobject.MarioCloud(8850,-600) )
+			#two koopas in between two clouds
+		self._addTerrain( levelobject.MarioCloud(9200,-700) )
+		self._addNode( levelobject.Node(9400, -600) )
+		self._addEnemy( enemy.ParaKoopa(9400,-1094, self.player, FLYVERT) )
+		self._addNode( levelobject.Node(9400, -1100) )
+		self._addNode( levelobject.Node(9550, -600) )
+		self._addEnemy( enemy.ParaKoopa(9550,-683, self.player, FLYVERT) )
+		self._addNode( levelobject.Node(9550, -1100) )
+		self._addTerrain( levelobject.MarioCloud(9650,-700) )
+			#platform back to ground
 
-		#AI nodes
-		self._addNode( levelobject.Node(450,450) ) #nodes for first platform
-		self._addNode( levelobject.Node(700,450) )
-		self._addNode( levelobject.Node(800,0) )    #nodes for FLYVERT
-		self._addNode( levelobject.Node(800, 300) )
+"""
+	Sonic level
+"""
 
-		#enemies
-		self._addEnemy( enemy.Fuzzy(250,100, self.player, JUMP) )
-		self._addEnemy( enemy.ParaKoopa(300,100, self.player, FLYSWOOP) )
-		self._addEnemy( enemy.RedKoopa(600,400, self.player, PLATFORM) )
-		self._addEnemy( enemy.Fuzzy(700,400, self.player, HOP) )
-		self._addEnemy( enemy.ParaKoopa(800,100, self.player, FLYVERT) )
+class Level2(Level):
 
-#        for i in range(0,1000):
-#        self._addTerrain( levelobject.MarioGround(16*i,SCREEN_HEIGHT-16) )
+	def __init__(self):
+		Level.__init__(self)
 
-		self._addTerrain( levelobject.MarioPlatform(-500, SCREEN_HEIGHT-16) )
+		#level number
+		self.levelNumber = 2
+
+		self.height = SCREEN_HEIGHT
+		#default player to init enemies TODO doesn't update position...
+		self.player = player.IronMan(100,100,self)
+
+		#background music
+		self.bgm = 'sounds/ToughGuy.wav'
+
+		#background
+		self.background = levelobject.StaticImage('images/levelsprites/sonic/background.jpg',0,-55)
+
+		#level objects in order
+			#floor + checkpoint
+		self._addTerrain( levelobject.MarioPlatform6(0,SCREEN_HEIGHT-32) )
+		self._addCheckpoint(0)
+
+"""
+	Megaman level
+"""
+
+class Level3(Level):
+
+	def __init__(self):
+		Level.__init__(self)
+
+		#level number
+		self.levelNumber = 3
+
+		self.height = SCREEN_HEIGHT
+		#default player to init enemies TODO doesn't update position...
+		self.player = player.IronMan(100,100,self)
+
+		#background music
+		self.bgm = 'sounds/ToughGuy.wav'
+
+		#background
+		self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
+
+		#level objects in order
+			#floor + checkpoint
+		self._addTerrain( levelobject.MarioPlatform6(0,SCREEN_HEIGHT-32) )
+		self._addCheckpoint(0)
