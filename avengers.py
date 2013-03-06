@@ -44,6 +44,7 @@ class AvengersGame:
 
 		#player starts with 3 lives
 		self.player_lives = constants.PLAYER_LIVES
+		self.invincible = False
 
 		#menus
 		self.startMenu = startmenu.StartMenu()
@@ -72,7 +73,7 @@ class AvengersGame:
 			#if event = r or pause --> don't log
 			if logEvents : 
 				logger.get().add(logger.LogNode(events))
-				if eventmanager.get().RIGHTPRESSED == True or eventmanager.get().LEFTPRESSED == True or time.clock() - self.timer > 2 :
+				if (time.clock() - self.timer > 2) and self.invincible :
 					self.stopInvincibility()
 			elif eventmanager.get().REPLAYPRESSED == True :
 				# save game before hand
@@ -80,7 +81,7 @@ class AvengersGame:
 				logger.get().replay() 
 				self.saveCharSelection() # for some reason, replay resets the save file's char to 0
 				self.loadLevel(0)
-				#give temporary invincibility -> either 2 seconds or until a left or right movement
+				#give temporary invincibility -> for 2 seconds
 				self.tempInvincibility()
 			 
 			if self.startMenu.isPlaying():
@@ -197,10 +198,12 @@ class AvengersGame:
 		self.currLevel.player.can_get_hurt = False
 		self.currLevel.player.blink(True)
 		self.timer = time.clock()
+		self.invincible = True
 		
 	def stopInvincibility(self): 
 		self.currLevel.player.can_get_hurt = True
 		self.currLevel.player.blink(False)
+		self.invincible = False
 		
 	def loadLevel(self, state = 1):
 		if state == 1 :
