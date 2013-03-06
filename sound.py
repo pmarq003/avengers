@@ -22,4 +22,10 @@ def set_bgm_vol(vol):
     bgm.set_volume(vol)
 
 def set_sfx_vol(vol):
-    bgm.set_volume(vol)
+    sfx.set_volume(vol)
+
+def get_bgm_vol():
+    return bgm.get_volume()
+
+def get_sfx_vol():
+    return sfx.get_volume()
