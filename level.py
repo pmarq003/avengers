@@ -35,19 +35,19 @@ class Level(object):
 
 		self.player_alive = True
 		
-	def setPlayer(self, choice): 
+	def setPlayer(self, choice, x = 0, y = 500):  # used for replay
 		if choice == 1:
-			self.player = player.Hulk(0,500,self)
+			self.player = player.Hulk(x,y,self)
 		elif choice == 2:
-			self.player = player.Thor(0,500,self)
+			self.player = player.Thor(x,y,self)
 		elif choice == 3:
-			self.player = player.CaptainAmerica(0,500,self)
+			self.player = player.CaptainAmerica(x,y,self)
 		elif choice == 4:
-			self.player = player.IronMan(0,500,self)
+			self.player = player.IronMan(x,y,self)
 		elif choice == 5:
-			self.player = player.Hawkeye(0,500,self)
+			self.player = player.Hawkeye(x,y,self)
 		elif choice == 6:
-			self.player = player.BlackWidow(0,500,self)
+			self.player = player.BlackWidow(x,y,self)
 		
 		if choice > 0 : self.charSelected = True 
 

@@ -41,18 +41,16 @@ class Character(LevelObject):
 
 		#If we're not alive don't process anything
 		if self.alive:
-
-			evman = eventmanager.get()
-
-			#replay
-			if evman.REPLAYPRESSED and logger.get().replayCanRun:
-				logger.get().replay()
-				logger.get().replayCanRun = True
-
 			#Do any updates pertaining to the child character class.
 			#If the child class hasn't implemented the method, don't worry about it
 			try: self.charSpecificUpdate()
 			except AttributeError: pass
+			evman = eventmanager.get()
+			
+			#replay
+			#if evman.REPLAYPRESSED and logger.get().replayCanRun:
+			#	logger.get().replay()
+			#	logger.get().replayCanRun = True
 
 		#update rect with new image
 		#we use bottomleft so it doesn't mess with collision detection
@@ -71,6 +69,9 @@ class Character(LevelObject):
 		self.solid = False
 		self._load_image( self.jump )
 		self.anim.blink = True
+		
+	def blink(self, boolean): 
+		self.anim.blink = boolean
 
 	def stallX(self):
 		self.velX = 0

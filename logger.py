@@ -18,13 +18,13 @@ class Logger(object):
 	def __init__(self, first = None, last = None):
 		self.first = first
 		self.last = last
-		self.replayCanRun = True
-		self.isRunning = False
 		self.char = 0
 		self.currLevel = None
 		self.lock = Lock()
 		self.timer = time.clock()
 		self.levelNumber = 0
+		self.x = 0
+		self.y = 500
 		
 	def setCamera(self, camera):
 	    self.camera = camera
@@ -53,15 +53,18 @@ class Logger(object):
 	def setChar(self, char):
 		self.char = char
 	
+	def setStart(self, x,y): 
+		self.x = x
+		self.y = y
+	
 	def replay(self):
-		self.lock.acquire()
-		self.replayCanRun = False
-		self.isRunning = True
-		self.lock.release()
 		if time.clock() - self.timer > 2 :
 			node = self.first
 			self.getLevel(self.levelNumber)
-			self.currLevel.setPlayer(self.char)
+			self.currLevel.setPlayer(self.char, 0, 0)
+			self.currLevel.player.rect.x = int(self.x)
+			self.currLevel.player.rect.y = int(self.y)
+			self.currLevel.player.can_get_hurt = False
 			while node != None:
 				milliStart = pygame.time.get_ticks()
 				eventmanager.get().handleEvents(node.events)
@@ -78,9 +81,6 @@ class Logger(object):
 				if leftover > 0: pygame.time.wait(int(leftover))
 				node = node.next
 			print("replay ran")
-			self.lock.acquire();
-			self.isRunning = False
-			self.lock.release();
 			self.timer = time.clock()
 		else:
 			print("false replay stopped")

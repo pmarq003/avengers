@@ -62,6 +62,7 @@ class AvengersGame:
 	def update(self):
 		#Game loop
 		wasplaying = True #Hack to figure out when we need to change sounds
+		self.timer = 0
 		while True:
 
 			#Start timer and handle events
@@ -69,14 +70,26 @@ class AvengersGame:
 			events = pygame.event.get()
 			logEvents = eventmanager.get().handleEvents(events)
 			#if event = r or pause --> don't log
-			if logEvents : logger.get().add(logger.LogNode(events))
-
+			if logEvents : 
+				logger.get().add(logger.LogNode(events))
+				if eventmanager.get().RIGHTPRESSED == True or eventmanager.get().LEFTPRESSED == True or time.clock() - self.timer > 2 :
+					self.stopInvincibility()
+			elif eventmanager.get().REPLAYPRESSED == True :
+				# save game before hand
+				self.saveState()
+				logger.get().replay() 
+				self.saveCharSelection() # for some reason, replay resets the save file's char to 0
+				self.loadLevel(0)
+				#give temporary invincibility -> either 2 seconds or until a left or right movement
+				self.tempInvincibility()
+			 
 			if self.startMenu.isPlaying():
 
 				if not wasplaying: sound.play_bgm(self.currLevel.bgm)
 
 				if not self.currLevel.player_alive:
 					self.player_lives -= 1
+					logger.get().setStart(self.currLevel.player.rect.x, self.currLevel.player.rect.y)
 
 					logger.get().clear()
 					self.loadLevel()
@@ -92,6 +105,7 @@ class AvengersGame:
 						pygame.display.flip()
 						time.sleep(3)
 						self.player_lives = constants.PLAYER_LIVES
+						logger.get().setStart(0, 500)
 
 				self.screen.fill(constants.DEFAULT_BGCOLOR)
 				self.currLevel.draw(self.camera)
@@ -160,15 +174,47 @@ class AvengersGame:
 			return level.Level3()
 		else:
 			return None
-
-	def loadLevel(self):
+	
+	#save / load state for replay
+	def saveState(self):
+		f = open('replay', 'w')
+		f.write( str(self.levelNumber) +
+				" " + str( self.currLevel.charsel.getChar() ) +
+				" " + str( self.currLevel.player.rect.x ) +
+				" " + str( self.currLevel.player.rect.y ) )
+		f.close()
+		
+	def saveCharSelection(self): 
 		f = open('save', 'r')
+		data = f.readline().split()
+		f.close()
+		if int(data[1]) == 0 : 
+			f = open('save', 'w')
+			f.write( data[0] + " " + str(logger.get().char) + " " + data[2] + " " + data[3] )
+			f.close()
+	
+	def tempInvincibility(self): 
+		self.currLevel.player.can_get_hurt = False
+		self.currLevel.player.blink(True)
+		self.timer = time.clock()
+		
+	def stopInvincibility(self): 
+		self.currLevel.player.can_get_hurt = True
+		self.currLevel.player.blink(False)
+		
+	def loadLevel(self, state = 1):
+		if state == 1 :
+			fname = 'save'
+		else :
+			fname = 'replay'
+		f = open(fname, 'r')
 		data = f.readline().split()
 		f.close()
 		#get level number from save file 
 		self.levelNumber = int(data[0])
-		#set current level
-		self.currLevel = self.getCurrentLevel()
+		#set current level -> replay doesn't restart level
+		if state == 1 :
+			self.currLevel = self.getCurrentLevel()
 		#set chosen player
 		choice = int(data[1])
 		if choice == 1:
@@ -187,6 +233,8 @@ class AvengersGame:
 		#set player coords
 		self.currLevel.player.rect.x = int(data[2])
 		self.currLevel.player.rect.y = int(data[3])
+		if state == 1 : 
+			logger.get().setStart(self.currLevel.player.rect.x, self.currLevel.player.rect.y)
 		self.currLevel.charSelected = True
 		#begin playing level
 		self.startMenu.loadLevel = False
