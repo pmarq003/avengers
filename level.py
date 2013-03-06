@@ -10,6 +10,7 @@ import eventmanager
 import startmenu
 import sound
 import hud
+import logger
 
 """
 	level.py
@@ -57,6 +58,7 @@ class Level(object):
 				self.player = player.Hawkeye(0,0,self)
 
 			if choice > 0 : self.charSelected = True
+			logger.get().setPlayer(choice)
 
 		else:
 

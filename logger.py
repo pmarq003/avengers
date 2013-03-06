@@ -17,6 +17,7 @@ class Logger(object):
 		self.first = first
 		self.last = last
 		self.replayCanRun = True
+		self.char = 0
 	
 	def set(self, camera, currLevel, screen, startMenu):
 		self.camera = camera
@@ -24,11 +25,27 @@ class Logger(object):
 		self.screen = screen
 		self.startMenu = startMenu
 	
+	def setPlayer(self, char):
+		self.char = char
+	
 	def replay(self):
 		if self.replayCanRun == True:
 			self.replayCanRun = False
 			#start from the beginning of the level
 			self.currLevel = level.Level1()
+			
+			if self.char == 1:
+				self.currLevel.player = player.Hulk(0,0,self.currLevel)
+			elif self.char == 2:
+				self.currLevel.player = player.Thor(0,0,self.currLevel)
+			elif self.char == 3:
+				self.currLevel.player = player.CaptainAmerica(0,0,self.currLevel)
+			elif self.char == 4:
+				self.currLevel.player = player.IronMan(0,0,self.currLevel)
+			elif self.char == 5:
+				self.currLevel.player = player.Hawkeye(0,0,self.currLevel)
+			
+			self.currLevel.charSelected = True
 			self.startMenu.update()
 			self.camera.zeroPosition()
 			self.startMenu.draw(self.camera)
@@ -68,7 +85,7 @@ class Logger(object):
 				if leftover > 0: pygame.time.wait(int(leftover))			    
 				
 				node = node.next
-				
+			
 			self.replayCanRun = True
 
 	def add(self, node):
