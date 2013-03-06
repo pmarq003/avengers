@@ -70,7 +70,8 @@ class Character(LevelObject):
 		self._load_image( self.jump )
 		self.anim.blink = True
 		
-	def blink(self, boolean): 
+	def blink(self, boolean):  
+		self._load_image( self.stand )
 		self.anim.blink = boolean
 
 	def stallX(self):
