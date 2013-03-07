@@ -5,6 +5,11 @@ import sound
 class HUD(object):
     def __init__(self):
         self.vol = True
+        
+        #Remember where the volume was after un-muting
+        self.bgm_vol = sound.get_bgm_vol()
+        self.sfx_vol = sound.get_sfx_vol()
+        
         self.time = 0
         self.timeString = "000"
         
@@ -31,9 +36,12 @@ class HUD(object):
             if self.volume_button.get_rect().collidepoint(clickpoint):
                 self.vol = not self.vol
                 if self.vol:
-                    sound.set_bgm_vol(100)
-                    sound.set_sfx_vol(100)
+                    sound.set_bgm_vol(self.bgm_vol)
+                    sound.set_sfx_vol(self.sfx_vol)
                 else:
+                    #update the volume before muting
+                    self.bgm_vol = sound.get_bgm_vol()
+                    self.sfx_vol = sound.get_sfx_vol()
                     sound.set_bgm_vol(0)
                     sound.set_sfx_vol(0)
 

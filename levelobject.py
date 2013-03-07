@@ -89,7 +89,7 @@ class MarioMovablePlatform(LevelObject):
     base_img_path = 'images/levelsprites/smw/mariomovableplat.png'
 
     def update(self):
-		self.rect.move_ip(self.velX,self.velY)
+        self.rect.move_ip(self.velX,self.velY)
 
     def handleNodeCollision(self, node):
         self.velX *= node.xmult
