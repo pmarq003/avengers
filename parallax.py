@@ -21,6 +21,8 @@ class Parallax(Sprite):
         self.prevDist = None
         self.img1 = None
         self.img2 = None
+        #corrector for gaps
+        self.DX = 5
 
         if img1:
             self.img1 = StaticAnimation(img1)
@@ -66,23 +68,23 @@ class Parallax(Sprite):
             camera.draw(image2,self.rect2copy)
 
         #bg images need to be looped on right side
-        if camera.window.right >  self.rect1.right and not self.x1copy:
+        if camera.window.right + self.DX >= self.rect1.right and not self.x1copy:
             self.x1copy = True
             self.rect1copy.x = camera.window.right
-        if camera.window.right >  self.rect2.right and not self.x2copy:
+        if camera.window.right + self.DX >=  self.rect2.right and not self.x2copy:
             self.x2copy = True
             self.rect2copy.x = camera.window.right
 
         #bg images need to be looped on left side
-        if not self.x1copy and camera.window.left < self.rect1.left:
+        if not self.x1copy and camera.window.left - self.DX <= self.rect1.left:
             self.x1copy = True
             self.rect1copy.x = camera.window.left - self.rect1copy.width
-        if not self.x2copy and camera.window.left < self.rect2.left:
+        if not self.x2copy and camera.window.left - self.DX <= self.rect2.left:
             self.x2copy = True
             self.rect2copy.x = camera.window.left - self.rect1copy.width
 
         #camera's left edge has passed the original bg image
-        #make the copy image the original
+        #make the original image's rect the copy's
         if camera.window.left > self.rect1.right and self.x1copy:
             self.rect1.x = self.rect1copy.x
             self.x1copy = False
@@ -91,7 +93,7 @@ class Parallax(Sprite):
             self.x2copy = False
 
         #camera's right edge has passed the original bg image
-        #make the copy image the original
+        #make the original image's rect the copy's
         if camera.window.right < self.rect1.left and self.x1copy:
             self.rect1.x = self.rect1copy.x
             self.x1copy = False
@@ -99,3 +101,6 @@ class Parallax(Sprite):
             self.x2 = self.x2copy
             self.rect2.x = self.rect2copy.x
             self.x2copy = False
+
+        #TODO
+        #free copy image - ex: unseen on left side, unseen on right
