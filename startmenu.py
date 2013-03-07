@@ -10,6 +10,7 @@ class StartMenu(object):
 
     def __init__(self):
         self.currentLevel = 0
+        self.gamma = 1.0
 
         self.splash_bg           = StaticImage( "images/menusprites/splash.png",0,0 )
         #StartMenu buttons
@@ -25,7 +26,12 @@ class StartMenu(object):
         self.options_bg          = StaticImage("images/menusprites/optionsScreen.png",0,0)
         self.volup_button        = StaticImage( "images/menusprites/volumeUp.png",445, 262 )
         self.voldown_button      = StaticImage( "images/menusprites/volumeDown.png",5, 262 )
+        self.volupFX_button      = StaticImage( "images/menusprites/volumeUp.png",445, 392 )
+        self.voldownFX_button    = StaticImage( "images/menusprites/volumeDown.png",5, 392 )
+        self.gammaUp_button      = StaticImage( "images/menusprites/plus.png", 245, 510 )
+        self.gammaDown_button    = StaticImage( "images/menusprites/minus.png", 205, 510 )
         self.menublock           = StaticImage( "images/menusprites/menublock.png", 0, 0 )
+        self.options_back_button = StaticImage( "images/menusprites/back.png",444, 530 )
 
         self.bgm = 'sounds/SureShot.wav'
 
@@ -57,10 +63,18 @@ class StartMenu(object):
             self.options_bg.draw(camera)
             self.volup_button.draw(camera)
             self.voldown_button.draw(camera)
-            self.back_button.draw(camera)
-            #bg volume bar
+            self.volupFX_button.draw(camera)
+            self.voldownFX_button.draw(camera)
+            self.gammaUp_button.draw(camera)
+            self.gammaDown_button.draw(camera)
+            self.options_back_button.draw(camera)
+            #bgm volume bar
             for i in range(0, sound.get_bgm_vol()):
                 self.menublock.rect.topleft = ( 133 + i*self.menublock.rect.width,265 )
+                self.menublock.draw(camera)
+            #sfx volume bar
+            for i in range(0, sound.get_sfx_vol()):
+                self.menublock.rect.topleft = ( 133 + i*self.menublock.rect.width,395 )
                 self.menublock.draw(camera)
 
     def update(self):
@@ -99,14 +113,34 @@ class StartMenu(object):
             #Options Menu
             elif self.show_options and not self.show_instructions:
                 if self.volup_button.get_rect().collidepoint(clickpoint):
-                    #clicked bg vol up
+                    #clicked bgm vol up
                     sound.set_bgm_vol(sound.get_bgm_vol() + 10)
                     sys.stdout.write('BGM vol: %s\n' % (sound.get_bgm_vol()))
                 elif self.voldown_button.get_rect().collidepoint(clickpoint):
-                    #clicked bg vol down
+                    #clicked bgm vol down
                     sound.set_bgm_vol(sound.get_bgm_vol() - 10)
                     sys.stdout.write('BGM vol: %s\n' % (sound.get_bgm_vol()))
-                elif self.back_button.get_rect().collidepoint(clickpoint):
+                elif self.volupFX_button.get_rect().collidepoint(clickpoint):
+                    #clicked sfx vol up
+                    sound.set_sfx_vol(sound.get_sfx_vol() + 10)
+                    sound.play_sfx('sounds/SSB_Kick_Hit1.wav')
+                    sys.stdout.write('SFX vol: %s\n' % (sound.get_sfx_vol()))
+                elif self.voldownFX_button.get_rect().collidepoint(clickpoint):
+                    #clicked sfx vol down
+                    sound.set_sfx_vol(sound.get_sfx_vol() - 10)
+                    sound.play_sfx('sounds/SSB_Kick_Hit1.wav')
+                    sys.stdout.write('SFX vol: %s\n' % (sound.get_sfx_vol()))
+                elif self.gammaUp_button.get_rect().collidepoint(clickpoint):
+                    #clicked gamma up
+                    self.gamma = self.gamma + .1
+                    pygame.display.set_gamma(self.gamma)
+                    sys.stdout.write('Gamma: %s\n' % (self.gamma))
+                elif self.gammaDown_button.get_rect().collidepoint(clickpoint):
+                    #clicked gamma down
+                    self.gamma = self.gamma - .1
+                    pygame.display.set_gamma(self.gamma)
+                    sys.stdout.write('Gamma: %s\n' % (self.gamma))
+                elif self.options_back_button.get_rect().collidepoint(clickpoint):
                     #clicked back
                     if self.show_instructions:
                         self.show_instructions = False
