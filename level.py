@@ -287,7 +287,7 @@ class Level1(Level):
         self.background = None
         bg1  = 'images/levelsprites/smw/smwbg1.png'
         bg2  = 'images/levelsprites/smw/smwbg2.png'
-        self.parallax = Parallax(bg1,0,-2400, bg2,0,-2400)
+        self.parallax = Parallax(bg1,0,-261, bg2,0,-2400)
 
         #level objects in order
             #floor + checkpoint
@@ -313,9 +313,18 @@ class Level1(Level):
         self._addTerrain( levelobject.MarioPlatform6(2050,200) )
             #empty platform
         self._addTerrain( levelobject.MarioPlatform6(2350,350) )
-            #floor + checkpoint
+            #floor + nodes for goombas + checkpoint
+        self._addNode( levelobject.Node(2600,SCREEN_HEIGHT-32,0,0,-1) )
+        self._addNode( levelobject.Node(2600,SCREEN_HEIGHT-75,0,0,-1) )
+        self._addNode( levelobject.Node(2600,SCREEN_HEIGHT-115,0,0,-1) )
+        self._addNode( levelobject.Node(2600,SCREEN_HEIGHT-150,0,0,-1) )
         self._addTerrain( levelobject.MarioGround1632(2600,SCREEN_HEIGHT-16) )
         self._addCheckpoint(2700)
+        self._addNode( levelobject.Node(4200,SCREEN_HEIGHT-75,0,0,-1))
+        self._addNode( levelobject.Node(4200,SCREEN_HEIGHT-32,0,0,-1) )
+        self._addNode( levelobject.Node(4200,SCREEN_HEIGHT-75,0,0,-1) )
+        self._addNode( levelobject.Node(4200,SCREEN_HEIGHT-115,0,0,-1) )
+        self._addNode( levelobject.Node(4200,SCREEN_HEIGHT-150,0,0,-1) )
             #enemies
         self._addEnemy( enemy.Fuzzy(2900, 500, self.player, HOP) )
         self._addEnemy( enemy.ParaKoopa(3100, 150, self.player, FLYSWOOP) )
