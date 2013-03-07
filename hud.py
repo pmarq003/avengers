@@ -7,6 +7,9 @@ class HUD(object):
         self.vol = True
         self.time = 0
         self.timeString = "000"
+        
+        self.score = 123456789
+        self.scoreString = "123456789"
 
         self.volume_button = StaticImage( "images/menusprites/volume.png", 0, 0 )
         self.mute_button = StaticImage( "images/menusprites/mute.png", 0, 0 )
@@ -15,7 +18,9 @@ class HUD(object):
         self.sattackbar = StaticImage( "images/sattackbar.png", 0, 0 )
         self.sattackblock = StaticImage( "images/sattackblock.png", 0, 0 )
         
-        self.timedigit = StaticImage( "images/hudsprites/0.png", 0, 0 )
+        self.score_title = StaticImage( "images/hudsprites/score.png", 0, 0 )
+        self.time_title = StaticImage( "images/hudsprites/time.png", 0, 0 )
+        self.digit = StaticImage( "images/hudsprites/0.png", 0, 0 )
 
     def update(self):
         evman = eventmanager.get()
@@ -57,12 +62,22 @@ class HUD(object):
                                                camera.window.top + 58 )
             self.sattackblock.draw(camera)
         
+        self.time_title.rect.topleft = camera.window.right - 160, camera.window.top + 55
+        self.time_title.draw(camera)
         for i in range(0, len(self.timeString)):
-            self.timedigit = StaticImage( "images/hudsprites/%s.png" % self.timeString[i], 
-                                          camera.window.right - 100 + i*self.timedigit.rect.width, 
-                                          camera.window.top + 58 )
-            self.timedigit.draw(camera)
+            self.digit = StaticImage( "images/hudsprites/%s.png" % self.timeString[i], 
+                                          camera.window.right - 100 + i*(self.digit.rect.width-6), 
+                                          camera.window.top + 64 )
+            self.digit.draw(camera)
             #sys.stdout.write('String element: %s\n' % timer)
+        
+        self.score_title.rect.topleft = camera.window.right - 580, camera.window.top + 55
+        self.score_title.draw(camera)    
+        for i in range(0, len(self.scoreString)):
+            self.digit = StaticImage( "images/hudsprites/%s.png" % self.scoreString[i], 
+                                          camera.window.right - 500 + i*(self.digit.rect.width-6), 
+                                          camera.window.top + 63 )
+            self.digit.draw(camera)
         
     def getVol(self):
         return self.vol
@@ -70,3 +85,15 @@ class HUD(object):
     def incTime(self):
         self.time = self.time + 1
         self.timeString = "%03d" % self.time
+        
+    def resetTime(self):
+        self.time = 0
+        self.timeString = "000"
+        
+    def incScore(self,gain):
+        self.score = self.score + gain
+        self.scoreString = "%d" % self.score
+        
+    def resetScore(self):
+        self.score = 0
+        self.scoreString = "0"
