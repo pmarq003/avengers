@@ -108,6 +108,9 @@ class SonicPlatformThick(LevelObject):
     
 class SonicPlatform(LevelObject):
     base_img_path = 'images/levelsprites/sonic/sonicplatform.jpg'
+    
+class SonicPlatformThin(LevelObject):
+    base_img_path = 'images/levelsprites/sonic/sonicplatform_thin.gif'
 
 #   Other stuff 
 

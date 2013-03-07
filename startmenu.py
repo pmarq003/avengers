@@ -23,6 +23,8 @@ class StartMenu(object):
         self.back_button         = StaticImage( "images/menusprites/back.png",414, 500 )
         #options page
         self.options_bg          = StaticImage("images/menusprites/optionsScreen.png",0,0)
+        self.volup_button         = StaticImage( "images/menusprites/volumeUp.png",460, 304 )
+        self.voldown_button         = StaticImage( "images/menusprites/volumeDown.png",460, 340 )
 
         self.bgm = 'sounds/SureShot.wav'
 
@@ -51,6 +53,8 @@ class StartMenu(object):
 
         elif self.show_options and not self.show_instructions:
             self.options_bg.draw(camera)
+            self.volup_button.draw(camera)
+            self.voldown_button.draw(camera)
             self.back_button.draw(camera)
 
     def update(self):
@@ -86,7 +90,21 @@ class StartMenu(object):
                     self.show_options = False
                     self.show_instructions = True
 
-            #if on options/instructions go back to StartMenu
+            #Options Menu
+            elif self.show_options and not self.show_instructions:
+                if self.volup_button.get_rect().collidepoint(clickpoint):
+                    sound.set_bgm_vol(sound.get_bgm_vol() + 0.1)
+                    sys.stdout.write('BGM vol: %s\n' % (sound.get_bgm_vol()))
+                elif self.voldown_button.get_rect().collidepoint(clickpoint):
+                    sound.set_bgm_vol(sound.get_bgm_vol() - 0.1)
+                    sys.stdout.write('BGM vol: %s\n' % (sound.get_bgm_vol()))
+                elif self.back_button.get_rect().collidepoint(clickpoint):
+                    if self.show_instructions:
+                        self.show_instructions = False
+                    elif self.show_options:
+                        self.show_options = False
+                    
+            #if on instructions go back to StartMenu
             else:
                 if self.back_button.get_rect().collidepoint(clickpoint):
                     if self.show_instructions:
