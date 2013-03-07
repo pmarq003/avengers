@@ -234,13 +234,18 @@ class Enemy(Character):
 
     #handles specific AI interactions with nodes in level
     def handleNodeCollision(self, node):
+        #tells platform AI to change direction
         if self.ai == PLATFORM:
             if self.facingRight:
                 self.rect.right = node.rect.left
             else:
                 self.rect.left = node.rect.right
             self.facingRight = not self.facingRight
-
+        #can be used to stop AI from hopping off a cliff
+        elif self.ai == HOP:
+            self.velX *= node.xmult
+            self.facingRight = not self.facingRight
+        #tells flying AI to change directions
         elif self.ai == FLYVERT:
             self.peaking = not self.peaking
 
