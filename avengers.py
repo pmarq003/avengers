@@ -64,6 +64,7 @@ class AvengersGame:
         #Game loop
         wasplaying = True #Hack to figure out when we need to change sounds
         self.timer = 0
+        self.frameCount = 0 #Timer logic: after 30 frames, increment hud timer
         while True:
 
             #Start timer and handle events
@@ -126,6 +127,12 @@ class AvengersGame:
                     self.currLevel.update()
                     if self.currLevel.charSelected:
                         self.hud.update()
+                        #Hud timer logic
+                        self.frameCount = self.frameCount + 1
+                        if self.frameCount > 30:
+                            self.hud.incTime()
+                            self.frameCount = 0
+                
                 else:
                 #show pause menu
                     self.pauseMenu.draw(self.camera)
@@ -167,6 +174,7 @@ class AvengersGame:
             #Stop timer and sleep for remainder of time
             milliEnd = pygame.time.get_ticks()
             leftover = constants.mSPF - (milliEnd - milliStart)
+            #sys.stdout.write('Time left in frame: %s\n' % leftover)
             if leftover > 0: pygame.time.wait(int(leftover))
 
     def getCurrentLevel(self):

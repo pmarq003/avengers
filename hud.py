@@ -5,6 +5,8 @@ import sound
 class HUD(object):
     def __init__(self):
         self.vol = True
+        self.time = 0
+        self.timeString = "000"
 
         self.volume_button = StaticImage( "images/menusprites/volume.png", 0, 0 )
         self.mute_button = StaticImage( "images/menusprites/mute.png", 0, 0 )
@@ -12,6 +14,8 @@ class HUD(object):
         self.heart = StaticImage( "images/heart.png", 0, 0 )
         self.sattackbar = StaticImage( "images/sattackbar.png", 0, 0 )
         self.sattackblock = StaticImage( "images/sattackblock.png", 0, 0 )
+        
+        self.timedigit = StaticImage( "images/hudsprites/0.png", 0, 0 )
 
     def update(self):
         evman = eventmanager.get()
@@ -53,6 +57,16 @@ class HUD(object):
                                                camera.window.top + 58 )
             self.sattackblock.draw(camera)
         
-
+        for i in range(0, len(self.timeString)):
+            self.timedigit = StaticImage( "images/hudsprites/%s.png" % self.timeString[i], 
+                                          camera.window.right - 100 + i*self.timedigit.rect.width, 
+                                          camera.window.top + 58 )
+            self.timedigit.draw(camera)
+            #sys.stdout.write('String element: %s\n' % timer)
+        
     def getVol(self):
         return self.vol
+    
+    def incTime(self):
+        self.time = self.time + 1
+        self.timeString = "%03d" % self.time
