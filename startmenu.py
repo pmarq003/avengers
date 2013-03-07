@@ -23,8 +23,9 @@ class StartMenu(object):
         self.back_button         = StaticImage( "images/menusprites/back.png",414, 500 )
         #options page
         self.options_bg          = StaticImage("images/menusprites/optionsScreen.png",0,0)
-        self.volup_button         = StaticImage( "images/menusprites/volumeUp.png",460, 304 )
-        self.voldown_button         = StaticImage( "images/menusprites/volumeDown.png",460, 340 )
+        self.volup_button        = StaticImage( "images/menusprites/volumeUp.png",445, 262 )
+        self.voldown_button      = StaticImage( "images/menusprites/volumeDown.png",5, 262 )
+        self.menublock           = StaticImage( "images/menusprites/menublock.png", 0, 0 )
 
         self.bgm = 'sounds/SureShot.wav'
 
@@ -52,10 +53,15 @@ class StartMenu(object):
             self.back_button.draw(camera)
 
         elif self.show_options and not self.show_instructions:
+            #Options Screen
             self.options_bg.draw(camera)
             self.volup_button.draw(camera)
             self.voldown_button.draw(camera)
             self.back_button.draw(camera)
+            #bg volume bar
+            for i in range(0, sound.get_bgm_vol()):
+                self.menublock.rect.topleft = ( 133 + i*self.menublock.rect.width,265 )
+                self.menublock.draw(camera)
 
     def update(self):
 
@@ -93,12 +99,15 @@ class StartMenu(object):
             #Options Menu
             elif self.show_options and not self.show_instructions:
                 if self.volup_button.get_rect().collidepoint(clickpoint):
-                    sound.set_bgm_vol(sound.get_bgm_vol() + 0.1)
+                    #clicked bg vol up
+                    sound.set_bgm_vol(sound.get_bgm_vol() + 10)
                     sys.stdout.write('BGM vol: %s\n' % (sound.get_bgm_vol()))
                 elif self.voldown_button.get_rect().collidepoint(clickpoint):
-                    sound.set_bgm_vol(sound.get_bgm_vol() - 0.1)
+                    #clicked bg vol down
+                    sound.set_bgm_vol(sound.get_bgm_vol() - 10)
                     sys.stdout.write('BGM vol: %s\n' % (sound.get_bgm_vol()))
                 elif self.back_button.get_rect().collidepoint(clickpoint):
+                    #clicked back
                     if self.show_instructions:
                         self.show_instructions = False
                     elif self.show_options:
