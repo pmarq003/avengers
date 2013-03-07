@@ -10,6 +10,7 @@ class StartMenu(object):
 
     def __init__(self):
         self.currentLevel = 0
+        self.currentPlot = 1
         self.gamma = 1.0
 
         self.splash_bg           = StaticImage( "images/menusprites/splash.png",0,0 )
@@ -23,7 +24,7 @@ class StartMenu(object):
         self.instructions_bg     = StaticImage( "images/menusprites/instrScreen.png",0,0 )
         self.back_button         = StaticImage( "images/menusprites/back.png",414, 500 )
         #options page
-        self.options_bg          = StaticImage("images/menusprites/optionsScreen.png",0,0)
+        self.options_bg          = StaticImage( "images/menusprites/optionsScreen.png",0,0)
         self.volup_button        = StaticImage( "images/menusprites/volumeUp.png",445, 262 )
         self.voldown_button      = StaticImage( "images/menusprites/volumeDown.png",5, 262 )
         self.volupFX_button      = StaticImage( "images/menusprites/volumeUp.png",445, 392 )
@@ -32,6 +33,10 @@ class StartMenu(object):
         self.gammaDown_button    = StaticImage( "images/menusprites/minus.png", 205, 510 )
         self.menublock           = StaticImage( "images/menusprites/menublock.png", 0, 0 )
         self.options_back_button = StaticImage( "images/menusprites/back.png",444, 530 )
+        #plot page
+        self.plot_back_button    = StaticImage( "images/menusprites/back.png",904, 490 )
+        self.plot_next_button    = StaticImage( "images/menusprites/next.png",900, 530 )
+        self.plot_bg             = StaticImage( "images/plot/smw/1.jpg",0,0)
 
         self.bgm = 'sounds/SureShot.wav'
 
@@ -39,6 +44,7 @@ class StartMenu(object):
         self.loadLevel = False
         self.show_instructions = False
         self.show_options = False
+        self.show_plot = False
 
     def isPlaying(self):
         return self.playing
@@ -46,7 +52,7 @@ class StartMenu(object):
 
     def draw(self,camera):
 
-        if not self.show_instructions and not self.show_options:
+        if not self.show_instructions and not self.show_options and not self.show_plot:
             self.splash_bg.draw(camera)
             self.newgame_button.draw(camera)
             self.loadgame_button.draw(camera)
@@ -54,11 +60,17 @@ class StartMenu(object):
             self.options_button.draw(camera)
             self.quit_button.draw(camera)
 
-        elif self.show_instructions and not self.show_options:
+        elif self.show_instructions:
             self.instructions_bg.draw(camera)
             self.back_button.draw(camera)
+            
+        elif self.show_plot:
+            self.plot_bg = StaticImage( "images/plot/smw/%s.jpg" % self.currentPlot,0,0)
+            self.plot_bg.draw(camera)
+            self.plot_back_button.draw(camera)
+            self.plot_next_button.draw(camera)
 
-        elif self.show_options and not self.show_instructions:
+        elif self.show_options:
             #Options Screen
             self.options_bg.draw(camera)
             self.volup_button.draw(camera)
@@ -86,11 +98,12 @@ class StartMenu(object):
             clickpoint = event.pos
 
             #StartMenu
-            if not self.show_instructions and not self.show_options:
+            if not self.show_instructions and not self.show_options and not self.show_plot:
                 #new game
                 if self.newgame_button.get_rect().collidepoint(clickpoint):
                     self.currentLevel = 1
-                    self.playing = True
+                    self.currentPlot = 1
+                    self.show_plot = True
                 #load game
                 elif self.loadgame_button.get_rect().collidepoint(clickpoint):
                     if os.path.isfile('save'):
@@ -111,7 +124,7 @@ class StartMenu(object):
                     self.show_instructions = True
 
             #Options Menu
-            elif self.show_options and not self.show_instructions:
+            elif self.show_options:
                 if self.volup_button.get_rect().collidepoint(clickpoint):
                     #clicked bgm vol up
                     sound.set_bgm_vol(sound.get_bgm_vol() + 10)
@@ -132,20 +145,31 @@ class StartMenu(object):
                     sys.stdout.write('SFX vol: %s\n' % (sound.get_sfx_vol()))
                 elif self.gammaUp_button.get_rect().collidepoint(clickpoint):
                     #clicked gamma up
-                    self.gamma = self.gamma + .1
+                    if self.gamma < 2.5:
+                        self.gamma = self.gamma + .1
                     pygame.display.set_gamma(self.gamma)
                     sys.stdout.write('Gamma: %s\n' % (self.gamma))
                 elif self.gammaDown_button.get_rect().collidepoint(clickpoint):
                     #clicked gamma down
-                    self.gamma = self.gamma - .1
+                    if self.gamma > 0.2:
+                        self.gamma = self.gamma - .1
                     pygame.display.set_gamma(self.gamma)
                     sys.stdout.write('Gamma: %s\n' % (self.gamma))
                 elif self.options_back_button.get_rect().collidepoint(clickpoint):
                     #clicked back
-                    if self.show_instructions:
-                        self.show_instructions = False
-                    elif self.show_options:
-                        self.show_options = False
+                    self.show_options = False
+            
+            #Plot Menu
+            elif self.show_plot:
+                if self.plot_next_button.get_rect().collidepoint(clickpoint) and self.currentPlot < 15:
+                    self.currentPlot = self.currentPlot + 1
+                elif self.plot_back_button.get_rect().collidepoint(clickpoint) and self.currentPlot > 1:
+                    self.currentPlot = self.currentPlot - 1
+                elif self.plot_back_button.get_rect().collidepoint(clickpoint) and self.currentPlot == 1:
+                    self.show_plot = False
+                elif self.plot_next_button.get_rect().collidepoint(clickpoint) and self.currentPlot == 15:
+                    self.show_plot = False
+                    self.playing = True
                     
             #if on instructions go back to StartMenu
             else:
