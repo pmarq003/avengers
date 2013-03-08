@@ -272,7 +272,7 @@ class Kit1(Enemy):
     walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
-    runVel = 5     #xcoord movement velocity
+    runVel = 3     #xcoord movement velocity
     jumpVel = 0    #jumping velocity
 
     #distance before detect player
@@ -285,7 +285,7 @@ class Kit2(Enemy):
     walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
-    runVel = 5     #xcoord movement velocity
+    runVel = 3     #xcoord movement velocity
     jumpVel = 0    #jumping velocity
 
     #distance before detect player
@@ -298,7 +298,7 @@ class Pup1(Enemy):
     walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
-    runVel = 5     #xcoord movement velocity
+    runVel = 3     #xcoord movement velocity
     jumpVel = 0    #jumping velocity
 
     #distance before detect player
@@ -311,7 +311,7 @@ class Pup2(Enemy):
     walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
-    runVel = 5     #xcoord movement velocity
+    runVel = 3     #xcoord movement velocity
     jumpVel = 0    #jumping velocity
 
     #distance before detect player
@@ -324,13 +324,14 @@ class Pup3(Enemy):
     walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
-    runVel = 5     #xcoord movement velocity
+    runVel = 3     #xcoord movement velocity
     jumpVel = 0    #jumping velocity
 
     #distance before detect player
     playerRadius = 500
 
     animFolder = 'enemysprites/pup3'
+
 """
 Mario-themed enemies
 """

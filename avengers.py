@@ -115,7 +115,9 @@ class AvengersGame:
 
                 #select bg color depending on level
                 #hopefully to cut down on image size
-                if self.currLevel.levelNumber == 1:
+                if self.currLevel.levelNumber == 0:
+                    self.screen.fill(constants.LEVEL0_BGCOLOR)
+                elif self.currLevel.levelNumber == 1:
                     self.screen.fill(constants.LEVEL1_BGCOLOR)
                 else:
                     self.screen.fill(constants.DEFAULT_BGCOLOR)

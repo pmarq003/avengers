@@ -267,20 +267,21 @@ class Level0(Level):
 
         #background
         self.background = None
-        self.parallax = None
-        #bg1  = 'images/levelsprites/smw/smwbg1.png'
-        #bg2  = 'images/levelsprites/smw/smwbg2.png'
-        #self.parallax = Parallax(bg1,0,-261, bg2,0,-2400)
+        bg1  = 'images/levelsprites/tut/tutbg.gif'
+        bg2  = 'images/levelsprites/tut/tutbg2.gif'
+        self.parallax = Parallax(bg1,0,-400, bg2,0,100)
 
+            #floor
         self._addTerrain( levelobject.TutGround(0, SCREEN_HEIGHT-16) )
+        self._addTerrain( levelobject.TutGround(1500, SCREEN_HEIGHT-16) )
 
         #testing enemies
-        self._addEnemy( enemy.Pup1(100,100,self.player,0))
-        self._addEnemy( enemy.Pup2(200,100,self.player,0))
-        self._addEnemy( enemy.Pup3(500,100,self.player,0))
+        self._addEnemy( enemy.Pup1(400,500,self.player,PLATFORM) )
+        #self._addEnemy( enemy.Pup2(200,100,self.player,HOP) )
+        #self._addEnemy( enemy.Pup3(500,100,self.player,HOP) )
 
-        self._addEnemy( enemy.Kit1(300,100,self.player,0))
-        self._addEnemy( enemy.Kit2(400,100,self.player,0))
+        #self._addEnemy( enemy.Kit1(300,100,self.player,HOP) )
+        #self._addEnemy( enemy.Kit2(400,100,self.player,HOP) )
 
 
 """
