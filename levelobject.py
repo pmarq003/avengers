@@ -131,3 +131,11 @@ class TransientEntity(LevelObject):
     def update(self):
         self.timeout -= 1
         if self.timeout < 0: self.kill()
+
+class Heart(LevelObject):
+    solid = False
+    base_img_path = 'images/heart.png'
+
+class Ammo(LevelObject):
+    solid = False
+    base_img_path = 'images/ammo.png'

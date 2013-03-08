@@ -22,7 +22,8 @@ import sound
 
 class Level(object):
 
-    def __init__(self):
+    def __init__(self,gameObj):
+        self.gameObj = gameObj #unfortunately we need this
         self.levelNumber = -1   #override in specific levels
         self.charsel = charsel.CharSel()
         self.charSelected = False
@@ -30,6 +31,8 @@ class Level(object):
         self._enemies = pygame.sprite.Group()
         self._nodes = pygame.sprite.Group()
         self._entities = pygame.sprite.Group()
+        self._hearts = pygame.sprite.Group()
+        self._ammo = pygame.sprite.Group()
         self._checkpoints = []
 
         self.vol = True
@@ -137,6 +140,16 @@ class Level(object):
                 for node in nodeObjs:
                     self._handleNodeCollision(terr,node)
 
+            heartCollisions = pygame.sprite.spritecollide(self.player,self._hearts,False)
+            for heart in heartCollisions:
+                self.gameObj.player_lives += 1
+                heart.kill()
+
+            ammoCollisions = pygame.sprite.spritecollide(self.player,self._ammo,False)
+            for ammo in ammoCollisions:
+                self.player.incAmmo()
+                ammo.kill()
+
             #update parallax
             if self.parallax:
                 self.parallax.update(self.player.velX, self.player.velY)
@@ -192,6 +205,12 @@ class Level(object):
             for nodeObj in self._nodes:
                 nodeObj.draw(camera)
 
+            for heartObj in self._hearts:
+                heartObj.draw(camera)
+
+            for ammoObj in self._ammo:
+                ammoObj.draw(camera)
+
     def get_player_rect(self):
         return self.player.get_rect()
 
@@ -213,6 +232,12 @@ class Level(object):
     def addEntity(self, entObj):
         self._entities.add(entObj)
 
+    def _addHeart(self,heartObj):
+        self._hearts.add(heartObj)
+
+    def _addAmmo(self,ammoObj):
+        self._ammo.add(ammoObj)
+
     def saveLevel(self):
         f = open('save', 'w')
         f.write( str(self.levelNumber) +
@@ -227,8 +252,8 @@ class Level(object):
 
 class Level0(Level):
 
-    def __init__(self):
-        Level.__init__(self)
+    def __init__(self,gameObj):
+        Level.__init__(self,gameObj)
 
         #level number
         self.levelNumber = 0
@@ -264,8 +289,8 @@ class Level0(Level):
 
 class Level1(Level):
 
-    def __init__(self):
-        Level.__init__(self)
+    def __init__(self,gameObj):
+        Level.__init__(self,gameObj)
 
         #level number
         self.levelNumber = 1
@@ -413,6 +438,9 @@ class Level1(Level):
         self._addCheckpoint(11300)
         self._addTerrain( levelobject.MarioGround1632(11300,SCREEN_HEIGHT-16) )
 
+        self._addHeart( levelobject.Heart(1000,300) )
+        self._addAmmo( levelobject.Ammo(700,300) )
+
 
 """
     Sonic level
@@ -420,8 +448,8 @@ class Level1(Level):
 
 class Level2(Level):
 
-    def __init__(self):
-        Level.__init__(self)
+    def __init__(self,gameObj):
+        Level.__init__(self,gameObj)
 
         #level number
         self.levelNumber = 2

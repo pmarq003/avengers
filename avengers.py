@@ -183,13 +183,13 @@ class AvengersGame:
 
     def getCurrentLevel(self):
         if self.levelNumber == 0:
-            return level.Level0()
+            return level.Level0(self)
         elif self.levelNumber == 1:
-            return level.Level1()
+            return level.Level1(self)
         elif self.levelNumber == 2:
-            return level.Level2()
+            return level.Level2(self)
         elif self.levelNumber == 3:
-            return level.Level3()
+            return level.Level3(self)
         else:
             return None
     
