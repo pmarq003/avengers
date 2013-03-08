@@ -60,6 +60,10 @@ class AvengersGame:
             sound.set_sfx_vol(0)
             self.hud.vol = False
 
+        #Skip all that clicking, ain't nobody got time for that
+        if "-p" in sys.argv:
+            self.startMenu.playing = True
+
     def update(self):
         #Game loop
         wasplaying = True #Hack to figure out when we need to change sounds
