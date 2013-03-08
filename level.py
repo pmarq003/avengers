@@ -15,7 +15,7 @@ import sound
 """
     level.py
             holds player collision detection
-            to see AI nodes uncomment line 183-184
+            to see AI nodes uncomment line 191-193ish
             AI constants can be found in constants.py
             levels found at bottom of file
 """
@@ -278,7 +278,7 @@ class Level1(Level):
         self._addTerrain( levelobject.MarioPlatform6(2050,200) )
             #empty platform
         self._addTerrain( levelobject.MarioPlatform6(2350,350) )
-            #floor + nodes for goombas + checkpoint
+            #floor + nodes for fuzzies + checkpoint
         self._addNode( levelobject.Node(2600,SCREEN_HEIGHT-32,0,0,-1) )
         self._addNode( levelobject.Node(2600,SCREEN_HEIGHT-75,0,0,-1) )
         self._addNode( levelobject.Node(2600,SCREEN_HEIGHT-115,0,0,-1) )
@@ -336,7 +336,7 @@ class Level1(Level):
         self._addEnemy( enemy.ParaKoopa(7830,-600, self.player, FLYVERT) )
         self._addNode( levelobject.Node(7830, -600) )
         self._addTerrain( levelobject.MarioCloud(7870, -720) )
-        self._addEnemy( enemy.ParaKoopa(7800,-950, self.player, FLYSWOOP) )
+        self._addEnemy( enemy.ParaKoopa(7800,-959, self.player, FLYSWOOP) )
         self._addTerrain( levelobject.MarioCloud(8100, -400) )
             #two koopas in between two clouds
         self._addTerrain( levelobject.MarioCloud(8400,-600) )
@@ -356,7 +356,33 @@ class Level1(Level):
         self._addEnemy( enemy.ParaKoopa(9550,-683, self.player, FLYVERT) )
         self._addNode( levelobject.Node(9550, -1100) )
         self._addTerrain( levelobject.MarioCloud(9650,-700) )
-            #platform back to ground
+        self._addCheckpoint(9700)
+            #moving platforms back to ground
+        self._addNode( levelobject.Node(9850, -650,0,0,-1,-1) )
+        self._addTerrain( levelobject.MarioMovablePlatform(9900,-600,5,5) )
+        self._addNode( levelobject.Node(10250, -250,0,0,-1,-1) )
+
+        self._addNode( levelobject.Node(10450,-500) )
+        self._addEnemy( enemy.ParaKoopa(10450,-300, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(10450,-100) )
+
+        self._addNode( levelobject.Node(10600,-400,0,0,0,-1) )
+        self._addTerrain( levelobject.MarioMovablePlatform(10600,-200,0,5) )
+        self._addNode( levelobject.Node(10600,100,0,0,0,-1) )
+
+        self._addNode( levelobject.Node(10850,-700) )
+        self._addEnemy( enemy.ParaKoopa(10850,-500, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(10850,-300) )
+        self._addEnemy( enemy.ParaKoopa(10850,   0, self.player, FLYVERT) )
+        self._addNode( levelobject.Node(10850, 100) )
+
+        self._addNode( levelobject.Node(11000,-100,0,0,0,-1) )
+        self._addTerrain( levelobject.MarioMovablePlatform(11000,0,0,5) )
+        self._addNode( levelobject.Node(11000,400,0,0,0,-1) )
+            #floor
+        self._addCheckpoint(11300)
+        self._addTerrain( levelobject.MarioGround1632(11300,SCREEN_HEIGHT-16) )
+
 
 """
     Sonic level
