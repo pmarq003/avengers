@@ -238,17 +238,17 @@ class AvengersGame:
         #set chosen player
         choice = int(data[1])
         if choice == 1:
-            self.currLevel.player = player.Hulk(0,0,self)
+            self.currLevel.player = player.Hulk(0,0,self.currLevel)
         elif choice == 2:
-            self.currLevel.player = player.Thor(0,0,self)
+            self.currLevel.player = player.Thor(0,0,self.currLevel)
         elif choice == 3:
-            self.currLevel.player = player.CaptainAmerica(0,0,self)
+            self.currLevel.player = player.CaptainAmerica(0,0,self.currLevel)
         elif choice == 4:
-            self.currLevel.player = player.IronMan(0,0,self)
+            self.currLevel.player = player.IronMan(0,0,self.currLevel)
         elif choice == 5:
-            self.currLevel.player = player.Hawkeye(0,0,self)
+            self.currLevel.player = player.Hawkeye(0,0,self.currLevel)
         elif choice == 6:
-            self.currLevel.player = player.BlackWidow(0,0,self)
+            self.currLevel.player = player.BlackWidow(0,0,self.currLevel)
         self.currLevel.charsel.setChar(choice)
         #set player coords
         self.currLevel.player.rect.x = int(data[2])
