@@ -4,13 +4,15 @@ import pygame
 
 class physics(object):
     def __init__(self):
+        pass
+        
+    def handleCollision(self,a,b):
         #sentinel overlap values
         topOverlap = -500
         botOverlap = 500
         leftOverlap = -500
         rightOverlap = 500
         
-    def handleCollision(self,a,b):
         #If either object isn't solid we don't care
         if not a.solid or not b.solid: return
 
