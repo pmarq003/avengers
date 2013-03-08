@@ -4,6 +4,7 @@ import sound
 from animation import StaticAnimation
 from levelobject import TransientEntity
 import pygame
+import random
 
 class Player(Character):
     can_get_hurt  = True
@@ -54,7 +55,8 @@ class Player(Character):
             elif self.attack_timer == 0:
                 self.attacking = True
                 self.attack_timer = self.primary_attack_length
-                sound.play_sfx('sounds/SSB_Kick_Hit1.wav')
+                #now plays a random sound which may or may not be captain falcon
+                sound.play_sfx('sounds/sfx/hit (%s).wav' % random.randint(1, 7))
 
             #mid recovery
             else:
@@ -88,6 +90,7 @@ class Player(Character):
                 self.isJumping = True
                 self.velY -= self.jumpVel
                 self._load_image( self.jump )
+                sound.play_sfx('sounds/sfx/yes.wav')
 
     def got_hurt(self,by):
         self.die()
