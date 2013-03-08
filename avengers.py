@@ -138,6 +138,10 @@ class AvengersGame:
                         if self.frameCount > 30:
                             self.hud.incTime()
                             self.frameCount = 0
+                    #check for level completion
+                    if self.currLevel.levelCompleted:
+                        self.levelNumber += 1
+                        self.currLevel = self.getCurrentLevel()
                 
                 else:
                 #show pause menu

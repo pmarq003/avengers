@@ -18,6 +18,9 @@ import sound
             to see AI nodes uncomment line 191-193ish
             AI constants can be found in constants.py
             levels found at bottom of file
+
+            The level is COMPLETED when there are NO MORE CHECKPOINTS LEFT!
+            Add a checkpoint at the end of the level!
 """
 
 class Level(object):
@@ -34,6 +37,9 @@ class Level(object):
         self._hearts = pygame.sprite.Group()
         self._ammo = pygame.sprite.Group()
         self._checkpoints = []
+        #True when all checkpoints have been reached
+        #put one checkpoint at end of level
+        self.levelCompleted = False
 
         self.vol = True
 
@@ -165,6 +171,10 @@ class Level(object):
                     self.saveLevel()
                 i += 1
 
+            #check if level is done
+            if len(self._checkpoints) == 0:
+                self.levelCompleted = True
+
 
 
     def _handleNodeCollision(self, enemy, node):
@@ -184,7 +194,6 @@ class Level(object):
                 self.background.draw(camera)
             if self.parallax:
                 self.parallax.draw(camera)
-            self.player.draw(camera)
 
             #update '-30' to width of the volume image
             self.volume_button = StaticImage( "images/menusprites/volume.png",
@@ -195,6 +204,8 @@ class Level(object):
             for terrainObj in self._terrain:
                 terrainObj.draw(camera)
 
+            self.player.draw(camera)
+
             for enemyObj in self._enemies:
                 enemyObj.draw(camera)
 
@@ -202,8 +213,8 @@ class Level(object):
                 entObj.draw(camera)
 
             #TODO uncomment for debugging
-            for nodeObj in self._nodes:
-                nodeObj.draw(camera)
+            #for nodeObj in self._nodes:
+            #    nodeObj.draw(camera)
 
             for heartObj in self._hearts:
                 heartObj.draw(camera)
@@ -271,17 +282,45 @@ class Level0(Level):
         bg2  = 'images/levelsprites/tut/tutbg2.gif'
         self.parallax = Parallax(bg1,0,-400, bg2,0,100)
 
+            #checkpoint
+        self._addCheckpoint(10)
             #floor
         self._addTerrain( levelobject.TutGround(0, SCREEN_HEIGHT-16) )
+            #signs
+        self._addTerrain( levelobject.TutSign1(20, SCREEN_HEIGHT-254) )
+        self._addTerrain( levelobject.TutSign2(350, SCREEN_HEIGHT-146) )
+        self._addTerrain( levelobject.TutSign3(850, SCREEN_HEIGHT-148) )
+        self._addTerrain( levelobject.TutSign4(1150, SCREEN_HEIGHT-153) )
+            #enemies
+        self._addNode( levelobject.Node(870,550) )
+        self._addEnemy( enemy.Pup1(900,550,self.player,PLATFORM) )
+        self._addEnemy( enemy.Kit1(1150,550,self.player,PLATFORM) )
+        self._addNode( levelobject.Node(1200,550) )
+            #floor
         self._addTerrain( levelobject.TutGround(1500, SCREEN_HEIGHT-16) )
-
-        #testing enemies
-        self._addEnemy( enemy.Pup1(400,500,self.player,PLATFORM) )
-        #self._addEnemy( enemy.Pup2(200,100,self.player,HOP) )
-        #self._addEnemy( enemy.Pup3(500,100,self.player,HOP) )
-
-        #self._addEnemy( enemy.Kit1(300,100,self.player,HOP) )
-        #self._addEnemy( enemy.Kit2(400,100,self.player,HOP) )
+            #more signs
+        self._addTerrain( levelobject.TutSign5(1650, SCREEN_HEIGHT-148) )
+            #enemies
+        self._addNode( levelobject.Node(1700,550) )
+        self._addEnemy( enemy.Pup2(1730,550,self.player,PLATFORM) )
+        self._addEnemy( enemy.Kit2(1970,550,self.player,PLATFORM) )
+        self._addNode( levelobject.Node(2000,550) )
+        self._addEnemy( enemy.Kit1(2500,550,self.player,NONE) )
+            #third floor
+        self._addTerrain( levelobject.TutGround(2930, SCREEN_HEIGHT-16) )
+        self._addTerrain( levelobject.TutSign6(3000, SCREEN_HEIGHT-161) )
+            #lots of enemies
+        self._addNode( levelobject.Node(3100, 550) )
+        self._addEnemy( enemy.Pup3(3150,550,self.player,PLATFORM) )
+        self._addEnemy( enemy.Pup2(3200,550,self.player,NONE) )
+        self._addEnemy( enemy.Kit2(3300,550,self.player,PLATFORM) )
+        self._addEnemy( enemy.Pup1(3400,550,self.player,NONE) )
+        self._addEnemy( enemy.Pup1(3550,550,self.player,PLATFORM) )
+        self._addEnemy( enemy.Kit1(3650,550,self.player,PLATFORM) )
+        self._addEnemy( enemy.Kit1(3700,550,self.player,NONE) )
+        self._addNode( levelobject.Node(3750, 550) )
+            #end of level
+        self._addCheckpoint(3900)
 
 
 """
@@ -441,6 +480,9 @@ class Level1(Level):
 
         self._addHeart( levelobject.Heart(1000,300) )
         self._addAmmo( levelobject.Ammo(700,300) )
+
+            #temp end of level
+        self._addCheckpoint(20000)
 
 
 """

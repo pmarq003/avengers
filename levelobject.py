@@ -54,18 +54,34 @@ class Node(LevelObject):
     base_img_path = 'images/node.jpg'
 
 
-#   Basic level objects...
-
-class BasicPlatform(LevelObject):
-    base_img_path = 'images/basicplatform.png'
-
-class BasicPlatform2(LevelObject):
-    base_img_path = 'images/basicplatform2.png'
-
 #   Tutorial level objects
 
 class TutGround(LevelObject):
     base_img_path = 'images/levelsprites/tut/tutground.gif'
+
+class TutSign1(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/tut/tutsign1.gif'
+
+class TutSign2(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/tut/tutsign2.gif'
+
+class TutSign3(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/tut/tutsign3.gif'
+
+class TutSign4(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/tut/tutsign4.gif'
+
+class TutSign5(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/tut/tutsign5.gif'
+
+class TutSign6(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/tut/tutsign6.gif'
 
 #    Mario-related level objects
 
