@@ -38,7 +38,7 @@ class AvengersGame:
         logger.get().setCamera(self.camera)
 
         #number of the current level
-        self.levelNumber = 1    #default 1, change for debugging
+        self.levelNumber = 0    #default 1, change for debugging
         self.currLevel = self.getCurrentLevel()
         logger.get().setLevel(self.levelNumber)
 
@@ -179,7 +179,7 @@ class AvengersGame:
 
     def getCurrentLevel(self):
         if self.levelNumber == 0:
-            return None
+            return level.Level0()
         elif self.levelNumber == 1:
             return level.Level1()
         elif self.levelNumber == 2:

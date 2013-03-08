@@ -226,7 +226,37 @@ class Level(object):
 """
 
 class Level0(Level):
-    None
+
+    def __init__(self):
+        Level.__init__(self)
+
+        #level number
+        self.levelNumber = 0
+
+        self.height = SCREEN_HEIGHT
+        #default player to init enemies TODO doesn't update position...
+        self.player = player.IronMan(100,100,self)
+
+        #background music
+        self.bgm = 'sounds/bgm/ToughGuy.wav'
+
+        #background
+        self.background = None
+        self.parallax = None
+        #bg1  = 'images/levelsprites/smw/smwbg1.png'
+        #bg2  = 'images/levelsprites/smw/smwbg2.png'
+        #self.parallax = Parallax(bg1,0,-261, bg2,0,-2400)
+
+        self._addTerrain( levelobject.TutGround(0, SCREEN_HEIGHT-16) )
+
+        #testing enemies
+        self._addEnemy( enemy.Pup1(100,100,self.player,0))
+        self._addEnemy( enemy.Pup2(200,100,self.player,0))
+        self._addEnemy( enemy.Pup3(500,100,self.player,0))
+
+        self._addEnemy( enemy.Kit1(300,100,self.player,0))
+        self._addEnemy( enemy.Kit2(400,100,self.player,0))
+
 
 """
     Mario level

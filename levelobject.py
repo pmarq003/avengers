@@ -62,6 +62,11 @@ class BasicPlatform(LevelObject):
 class BasicPlatform2(LevelObject):
     base_img_path = 'images/basicplatform2.png'
 
+#   Tutorial level objects
+
+class TutGround(LevelObject):
+    base_img_path = 'images/levelsprites/tut/tutground.gif'
+
 #    Mario-related level objects
 
 class MarioGround1632(LevelObject):
