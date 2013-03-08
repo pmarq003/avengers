@@ -38,7 +38,7 @@ class StartMenu(object):
         self.plot_next_button    = StaticImage( "images/menusprites/next.png",900, 530 )
         self.plot_bg             = StaticImage( "images/plot/smw/1.jpg",0,0)
 
-        self.bgm = 'sounds/SureShot.wav'
+        self.bgm = 'sounds/bgm/SureShot.wav'
 
         self.playing = False
         self.loadLevel = False
