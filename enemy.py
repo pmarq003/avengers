@@ -261,7 +261,7 @@ class CaptainRussia(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'captnrussia'
+    animFolder = 'enemysprites/captnrussia'
 
 """
 Mario-themed enemies
@@ -278,7 +278,7 @@ class Goomba(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'goomba'
+    animFolder = 'enemysprites/goomba'
 
 class Mario(Enemy):
     numWalkFrames = 2        #number pics in move anim
@@ -291,7 +291,7 @@ class Mario(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'mario'
+    animFolder = 'enemysprites/mario'
 
 class Luigi(Enemy):
     numWalkFrames = 2        #number pics in move anim
@@ -304,7 +304,7 @@ class Luigi(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'luigi'
+    animFolder = 'enemysprites/luigi'
 
 class Fuzzy(Enemy):
     numWalkFrames = 1        #number pics in move anim
@@ -317,7 +317,7 @@ class Fuzzy(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'fuzzy'
+    animFolder = 'enemysprites/fuzzy'
 
 class RedKoopa(Enemy):
     numWalkFrames = 4        #number pics in move anim
@@ -330,7 +330,7 @@ class RedKoopa(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'redkoopa'
+    animFolder = 'enemysprites/redkoopa'
 
 class ParaKoopa(Enemy):
     numWalkFrames = 5        #number pics in move anim
@@ -350,7 +350,7 @@ class ParaKoopa(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'parakoopa'
+    animFolder = 'enemysprites/parakoopa'
 
 class ShyGuy(Enemy):
     numWalkFrames = 5        #number pics in move anim
@@ -363,4 +363,4 @@ class ShyGuy(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'shyguy'
+    animFolder = 'enemysprites/shyguy'
