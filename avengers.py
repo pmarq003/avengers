@@ -83,12 +83,13 @@ class AvengersGame:
             elif eventmanager.get().REPLAYPRESSED == True :
                 # save game before hand
                 self.saveState()
-                logger.get().replay() 
+                logger.get().replay()
                 self.saveCharSelection() # for some reason, replay resets the save file's char to 0
                 self.loadLevel(0)
                 #give temporary invincibility -> for 2 seconds
                 self.tempInvincibility()
-             
+
+            #player is playing the game
             if self.startMenu.isPlaying():
 
                 if not wasplaying: sound.play_bgm(self.currLevel.bgm)
@@ -98,6 +99,10 @@ class AvengersGame:
                     logger.get().setStart(self.currLevel.player.rect.x, self.currLevel.player.rect.y)
 
                     logger.get().clear()
+                    #reset the parallax
+                    if self.currLevel.parallax:
+                        self.currLevel.parallax.x1copy = False
+                        self.currLevel.parallax.x2copy = False
                     self.loadLevel()
 
                     if self.player_lives < 1:
