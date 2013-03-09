@@ -10,7 +10,10 @@ class StartMenu(object):
 
     def __init__(self):
         self.currentLevel = 0
+        self.plotfolder = "tut"
         self.currentPlot = 1
+        self.maxPlot = 1
+        
         self.gamma = 1.0
 
         self.splash_bg           = StaticImage( "images/menusprites/splash.png",0,0 )
@@ -36,6 +39,7 @@ class StartMenu(object):
         #plot page
         self.plot_back_button    = StaticImage( "images/menusprites/back.png",904, 490 )
         self.plot_next_button    = StaticImage( "images/menusprites/next.png",900, 530 )
+        self.plot_skip_button    = StaticImage( "images/menusprites/skip.png",900, 450 )
         self.plot_bg             = StaticImage( "images/plot/smw/1.jpg",0,0)
 
         self.bgm = 'sounds/bgm/SureShot.wav'
@@ -65,8 +69,9 @@ class StartMenu(object):
             self.back_button.draw(camera)
             
         elif self.show_plot:
-            self.plot_bg = StaticImage( "images/plot/smw/%s.jpg" % self.currentPlot,0,0)
+            self.plot_bg = StaticImage( "images/plot/%s/%s.jpg" % (self.plotfolder, self.currentPlot),0,0)
             self.plot_bg.draw(camera)
+            self.plot_skip_button.draw(camera)
             self.plot_back_button.draw(camera)
             self.plot_next_button.draw(camera)
 
@@ -161,13 +166,25 @@ class StartMenu(object):
             
             #Plot Menu
             elif self.show_plot:
-                if self.plot_next_button.get_rect().collidepoint(clickpoint) and self.currentPlot < 15:
+                if self.currentLevel == 0:
+                    self.plotfolder = "tut"
+                    self.maxPlot = 1
+                elif self.currentLevel == 1:
+                    self.plotfolder = "smw"
+                    self.maxPlot = 15
+#                else
+#                    self.playing = True
+                    
+                if self.plot_next_button.get_rect().collidepoint(clickpoint):
+                    self.show_plot = False
+                    self.playing = True
+                elif self.plot_next_button.get_rect().collidepoint(clickpoint) and self.currentPlot < self.maxPlot:
                     self.currentPlot = self.currentPlot + 1
                 elif self.plot_back_button.get_rect().collidepoint(clickpoint) and self.currentPlot > 1:
                     self.currentPlot = self.currentPlot - 1
                 elif self.plot_back_button.get_rect().collidepoint(clickpoint) and self.currentPlot == 1:
                     self.show_plot = False
-                elif self.plot_next_button.get_rect().collidepoint(clickpoint) and self.currentPlot == 15:
+                elif self.plot_next_button.get_rect().collidepoint(clickpoint) and self.currentPlot == self.maxPlot:
                     self.show_plot = False
                     self.playing = True
                     

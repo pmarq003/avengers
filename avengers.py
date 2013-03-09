@@ -140,8 +140,11 @@ class AvengersGame:
                             self.frameCount = 0
                     #check for level completion
                     if self.currLevel.levelCompleted:
+                        wasplaying = False
                         self.levelNumber += 1
                         self.currLevel = self.getCurrentLevel()
+                    else:
+                        wasplaying = True
                 
                 else:
                 #show pause menu
@@ -164,8 +167,6 @@ class AvengersGame:
                 player_rect = self.currLevel.get_player_rect()
                 self.camera.updatePosition(player_rect)
 
-                #Fill the screen, draw level, flip the buffer
-                wasplaying = True
             else:
 
                 #update inputs from startMenu
@@ -178,7 +179,8 @@ class AvengersGame:
                 #'Load Game' clicked
                 if self.startMenu.loadLevel == True:
                     self.loadLevel()
-
+            
+            #Fill the screen, draw level, flip the buffer
             pygame.display.flip()
 
             #Stop timer and sleep for remainder of time

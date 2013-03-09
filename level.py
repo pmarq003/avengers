@@ -274,7 +274,7 @@ class Level0(Level):
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/ToughGuy.wav'
+        self.bgm = 'sounds/bgm/lvl0.wav'
 
         #background
         self.background = None
