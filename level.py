@@ -340,7 +340,7 @@ class Level1(Level):
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/ToughGuy.wav'
+        self.bgm = 'sounds/bgm/lvl1.wav'
 
         #background
         #self.background = levelobject.StaticImage('images/levelsprites/smw/smwbg1.png',0,-2400)
