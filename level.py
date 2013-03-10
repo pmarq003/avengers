@@ -390,6 +390,7 @@ class Level1(Level):
         self._addNode( levelobject.Node(2600,SCREEN_HEIGHT-115,0,0,-1) )
         self._addNode( levelobject.Node(2600,SCREEN_HEIGHT-150,0,0,-1) )
         self._addTerrain( levelobject.MarioGround1632(2600,SCREEN_HEIGHT-16) )
+        self._addTerrain( levelobject.Checkpoint(2700,SCREEN_HEIGHT-153) )
         self._addCheckpoint(2700)
         self._addNode( levelobject.Node(4200,SCREEN_HEIGHT-75,0,0,-1))
         self._addNode( levelobject.Node(4200,SCREEN_HEIGHT-32,0,0,-1) )
@@ -425,6 +426,7 @@ class Level1(Level):
         self._addEnemy( enemy.Fuzzy(6260, 100, self.player, JUMP) )
         self._addNode( levelobject.Node(6700,300,0,0,-1))
             #checkpoint
+        self._addTerrain( levelobject.Checkpoint(6850,63) )
         self._addCheckpoint(6800)
             #platforms w shyguy
         self._addNode( levelobject.Node(6800,180) )
@@ -462,6 +464,7 @@ class Level1(Level):
         self._addEnemy( enemy.ParaKoopa(9550,-683, self.player, FLYVERT) )
         self._addNode( levelobject.Node(9550, -1100) )
         self._addTerrain( levelobject.MarioCloud(9650,-700) )
+        self._addTerrain( levelobject.Checkpoint(9700,-837) )
         self._addCheckpoint(9700)
             #moving platforms back to ground
         self._addNode( levelobject.Node(9850, -650,0,0,-1,-1) )
@@ -486,15 +489,17 @@ class Level1(Level):
         self._addTerrain( levelobject.MarioMovablePlatform(11000,0,0,5) )
         self._addNode( levelobject.Node(11000,400,0,0,0,-1) )
             #floor
+        self._addTerrain( levelobject.Checkpoint(11350,SCREEN_HEIGHT-153) )
         self._addCheckpoint(11300)
         self._addTerrain( levelobject.MarioGround1632(11300,SCREEN_HEIGHT-16) )
         self._addTerrain( levelobject.MarioGround1632(12932,SCREEN_HEIGHT-16) )
+        self._addTerrain( levelobject.MarioCastle(12700,SCREEN_HEIGHT-338) )
 
         self._addHeart( levelobject.Heart(1000,300) )
         self._addAmmo( levelobject.Ammo(700,300) )
 
             #temp end of level
-        self._addCheckpoint(12900)
+        self._addCheckpoint(12500)
 
 
 """
