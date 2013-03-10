@@ -520,7 +520,7 @@ class Level2(Level):
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/ToughGuy.wav'
+        self.bgm = 'sounds/bgm/lvl2.wav'
 
         #background
         self.background = levelobject.StaticImage('images/levelsprites/sonic/background.jpg',0,-55)
@@ -558,7 +558,7 @@ class Level3(Level):
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/ToughGuy.wav'
+        self.bgm = 'sounds/bgm/lvl3.wav'
 
         #background
         self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
@@ -590,7 +590,7 @@ class Level4(Level):
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/ToughGuy.wav'
+        self.bgm = 'sounds/bgm/lvl4.wav'
 
         #background
         self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
@@ -622,10 +622,10 @@ class Level5(Level):
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/ToughGuy.wav'
+        self.bgm = 'sounds/bgm/lvl5.wav'
 
         #background
-        self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
+        self.background = levelobject.StaticImage('images/levelsprites/castlevania/background.jpg',0,-55)
         self.parallax = False
 
         #level objects in order
