@@ -50,6 +50,7 @@ class AvengersGame:
         self.startMenu = startmenu.StartMenu()
         self.pauseMenu = pausemenu.PauseMenu()
         logger.get().setMenu(self.startMenu)
+        logger.get().setAvengersObj(self)
 
         #the hud
         self.hud = hud.HUD()
@@ -146,6 +147,7 @@ class AvengersGame:
                         self.levelNumber += 1
                         self.hud.resetTime()
                         self.currLevel = self.getCurrentLevel()
+                        logger.get().clear()
                     else:
                         wasplaying = True
                 

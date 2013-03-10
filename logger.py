@@ -27,28 +27,35 @@ class Logger(object):
 		self.y = 500
 		
 	def setCamera(self, camera):
-	    self.camera = camera
-	    
+		self.camera = camera
+		
 	def getLevel(self, levelNumber):
 		if self.levelNumber == 0:
-			self.currLevel = None
+			self.currLevel = level.Level0(self.avengersObj)
 		elif self.levelNumber == 1:
-			self.currLevel = level.Level1()
+			self.currLevel = level.Level1(self.avengersObj)
 		elif self.levelNumber == 2:
-			self.currLevel = level.Level2()
+			self.currLevel = level.Level2(self.avengersObj)
 		elif self.levelNumber == 3:
-			self.currLevel = level.Level3()
+			self.currLevel = level.Level3(self.avengersObj)
+		elif self.levelNumber == 4:
+			self.currLevel = level.Level4(self.avengersObj)
+		elif self.levelNumber == 5:
+			self.currLevel = level.Level5(self.avengersObj)
 		else:
 			self.currLevel = None
 					
+	def setAvengersObj(self, avengersObj):
+		self.avengersObj = avengersObj
+			
 	def setLevel(self, levelNumber):
 		self.levelNumber = levelNumber
 	
 	def setScreen(self, screen):
-	    self.screen = screen
+		self.screen = screen
 	
 	def setMenu(self, startMenu):
-	    self.startMenu = startMenu
+		self.startMenu = startMenu
 	
 	def setChar(self, char):
 		self.char = char
@@ -56,19 +63,33 @@ class Logger(object):
 	def setStart(self, x,y): 
 		self.x = x
 		self.y = y
+		
+	def loadChar(self):
+		f = open('replay', 'r')
+		data = f.readline().split()
+		f.close()
+		self.levelNumber = int(data[0])
+		self.char = int(data[1])
 	
 	def replay(self):
 		if time.clock() - self.timer > 2 :
 			node = self.first
+			self.loadChar()			    
 			self.getLevel(self.levelNumber)
 			self.currLevel.setPlayer(self.char, 0, 0)
 			self.currLevel.player.rect.x = int(self.x)
 			self.currLevel.player.rect.y = int(self.y)
 			self.currLevel.player.can_get_hurt = False
+			self.currLevel.plotOver = True
 			while node != None:
 				milliStart = pygame.time.get_ticks()
 				eventmanager.get().handleEvents(node.events)
-				self.screen.fill(constants.DEFAULT_BGCOLOR)
+				if self.currLevel.levelNumber == 0:
+					self.screen.fill(constants.LEVEL0_BGCOLOR)
+				elif self.currLevel.levelNumber == 1:
+					self.screen.fill(constants.LEVEL1_BGCOLOR)
+				else:
+					self.screen.fill(constants.DEFAULT_BGCOLOR)
 				self.currLevel.draw(self.camera)
 				self.currLevel.update()
 				player_rect = self.currLevel.get_player_rect()
