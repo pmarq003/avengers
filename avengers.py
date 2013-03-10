@@ -123,10 +123,12 @@ class AvengersGame:
                     self.screen.fill(constants.DEFAULT_BGCOLOR)
                 self.currLevel.draw(self.camera)
 
-                if self.currLevel.charSelected:
+                if self.currLevel.charSelected and self.currLevel.plotOver:
                     self.hud.draw(self.camera, self)
-                else:
-                    self.hud.drawVol(self.camera)
+                #This didn't work. It only drew the camera icon,
+                #it didn't update. Took it out. -mike
+#                else:
+#                    self.hud.drawVol(self.camera)
 
                 #Update player and enemies positions/current actions
                 if not eventmanager.get().isPaused():
@@ -264,6 +266,7 @@ class AvengersGame:
         if state == 1 : 
             logger.get().setStart(self.currLevel.player.rect.x, self.currLevel.player.rect.y)
         self.currLevel.charSelected = True
+        self.currLevel.plotOver = True
         #begin playing level
         self.startMenu.loadLevel = False
         self.startMenu.playing = True

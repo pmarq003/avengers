@@ -1,4 +1,5 @@
 import charsel
+import plot
 import pygame
 import pygame.sprite
 import player
@@ -30,6 +31,8 @@ class Level(object):
         self.levelNumber = -1   #override in specific levels
         self.charsel = charsel.CharSel()
         self.charSelected = False
+  #      self.plot = plot.Plot(-1)
+        self.plotOver = False
         self._terrain = pygame.sprite.Group()
         self._enemies = pygame.sprite.Group()
         self._nodes = pygame.sprite.Group()
@@ -80,6 +83,10 @@ class Level(object):
                 self.player = player.BlackWidow(0,500,self)
 
             if choice > 0 : self.charSelected = True
+
+        elif not self.plotOver:
+            self.plot.update()
+            if self.plot.getPlot() : self.plotOver = True
 
         else:
 
@@ -187,6 +194,8 @@ class Level(object):
 
         if not self.charSelected:
             self.charsel.draw(camera)
+        elif not self.plotOver:
+            self.plot.draw(camera)
         else:
 
             #draw parallax if there is no background
@@ -268,6 +277,7 @@ class Level0(Level):
 
         #level number
         self.levelNumber = 0
+        self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
         #default player to init enemies TODO doesn't update position...
@@ -334,6 +344,7 @@ class Level1(Level):
 
         #level number
         self.levelNumber = 1
+        self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
         #default player to init enemies TODO doesn't update position...
@@ -496,6 +507,7 @@ class Level2(Level):
 
         #level number
         self.levelNumber = 2
+        self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
         #default player to init enemies TODO doesn't update position...
@@ -523,6 +535,7 @@ class Level3(Level):
 
         #level number
         self.levelNumber = 3
+        self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
         #default player to init enemies TODO doesn't update position...
