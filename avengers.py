@@ -124,6 +124,11 @@ class AvengersGame:
                 self.currLevel.draw(self.camera)
 
                 if self.currLevel.charSelected and self.currLevel.plotOver:
+                    #Hud timer logic
+                    self.frameCount = self.frameCount + 1
+                    if self.frameCount > 30:
+                        self.hud.incTime()
+                        self.frameCount = 0
                     self.hud.draw(self.camera, self)
                 #This didn't work. It only drew the camera icon,
                 #it didn't update. Took it out. -mike
@@ -135,15 +140,11 @@ class AvengersGame:
                     self.currLevel.update()
                     if self.currLevel.charSelected:
                         self.hud.update()
-                        #Hud timer logic
-                        self.frameCount = self.frameCount + 1
-                        if self.frameCount > 30:
-                            self.hud.incTime()
-                            self.frameCount = 0
                     #check for level completion
                     if self.currLevel.levelCompleted:
                         wasplaying = False
                         self.levelNumber += 1
+                        self.hud.resetTime()
                         self.currLevel = self.getCurrentLevel()
                     else:
                         wasplaying = True
@@ -160,6 +161,7 @@ class AvengersGame:
                         eventmanager.get().PAUSED = False
                     elif self.pauseMenu.restartLevel:
                     #'restart level' clicked 
+                        self.hud.resetTime()
                         self.currLevel = self.getCurrentLevel()
                         self.pauseMenu.restartLevel = False
                         eventmanager.get().PAUSED = False

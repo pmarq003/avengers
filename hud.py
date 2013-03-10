@@ -1,6 +1,7 @@
 from levelobject import StaticImage
 import eventmanager
 import sound
+import score
 
 class HUD(object):
     def __init__(self):
@@ -13,8 +14,7 @@ class HUD(object):
         self.time = 0
         self.timeString = "000"
         
-        self.score = 123456789
-        self.scoreString = "123456789"
+        self.scoreString = "0"
 
         self.volume_button = StaticImage( "images/menusprites/volume.png", 0, 0 )
         self.mute_button = StaticImage( "images/menusprites/mute.png", 0, 0 )
@@ -81,6 +81,8 @@ class HUD(object):
         
         self.score_title.rect.topleft = camera.window.right - 580, camera.window.top + 55
         self.score_title.draw(camera)    
+        self.scoreString = score.get().getScore()
+        
         for i in range(0, len(self.scoreString)):
             self.digit = StaticImage( "images/hudsprites/%s.png" % self.scoreString[i], 
                                           camera.window.right - 500 + i*(self.digit.rect.width-6), 
@@ -97,11 +99,3 @@ class HUD(object):
     def resetTime(self):
         self.time = 0
         self.timeString = "000"
-        
-    def incScore(self,gain):
-        self.score = self.score + gain
-        self.scoreString = "%d" % self.score
-        
-    def resetScore(self):
-        self.score = 0
-        self.scoreString = "0"

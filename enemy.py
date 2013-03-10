@@ -7,6 +7,7 @@ from pygame.sprite import Sprite
 
 import random
 import avengers
+import score
 
 
 class Enemy(Character):
@@ -19,6 +20,7 @@ class Enemy(Character):
 
     def got_hurt(self,by):
         if by.attacking:
+            score.get().incScore(30)
             self.die()
         elif by.can_get_hurt:
             by.got_hurt(self)
