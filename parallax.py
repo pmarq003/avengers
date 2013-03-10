@@ -1,6 +1,11 @@
 """
     class to add depth to background
     images to use should be wider than the camera width (600px)
+
+    for now:
+            img1 should be the main background (ex: mountains in level 1)
+            img2 should be something continuously moving (ex: clouds in level 1)
+
 """
 
 from animation import StaticAnimation
@@ -16,43 +21,37 @@ class Parallax(Sprite):
         self.prevDist = None
         self.img1 = None
         self.img2 = None
+        #corrector for gaps
+        self.DX = 5
 
         if img1:
-            self.x1 = x1
             self.img1 = StaticAnimation(img1)
             self.rect1 = self.img1.get_rect()
             self.rect1.topleft = (x1,y1)
             #copy of the first image for when img1 is done
-            self.x1copy = None
+            self.x1copy = False
             self.rect1copy = self.img1.get_rect()
             self.rect1copy.topleft = (x1,y1)
         if img2:
-            self.x2 = x2
             self.img2 = StaticAnimation(img2)
             self.rect2 = self.img2.get_rect()
             self.rect2.topleft = (x2,y2)
             #copy of the second image for when img2 is done
-            self.x2copy = None
+            self.x2copy = False
             self.rect2copy = self.img2.get_rect()
             self.rect2.topleft = (x2,y2)
 
     # x = player.rect.x, y = player.rect.y
     def update(self,x,y):
-        if not self.prevDist:
-            self.prevDist = x
-        else:
-            img1Dist = (x-self.prevDist)/10.0
-            img2Dist = (x-self.prevDist)/5.0
-            #move origs + copies
-            if self.rect1:
-                self.rect1.x -= img1Dist
-            if self.x1copy:
-                self.rect1copy.x -= img1Dist
-            if self.rect2:
-                self.rect2.x -= img2Dist
-            if self.x2copy:
-                self.rect2copy.x -= img2Dist
-            self.prevDist = x
+        if self.rect1:
+            #self.rect1.x -= img1Dist
+            self.rect1.move_ip(-x/10,0)
+        if self.x1copy:
+            self.rect1copy.move_ip(-x/10,0)
+        if self.rect2:
+            self.rect2.move_ip(-1,0)
+        if self.x2copy:
+            self.rect2copy.move_ip(-1,0)
 
     def draw(self,camera):
         #draw main images
@@ -69,39 +68,39 @@ class Parallax(Sprite):
             camera.draw(image2,self.rect2copy)
 
         #bg images need to be looped on right side
-        if camera.window.right > self.x1 + self.rect2.width and not self.x1copy:
-            self.x1copy = camera.window.right
-            self.rect1copy.x = self.x1copy
-        if camera.window.right > self.x2 + self.rect2.width and not self.x2copy:
-            self.x2copy = camera.window.right
-            self.rect2copy.x = self.x2copy
+        if camera.window.right + self.DX >= self.rect1.right and not self.x1copy:
+            self.x1copy = True
+            self.rect1copy.x = camera.window.right
+        if camera.window.right + self.DX >=  self.rect2.right and not self.x2copy:
+            self.x2copy = True
+            self.rect2copy.x = camera.window.right
 
         #bg images need to be looped on left side
-        if not self.x1copy and camera.window.left < self.x1:
-            self.x1copy = camera.window.left - self.rect1.width
-            self.rect1copy.x = self.x1copy
-        if not self.x2copy and camera.window.left < self.x2:
-            self.x2copy = camera.window.left- self.rect2.width
-            self.rect2copy.x = self.x2copy
+        if not self.x1copy and camera.window.left - self.DX <= self.rect1.left:
+            self.x1copy = True
+            self.rect1copy.x = camera.window.left - self.rect1copy.width
+        if not self.x2copy and camera.window.left - self.DX <= self.rect2.left:
+            self.x2copy = True
+            self.rect2copy.x = camera.window.left - self.rect1copy.width
 
         #camera's left edge has passed the original bg image
-        #make the copy image the original
-        if camera.window.left > self.x1 + self.rect1.width and self.x1copy:
-            self.x1 = self.x1copy
-            self.rect1.x = self.x1
-            self.x1copy = None
-        if camera.window.left > self.x2 + self.rect2.width and self.x2copy:
-            self.x2 = self.x2copy
-            self.rect2.x = self.x2
-            self.x2copy = None
+        #make the original image's rect the copy's
+        if camera.window.left > self.rect1.right and self.x1copy:
+            self.rect1.x = self.rect1copy.x
+            self.x1copy = False
+        if camera.window.left > self.rect2.right and self.x2copy:
+            self.rect2.x = self.rect2copy.x
+            self.x2copy = False
 
         #camera's right edge has passed the original bg image
-        #make the copy image the original
-        if camera.window.right < self.x1 and self.x1copy:
-            self.x1 = self.x1copy
-            self.rect1.x = self.x1
-            self.x1copy = None
-        if camera.window.right < self.x2 and self.x2copy:
+        #make the original image's rect the copy's
+        if camera.window.right < self.rect1.left and self.x1copy:
+            self.rect1.x = self.rect1copy.x
+            self.x1copy = False
+        if camera.window.right < self.rect2.left and self.x2copy:
             self.x2 = self.x2copy
-            self.rect2.x = self.x2
-            self.x2copy = None
+            self.rect2.x = self.rect2copy.x
+            self.x2copy = False
+
+        #TODO
+        #free copy image - ex: unseen on left side, unseen on right

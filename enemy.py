@@ -7,6 +7,7 @@ from pygame.sprite import Sprite
 
 import random
 import avengers
+import score
 
 
 class Enemy(Character):
@@ -19,9 +20,10 @@ class Enemy(Character):
 
     def got_hurt(self,by):
         if by.attacking:
+            score.get().incScore(30)
             self.die()
         elif by.can_get_hurt:
-            by.die()
+            by.got_hurt(self)
 
     def __init__(self, x, y, player, ai):
         #general stuff
@@ -234,13 +236,18 @@ class Enemy(Character):
 
     #handles specific AI interactions with nodes in level
     def handleNodeCollision(self, node):
+        #tells platform AI to change direction
         if self.ai == PLATFORM:
             if self.facingRight:
                 self.rect.right = node.rect.left
             else:
                 self.rect.left = node.rect.right
             self.facingRight = not self.facingRight
-
+        #can be used to stop AI from hopping off a cliff
+        elif self.ai == HOP:
+            self.velX *= node.xmult
+            self.facingRight = not self.facingRight
+        #tells flying AI to change directions
         elif self.ai == FLYVERT:
             self.peaking = not self.peaking
 
@@ -256,7 +263,91 @@ class CaptainRussia(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'captnrussia'
+    animFolder = 'enemysprites/captnrussia'
+
+"""
+Tutorial enemies
+"""
+
+class Kit1(Enemy):
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #harmless
+    can_give_hurt = False
+
+    #movement vars
+    runVel = 3     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/kit1'
+
+class Kit2(Enemy):
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+    
+    #harmless
+    can_give_hurt = False
+
+    #movement vars
+    runVel = 3     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/kit2'
+
+class Pup1(Enemy):
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #harmless
+    can_give_hurt = False    
+    
+    #movement vars
+    runVel = 3     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/pup1'
+
+class Pup2(Enemy):
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #harmless
+    can_give_hurt = False
+
+    #movement vars
+    runVel = 3     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/pup2'
+
+class Pup3(Enemy):
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #harmless
+    can_give_hurt = False
+
+    #movement vars
+    runVel = 3     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/pup3'
 
 """
 Mario-themed enemies
@@ -273,7 +364,7 @@ class Goomba(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'goomba'
+    animFolder = 'enemysprites/goomba'
 
 class Mario(Enemy):
     numWalkFrames = 2        #number pics in move anim
@@ -286,7 +377,7 @@ class Mario(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'mario'
+    animFolder = 'enemysprites/mario'
 
 class Luigi(Enemy):
     numWalkFrames = 2        #number pics in move anim
@@ -299,7 +390,7 @@ class Luigi(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'luigi'
+    animFolder = 'enemysprites/luigi'
 
 class Fuzzy(Enemy):
     numWalkFrames = 1        #number pics in move anim
@@ -312,7 +403,7 @@ class Fuzzy(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'fuzzy'
+    animFolder = 'enemysprites/fuzzy'
 
 class RedKoopa(Enemy):
     numWalkFrames = 4        #number pics in move anim
@@ -325,7 +416,7 @@ class RedKoopa(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'redkoopa'
+    animFolder = 'enemysprites/redkoopa'
 
 class ParaKoopa(Enemy):
     numWalkFrames = 5        #number pics in move anim
@@ -345,7 +436,7 @@ class ParaKoopa(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'parakoopa'
+    animFolder = 'enemysprites/parakoopa'
 
 class ShyGuy(Enemy):
     numWalkFrames = 5        #number pics in move anim
@@ -358,4 +449,22 @@ class ShyGuy(Enemy):
     #distance before detect player
     playerRadius = 500
 
-    animFolder = 'shyguy'
+    animFolder = 'enemysprites/shyguy'
+    
+
+"""
+Sonic-themed enemies
+"""
+
+class Sonic(Enemy):
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/sonic'

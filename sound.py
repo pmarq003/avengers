@@ -19,7 +19,13 @@ def play_sfx(sound_path):
     sfx.play(snd)
 
 def set_bgm_vol(vol):
-    bgm.set_volume(vol)
+    bgm.set_volume(vol/100.0)
 
 def set_sfx_vol(vol):
-    bgm.set_volume(vol)
+    sfx.set_volume(vol/100.0)
+
+def get_bgm_vol():
+    return int(bgm.get_volume()*100)
+
+def get_sfx_vol():
+    return int(sfx.get_volume()*100)

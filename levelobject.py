@@ -54,13 +54,34 @@ class Node(LevelObject):
     base_img_path = 'images/node.jpg'
 
 
-#   Basic level objects...
+#   Tutorial level objects
 
-class BasicPlatform(LevelObject):
-    base_img_path = 'images/basicplatform.png'
+class TutGround(LevelObject):
+    base_img_path = 'images/levelsprites/tut/tutground.gif'
 
-class BasicPlatform2(LevelObject):
-    base_img_path = 'images/basicplatform2.png'
+class TutSign1(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/tut/tutsign1.gif'
+
+class TutSign2(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/tut/tutsign2.gif'
+
+class TutSign3(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/tut/tutsign3.gif'
+
+class TutSign4(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/tut/tutsign4.gif'
+
+class TutSign5(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/tut/tutsign5.gif'
+
+class TutSign6(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/tut/tutsign6.gif'
 
 #    Mario-related level objects
 
@@ -89,11 +110,15 @@ class MarioMovablePlatform(LevelObject):
     base_img_path = 'images/levelsprites/smw/mariomovableplat.png'
 
     def update(self):
-		self.rect.move_ip(self.velX,self.velY)
+        self.rect.move_ip(self.velX,self.velY)
 
     def handleNodeCollision(self, node):
         self.velX *= node.xmult
         self.velY *= node.ymult
+        
+class MarioCastle(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/smw/castle.gif'
 
 class MarioCloud(LevelObject):
     base_img_path = 'images/levelsprites/smw/mariocloud.png'
@@ -108,8 +133,15 @@ class SonicPlatformThick(LevelObject):
     
 class SonicPlatform(LevelObject):
     base_img_path = 'images/levelsprites/sonic/sonicplatform.jpg'
+    
+class SonicPlatformThin(LevelObject):
+    base_img_path = 'images/levelsprites/sonic/sonicplatform_thin.gif'
 
 #   Other stuff 
+
+class Checkpoint(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/checkpoint.gif'
 
 class StaticImage(LevelObject):
     def __init__(self,image_path,x,y):
@@ -123,3 +155,11 @@ class TransientEntity(LevelObject):
     def update(self):
         self.timeout -= 1
         if self.timeout < 0: self.kill()
+
+class Heart(LevelObject):
+    solid = False
+    base_img_path = 'images/heart.png'
+
+class Ammo(LevelObject):
+    solid = False
+    base_img_path = 'images/ammo.png'
