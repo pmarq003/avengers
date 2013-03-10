@@ -448,3 +448,21 @@ class ShyGuy(Enemy):
     playerRadius = 500
 
     animFolder = 'enemysprites/shyguy'
+    
+
+"""
+Sonic-themed enemies
+"""
+
+class Sonic(Enemy):
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/sonic'

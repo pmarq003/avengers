@@ -523,10 +523,17 @@ class Level2(Level):
 
         #level objects in order
             #floor + checkpoint
-        self._addTerrain( levelobject.MarioPlatform6(0,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
         self._addCheckpoint(0)
         
-        self._addCheckpoint(200000)
+        #sonics
+        self._addNode( levelobject.Node(20,550) )
+        self._addEnemy( enemy.Sonic(700,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Sonic(900,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Sonic(1200,400, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(1500,550) )
+        
+        self._addCheckpoint(1000)
 
 """
     Megaman level
@@ -534,8 +541,8 @@ class Level2(Level):
 
 class Level3(Level):
 
-    def __init__(self):
-        Level.__init__(self)
+    def __init__(self,gameObj):
+        Level.__init__(self,gameObj)
 
         #level number
         self.levelNumber = 3
@@ -550,8 +557,75 @@ class Level3(Level):
 
         #background
         self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
+        self.parallax = False
 
         #level objects in order
             #floor + checkpoint
-        self._addTerrain( levelobject.MarioPlatform6(0,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
         self._addCheckpoint(0)
+        
+        self._addCheckpoint(1000)
+
+
+"""
+    Metroid level
+"""
+
+class Level4(Level):
+
+    def __init__(self,gameObj):
+        Level.__init__(self,gameObj)
+
+        #level number
+        self.levelNumber = 4
+        self.plot = plot.Plot(self.levelNumber)
+
+        self.height = SCREEN_HEIGHT
+        #default player to init enemies TODO doesn't update position...
+        self.player = player.IronMan(100,100,self)
+
+        #background music
+        self.bgm = 'sounds/bgm/ToughGuy.wav'
+
+        #background
+        self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
+        self.parallax = False
+
+        #level objects in order
+            #floor + checkpoint
+        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
+        self._addCheckpoint(0)
+        
+        self._addCheckpoint(1000)
+
+
+"""
+    Castlevania level
+"""
+
+class Level5(Level):
+
+    def __init__(self,gameObj):
+        Level.__init__(self,gameObj)
+
+        #level number
+        self.levelNumber = 5
+        self.plot = plot.Plot(self.levelNumber)
+
+        self.height = SCREEN_HEIGHT
+        #default player to init enemies TODO doesn't update position...
+        self.player = player.IronMan(100,100,self)
+
+        #background music
+        self.bgm = 'sounds/bgm/ToughGuy.wav'
+
+        #background
+        self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
+        self.parallax = False
+
+        #level objects in order
+            #floor + checkpoint
+        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
+        self._addCheckpoint(0)
+        
+        self._addCheckpoint(1000)

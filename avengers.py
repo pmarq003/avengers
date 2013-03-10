@@ -200,6 +200,10 @@ class AvengersGame:
             return level.Level2(self)
         elif self.levelNumber == 3:
             return level.Level3(self)
+        elif self.levelNumber == 4:
+            return level.Level4(self)
+        elif self.levelNumber == 5:
+            return level.Level5(self)
         else:
             return None
     
