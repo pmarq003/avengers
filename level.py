@@ -488,12 +488,13 @@ class Level1(Level):
             #floor
         self._addCheckpoint(11300)
         self._addTerrain( levelobject.MarioGround1632(11300,SCREEN_HEIGHT-16) )
+        self._addTerrain( levelobject.MarioGround1632(12932,SCREEN_HEIGHT-16) )
 
         self._addHeart( levelobject.Heart(1000,300) )
         self._addAmmo( levelobject.Ammo(700,300) )
 
             #temp end of level
-        self._addCheckpoint(20000)
+        self._addCheckpoint(12900)
 
 
 """
@@ -518,11 +519,14 @@ class Level2(Level):
 
         #background
         self.background = levelobject.StaticImage('images/levelsprites/sonic/background.jpg',0,-55)
+        self.parallax = False
 
         #level objects in order
             #floor + checkpoint
         self._addTerrain( levelobject.MarioPlatform6(0,SCREEN_HEIGHT-32) )
         self._addCheckpoint(0)
+        
+        self._addCheckpoint(200000)
 
 """
     Megaman level
