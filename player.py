@@ -93,7 +93,8 @@ class Player(Character):
                 sound.play_sfx('sounds/sfx/yes.wav')
 
     def got_hurt(self,by):
-        self.die()
+        if by.can_give_hurt:
+            self.die()
 
     def incAmmo(self):
         self.sattack_ammo = 10 if self.sattack_ammo >= 10 else self.sattack_ammo + 1
