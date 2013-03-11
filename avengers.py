@@ -76,7 +76,7 @@ class AvengersGame:
             events = pygame.event.get()
             logEvents = eventmanager.get().handleEvents(events)
             #if event = r or pause --> don't log
-            if logEvents : 
+            if logEvents :
                 logger.get().add(logger.LogNode(events))
                 if (time.clock() - self.timer > 2) and self.invincible :
                     self.stopInvincibility()
@@ -99,10 +99,6 @@ class AvengersGame:
                     logger.get().setStart(self.currLevel.player.rect.x, self.currLevel.player.rect.y)
 
                     logger.get().clear()
-                    #reset the parallax
-                    if self.currLevel.parallax:
-                        self.currLevel.parallax.x1copy = False
-                        self.currLevel.parallax.x2copy = False
                     self.loadLevel()
 
                     if self.player_lives < 1:
@@ -264,6 +260,10 @@ class AvengersGame:
         #set player coords
         self.currLevel.player.rect.x = int(data[2])
         self.currLevel.player.rect.y = int(data[3])
+        #reset parallax
+        if self.currLevel.parallax:
+            self.currLevel.parallax.reset(self.currLevel.player.rect.x)
+        #logger
         if state == 1 : 
             logger.get().setStart(self.currLevel.player.rect.x, self.currLevel.player.rect.y)
         self.currLevel.charSelected = True
