@@ -468,3 +468,56 @@ class Sonic(Enemy):
     playerRadius = 500
 
     animFolder = 'enemysprites/sonic'
+    
+"""
+Megaman-themed enemies
+"""
+
+class BoyRobot1(Enemy):
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/boyrobot1'
+    
+    
+"""
+Metroid-themed enemies
+"""
+
+class SpacePirate(Enemy):
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/spacepirate'
+    
+    
+"""
+Castlevania-themed enemies
+"""
+
+class Ghoul(Enemy):
+    numWalkFrames = 1        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/ghoul'
