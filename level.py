@@ -1,4 +1,5 @@
 import charsel
+import plot
 import pygame
 import pygame.sprite
 import player
@@ -30,6 +31,8 @@ class Level(object):
         self.levelNumber = -1   #override in specific levels
         self.charsel = charsel.CharSel()
         self.charSelected = False
+  #      self.plot = plot.Plot(-1)
+        self.plotOver = False
         self._terrain = pygame.sprite.Group()
         self._enemies = pygame.sprite.Group()
         self._nodes = pygame.sprite.Group()
@@ -80,6 +83,10 @@ class Level(object):
                 self.player = player.BlackWidow(0,500,self)
 
             if choice > 0 : self.charSelected = True
+
+        elif not self.plotOver:
+            self.plot.update()
+            if self.plot.getPlot() : self.plotOver = True
 
         else:
 
@@ -187,6 +194,8 @@ class Level(object):
 
         if not self.charSelected:
             self.charsel.draw(camera)
+        elif not self.plotOver:
+            self.plot.draw(camera)
         else:
 
             #draw parallax if there is no background
@@ -268,13 +277,14 @@ class Level0(Level):
 
         #level number
         self.levelNumber = 0
+        self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
         #default player to init enemies TODO doesn't update position...
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/ToughGuy.wav'
+        self.bgm = 'sounds/bgm/lvl0.wav'
 
         #background
         self.background = None
@@ -334,13 +344,14 @@ class Level1(Level):
 
         #level number
         self.levelNumber = 1
+        self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
         #default player to init enemies TODO doesn't update position...
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/ToughGuy.wav'
+        self.bgm = 'sounds/bgm/lvl1.wav'
 
         #background
         #self.background = levelobject.StaticImage('images/levelsprites/smw/smwbg1.png',0,-2400)
@@ -379,6 +390,7 @@ class Level1(Level):
         self._addNode( levelobject.Node(2600,SCREEN_HEIGHT-115,0,0,-1) )
         self._addNode( levelobject.Node(2600,SCREEN_HEIGHT-150,0,0,-1) )
         self._addTerrain( levelobject.MarioGround1632(2600,SCREEN_HEIGHT-16) )
+        self._addTerrain( levelobject.Checkpoint(2700,SCREEN_HEIGHT-153) )
         self._addCheckpoint(2700)
         self._addNode( levelobject.Node(4200,SCREEN_HEIGHT-75,0,0,-1))
         self._addNode( levelobject.Node(4200,SCREEN_HEIGHT-32,0,0,-1) )
@@ -414,6 +426,7 @@ class Level1(Level):
         self._addEnemy( enemy.Fuzzy(6260, 100, self.player, JUMP) )
         self._addNode( levelobject.Node(6700,300,0,0,-1))
             #checkpoint
+        self._addTerrain( levelobject.Checkpoint(6850,63) )
         self._addCheckpoint(6800)
             #platforms w shyguy
         self._addNode( levelobject.Node(6800,180) )
@@ -451,6 +464,7 @@ class Level1(Level):
         self._addEnemy( enemy.ParaKoopa(9550,-683, self.player, FLYVERT) )
         self._addNode( levelobject.Node(9550, -1100) )
         self._addTerrain( levelobject.MarioCloud(9650,-700) )
+        self._addTerrain( levelobject.Checkpoint(9700,-837) )
         self._addCheckpoint(9700)
             #moving platforms back to ground
         self._addNode( levelobject.Node(9850, -650,0,0,-1,-1) )
@@ -475,14 +489,17 @@ class Level1(Level):
         self._addTerrain( levelobject.MarioMovablePlatform(11000,0,0,5) )
         self._addNode( levelobject.Node(11000,400,0,0,0,-1) )
             #floor
+        self._addTerrain( levelobject.Checkpoint(11350,SCREEN_HEIGHT-153) )
         self._addCheckpoint(11300)
         self._addTerrain( levelobject.MarioGround1632(11300,SCREEN_HEIGHT-16) )
+        self._addTerrain( levelobject.MarioGround1632(12932,SCREEN_HEIGHT-16) )
+        self._addTerrain( levelobject.MarioCastle(12700,SCREEN_HEIGHT-338) )
 
         self._addHeart( levelobject.Heart(1000,300) )
         self._addAmmo( levelobject.Ammo(700,300) )
 
             #temp end of level
-        self._addCheckpoint(20000)
+        self._addCheckpoint(12500)
 
 
 """
@@ -496,21 +513,32 @@ class Level2(Level):
 
         #level number
         self.levelNumber = 2
+        self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
         #default player to init enemies TODO doesn't update position...
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/ToughGuy.wav'
+        self.bgm = 'sounds/bgm/lvl2.wav'
 
         #background
         self.background = levelobject.StaticImage('images/levelsprites/sonic/background.jpg',0,-55)
+        self.parallax = False
 
         #level objects in order
             #floor + checkpoint
-        self._addTerrain( levelobject.MarioPlatform6(0,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
         self._addCheckpoint(0)
+        
+        #sonics
+        self._addNode( levelobject.Node(20,550) )
+        self._addEnemy( enemy.Sonic(700,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Sonic(900,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Sonic(1200,400, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(1500,550) )
+        
+        self._addCheckpoint(1000)
 
 """
     Megaman level
@@ -518,23 +546,91 @@ class Level2(Level):
 
 class Level3(Level):
 
-    def __init__(self):
-        Level.__init__(self)
+    def __init__(self,gameObj):
+        Level.__init__(self,gameObj)
 
         #level number
         self.levelNumber = 3
+        self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
         #default player to init enemies TODO doesn't update position...
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/ToughGuy.wav'
+        self.bgm = 'sounds/bgm/lvl3.wav'
 
         #background
         self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
+        self.parallax = False
 
         #level objects in order
             #floor + checkpoint
-        self._addTerrain( levelobject.MarioPlatform6(0,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
         self._addCheckpoint(0)
+        
+        self._addCheckpoint(1000)
+
+
+"""
+    Metroid level
+"""
+
+class Level4(Level):
+
+    def __init__(self,gameObj):
+        Level.__init__(self,gameObj)
+
+        #level number
+        self.levelNumber = 4
+        self.plot = plot.Plot(self.levelNumber)
+
+        self.height = SCREEN_HEIGHT
+        #default player to init enemies TODO doesn't update position...
+        self.player = player.IronMan(100,100,self)
+
+        #background music
+        self.bgm = 'sounds/bgm/lvl4.wav'
+
+        #background
+        self.background = levelobject.StaticImage('images/levelsprites/metroid/background.jpg',0,-55)
+        self.parallax = False
+
+        #level objects in order
+            #floor + checkpoint
+        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
+        self._addCheckpoint(0)
+        
+        self._addCheckpoint(1000)
+
+
+"""
+    Castlevania level
+"""
+
+class Level5(Level):
+
+    def __init__(self,gameObj):
+        Level.__init__(self,gameObj)
+
+        #level number
+        self.levelNumber = 5
+        self.plot = plot.Plot(self.levelNumber)
+
+        self.height = SCREEN_HEIGHT
+        #default player to init enemies TODO doesn't update position...
+        self.player = player.IronMan(100,100,self)
+
+        #background music
+        self.bgm = 'sounds/bgm/lvl5.wav'
+
+        #background
+        self.background = levelobject.StaticImage('images/levelsprites/castlevania/background.jpg',0,-55)
+        self.parallax = False
+
+        #level objects in order
+            #floor + checkpoint
+        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
+        self._addCheckpoint(0)
+        
+        self._addCheckpoint(1000)

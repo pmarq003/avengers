@@ -7,6 +7,7 @@ from pygame.sprite import Sprite
 
 import random
 import avengers
+import score
 
 
 class Enemy(Character):
@@ -19,9 +20,10 @@ class Enemy(Character):
 
     def got_hurt(self,by):
         if by.attacking:
+            score.get().incScore(30)
             self.die()
         elif by.can_get_hurt:
-            by.die()
+            by.got_hurt(self)
 
     def __init__(self, x, y, player, ai):
         #general stuff
@@ -271,6 +273,9 @@ class Kit1(Enemy):
     numWalkFrames = 4        #number pics in move anim
     walkDelay = 2        #delay factor to make anims visible
 
+    #harmless
+    can_give_hurt = False
+
     #movement vars
     runVel = 3     #xcoord movement velocity
     jumpVel = 0    #jumping velocity
@@ -283,6 +288,9 @@ class Kit1(Enemy):
 class Kit2(Enemy):
     numWalkFrames = 4        #number pics in move anim
     walkDelay = 2        #delay factor to make anims visible
+    
+    #harmless
+    can_give_hurt = False
 
     #movement vars
     runVel = 3     #xcoord movement velocity
@@ -297,6 +305,9 @@ class Pup1(Enemy):
     numWalkFrames = 4        #number pics in move anim
     walkDelay = 2        #delay factor to make anims visible
 
+    #harmless
+    can_give_hurt = False    
+    
     #movement vars
     runVel = 3     #xcoord movement velocity
     jumpVel = 0    #jumping velocity
@@ -310,6 +321,9 @@ class Pup2(Enemy):
     numWalkFrames = 4        #number pics in move anim
     walkDelay = 2        #delay factor to make anims visible
 
+    #harmless
+    can_give_hurt = False
+
     #movement vars
     runVel = 3     #xcoord movement velocity
     jumpVel = 0    #jumping velocity
@@ -322,6 +336,9 @@ class Pup2(Enemy):
 class Pup3(Enemy):
     numWalkFrames = 4        #number pics in move anim
     walkDelay = 2        #delay factor to make anims visible
+
+    #harmless
+    can_give_hurt = False
 
     #movement vars
     runVel = 3     #xcoord movement velocity
@@ -433,3 +450,21 @@ class ShyGuy(Enemy):
     playerRadius = 500
 
     animFolder = 'enemysprites/shyguy'
+    
+
+"""
+Sonic-themed enemies
+"""
+
+class Sonic(Enemy):
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/sonic'

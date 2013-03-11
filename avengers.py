@@ -50,6 +50,7 @@ class AvengersGame:
         self.startMenu = startmenu.StartMenu()
         self.pauseMenu = pausemenu.PauseMenu()
         logger.get().setMenu(self.startMenu)
+        logger.get().setAvengersObj(self)
 
         #the hud
         self.hud = hud.HUD()
@@ -124,25 +125,32 @@ class AvengersGame:
                     self.screen.fill(constants.DEFAULT_BGCOLOR)
                 self.currLevel.draw(self.camera)
 
-                if self.currLevel.charSelected:
+                if self.currLevel.charSelected and self.currLevel.plotOver:
+                    #Hud timer logic
+                    self.frameCount = self.frameCount + 1
+                    if self.frameCount > 30:
+                        self.hud.incTime()
+                        self.frameCount = 0
                     self.hud.draw(self.camera, self)
-                else:
-                    self.hud.drawVol(self.camera)
+                #This didn't work. It only drew the camera icon,
+                #it didn't update. Took it out. -mike
+#                else:
+#                    self.hud.drawVol(self.camera)
 
                 #Update player and enemies positions/current actions
                 if not eventmanager.get().isPaused():
                     self.currLevel.update()
                     if self.currLevel.charSelected:
                         self.hud.update()
-                        #Hud timer logic
-                        self.frameCount = self.frameCount + 1
-                        if self.frameCount > 30:
-                            self.hud.incTime()
-                            self.frameCount = 0
                     #check for level completion
                     if self.currLevel.levelCompleted:
+                        wasplaying = False
                         self.levelNumber += 1
+                        self.hud.resetTime()
                         self.currLevel = self.getCurrentLevel()
+                        logger.get().clear()
+                    else:
+                        wasplaying = True
                 
                 else:
                 #show pause menu
@@ -156,6 +164,7 @@ class AvengersGame:
                         eventmanager.get().PAUSED = False
                     elif self.pauseMenu.restartLevel:
                     #'restart level' clicked 
+                        self.hud.resetTime()
                         self.currLevel = self.getCurrentLevel()
                         self.pauseMenu.restartLevel = False
                         eventmanager.get().PAUSED = False
@@ -165,8 +174,6 @@ class AvengersGame:
                 player_rect = self.currLevel.get_player_rect()
                 self.camera.updatePosition(player_rect)
 
-                #Fill the screen, draw level, flip the buffer
-                wasplaying = True
             else:
 
                 #update inputs from startMenu
@@ -179,7 +186,8 @@ class AvengersGame:
                 #'Load Game' clicked
                 if self.startMenu.loadLevel == True:
                     self.loadLevel()
-
+            
+            #Fill the screen, draw level, flip the buffer
             pygame.display.flip()
 
             #Stop timer and sleep for remainder of time
@@ -197,6 +205,10 @@ class AvengersGame:
             return level.Level2(self)
         elif self.levelNumber == 3:
             return level.Level3(self)
+        elif self.levelNumber == 4:
+            return level.Level4(self)
+        elif self.levelNumber == 5:
+            return level.Level5(self)
         else:
             return None
     
@@ -267,6 +279,7 @@ class AvengersGame:
         if state == 1 : 
             logger.get().setStart(self.currLevel.player.rect.x, self.currLevel.player.rect.y)
         self.currLevel.charSelected = True
+        self.currLevel.plotOver = True
         #begin playing level
         self.startMenu.loadLevel = False
         self.startMenu.playing = True

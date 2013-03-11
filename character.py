@@ -1,6 +1,8 @@
 import pygame
 import eventmanager
 import logger
+import sound
+import random
 from animation import Animation,StaticAnimation
 from levelobject import LevelObject
 from pygame.sprite import Sprite
@@ -33,6 +35,18 @@ class Character(LevelObject):
 		if not toset == self.anim:
 			toset.reset()
 		self.anim = toset
+
+	def _play_attack(self):
+		soundd = self.animFolder
+		sound.play_sfx('sounds/sfx/' + soundd + '/hit (%s).wav' % random.randint(1, 7))
+
+	def _play_jump(self):
+		soundd = self.animFolder
+		sound.play_sfx('sounds/sfx/' + soundd + '/jump.wav')
+
+	def _play_special(self):
+		soundd = self.animFolder
+		sound.play_sfx('sounds/sfx/' + soundd + '/special.wav')
 
 	#updates the players velocities and animations
 	#orientation is used to track whether the character is facing left or right
