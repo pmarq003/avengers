@@ -115,6 +115,10 @@ class MarioMovablePlatform(LevelObject):
     def handleNodeCollision(self, node):
         self.velX *= node.xmult
         self.velY *= node.ymult
+        
+class MarioCastle(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/smw/castle.gif'
 
 class MarioCloud(LevelObject):
     base_img_path = 'images/levelsprites/smw/mariocloud.png'
@@ -134,6 +138,10 @@ class SonicPlatformThin(LevelObject):
     base_img_path = 'images/levelsprites/sonic/sonicplatform_thin.gif'
 
 #   Other stuff 
+
+class Checkpoint(LevelObject):
+    solid = False
+    base_img_path = 'images/levelsprites/checkpoint.gif'
 
 class StaticImage(LevelObject):
     def __init__(self,image_path,x,y):
