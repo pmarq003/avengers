@@ -593,7 +593,7 @@ class Level4(Level):
         self.bgm = 'sounds/bgm/lvl4.wav'
 
         #background
-        self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
+        self.background = levelobject.StaticImage('images/levelsprites/metroid/background.jpg',0,-55)
         self.parallax = False
 
         #level objects in order
