@@ -272,9 +272,6 @@ class AvengersGame:
         #set player coords
         self.currLevel.player.rect.x = int(data[2])
         self.currLevel.player.rect.y = int(data[3])
-        #reset parallax
-        if self.currLevel.parallax:
-            self.currLevel.parallax.reset(self.currLevel.player.rect.x)
         #logger
         if state == 1 : 
             logger.get().setStart(self.currLevel.player.rect.x, self.currLevel.player.rect.y)
