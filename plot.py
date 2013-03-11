@@ -14,9 +14,21 @@ class Plot(object):
         self.maxPlot = 1
         
         #only set the level during init, doesn't have to update every time
-        if currLevel == 1:
+        if currLevel == 1:    #Super Mario World
             self.plotfolder = "smw"
             self.maxPlot = 15
+        elif currLevel == 2:  #Sonic World
+            self.plotfolder = "sonic"
+            self.maxPlot = 1
+        elif currLevel == 3:  #Megaman World
+            self.plotfolder = "megaman"
+            self.maxPlot = 2
+        elif currLevel == 4:  #Metroid World
+            self.plotfolder = "metroid"
+            self.maxPlot = 2
+        elif currLevel == 5:  #Castlevania World
+            self.plotfolder = "castlevania"
+            self.maxPlot = 2    
         
         self.currentPlot = 1
 
