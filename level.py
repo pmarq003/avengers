@@ -569,6 +569,13 @@ class Level3(Level):
         self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
         self._addCheckpoint(0)
         
+        #Megamans
+        self._addNode( levelobject.Node(20,550) )
+        self._addEnemy( enemy.BoyRobot1(700,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.BoyRobot1(900,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.BoyRobot1(1200,400, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(1500,550) )
+        
         self._addCheckpoint(1000)
 
 
@@ -593,13 +600,20 @@ class Level4(Level):
         self.bgm = 'sounds/bgm/lvl4.wav'
 
         #background
-        self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
+        self.background = levelobject.StaticImage('images/levelsprites/metroid/background.jpg',0,-55)
         self.parallax = False
 
         #level objects in order
             #floor + checkpoint
         self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
         self._addCheckpoint(0)
+        
+        #Space Pirates
+        self._addNode( levelobject.Node(20,550) )
+        self._addEnemy( enemy.SpacePirate(700,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.SpacePirate(900,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.SpacePirate(1200,400, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(1500,550) )
         
         self._addCheckpoint(1000)
 
@@ -632,5 +646,12 @@ class Level5(Level):
             #floor + checkpoint
         self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
         self._addCheckpoint(0)
+        
+        #Ghouls
+        self._addNode( levelobject.Node(20,550) )
+        self._addEnemy( enemy.Ghoul(700,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(900,400, self.player, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(1200,400, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(1500,550) )
         
         self._addCheckpoint(1000)

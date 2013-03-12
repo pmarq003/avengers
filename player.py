@@ -28,7 +28,8 @@ class Player(Character):
 
             if self.sattack_timer == 0:
                 self.decAmmo()
-            
+
+            self._play_special()
             try: self.special_attack()
             except AttributeError: pass
 
@@ -56,7 +57,7 @@ class Player(Character):
                 self.attacking = True
                 self.attack_timer = self.primary_attack_length
                 #now plays a random sound which may or may not be captain falcon
-                sound.play_sfx('sounds/sfx/hit (%s).wav' % random.randint(1, 7))
+                self._play_attack()
 
             #mid recovery
             else:
@@ -90,7 +91,7 @@ class Player(Character):
                 self.isJumping = True
                 self.velY -= self.jumpVel
                 self._load_image( self.jump )
-                sound.play_sfx('sounds/sfx/yes.wav')
+                self._play_jump()
 
     def got_hurt(self,by):
         if by.can_give_hurt:
