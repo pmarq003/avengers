@@ -9,7 +9,7 @@ import sound
 class StartMenu(object):
 
     def __init__(self):
-        self.currentLevel = 0
+        self.level = 0
         
         self.gamma = 1.0
 
@@ -23,6 +23,14 @@ class StartMenu(object):
         #instructions page 
         self.instructions_bg     = StaticImage( "images/menusprites/instrScreen.png",0,0 )
         self.back_button         = StaticImage( "images/menusprites/back.png",414, 500 )
+        #level select page
+        self.lvl_bg        = StaticImage("images/menusprites/levelsel.png",0,0)
+        self.lvl1          = StaticImage("images/menusprites/lvl1.png",220,300)
+        self.lvl2          = StaticImage("images/menusprites/lvl2.png",550,300)
+        self.lvl3          = StaticImage("images/menusprites/lvl3.png",30,300)
+        self.lvl4          = StaticImage("images/menusprites/lvl4.png",350,300)
+        self.lvl5          = StaticImage("images/menusprites/lvl5.png",700,300)
+        self.lvltut        = StaticImage("images/menusprites/tutorial.png",900,310)
         #options page
         self.options_bg          = StaticImage( "images/menusprites/optionsScreen.png",0,0)
         self.volup_button        = StaticImage( "images/menusprites/volumeUp.png",445, 262 )
@@ -40,14 +48,11 @@ class StartMenu(object):
         self.loadLevel = False
         self.show_instructions = False
         self.show_options = False
-
-    def isPlaying(self):
-        return self.playing
-
+        self.show_level = False
 
     def draw(self,camera):
 
-        if not self.show_instructions and not self.show_options:
+        if not self.show_instructions and not self.show_options and not self.show_level:
             self.splash_bg.draw(camera)
             self.newgame_button.draw(camera)
             self.loadgame_button.draw(camera)
@@ -77,6 +82,16 @@ class StartMenu(object):
             for i in range(0, sound.get_sfx_vol()):
                 self.menublock.rect.topleft = ( 133 + i*self.menublock.rect.width,395 )
                 self.menublock.draw(camera)
+                
+        elif self.show_level:
+            #Level Select Screen
+            self.lvl_bg.draw(camera)
+            self.lvltut.draw(camera)
+            self.lvl1.draw(camera)
+            self.lvl2.draw(camera)
+            self.lvl3.draw(camera)
+            self.lvl4.draw(camera)
+            self.lvl5.draw(camera)
 
     def update(self):
 
@@ -87,11 +102,11 @@ class StartMenu(object):
             clickpoint = event.pos
 
             #StartMenu
-            if not self.show_instructions and not self.show_options:
+            if not self.show_instructions and not self.show_options and not self.show_level:
                 #new game
                 if self.newgame_button.get_rect().collidepoint(clickpoint):
-                    self.currentLevel = 0
-                    self.playing = True
+                    #self.currentLevel = 0
+                    self.show_level = True
                 #load game
                 elif self.loadgame_button.get_rect().collidepoint(clickpoint):
                     if os.path.isfile('save'):
@@ -146,7 +161,21 @@ class StartMenu(object):
                 elif self.options_back_button.get_rect().collidepoint(clickpoint):
                     #clicked back
                     self.show_options = False
-                    
+            #Options Menu
+            elif self.show_level:
+                if self.lvltut.get_rect().collidepoint(clickpoint):
+                    self.setLevel(0)
+                elif self.lvl1.get_rect().collidepoint(clickpoint):
+                    self.setLevel(1)
+                elif self.lvl2.get_rect().collidepoint(clickpoint):
+                    self.setLevel(2)
+                elif self.lvl3.get_rect().collidepoint(clickpoint):
+                    self.setLevel(3)
+                elif self.lvl4.get_rect().collidepoint(clickpoint):
+                    self.setLevel(4)
+                elif self.lvl5.get_rect().collidepoint(clickpoint):
+                    self.setLevel(5)
+                
             #if on instructions go back to StartMenu
             else:
                 if self.back_button.get_rect().collidepoint(clickpoint):
@@ -154,3 +183,14 @@ class StartMenu(object):
                         self.show_instructions = False
                     elif self.show_options:
                         self.show_options = False
+                        
+    def isPlaying(self):
+        return self.playing
+
+    def setLevel(self, thelevel):
+        self.level = thelevel
+        self.playing = True
+        #logger.get().setChar(thechar)
+
+    def getLevel(self):
+        return self.level
