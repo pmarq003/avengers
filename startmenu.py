@@ -25,12 +25,12 @@ class StartMenu(object):
         self.back_button         = StaticImage( "images/menusprites/back.png",414, 500 )
         #level select page
         self.lvl_bg        = StaticImage("images/menusprites/levelsel.png",0,0)
-        self.lvl1          = StaticImage("images/menusprites/lvl1.png",220,300)
-        self.lvl2          = StaticImage("images/menusprites/lvl2.png",550,300)
-        self.lvl3          = StaticImage("images/menusprites/lvl3.png",30,300)
-        self.lvl4          = StaticImage("images/menusprites/lvl4.png",350,300)
-        self.lvl5          = StaticImage("images/menusprites/lvl5.png",700,300)
-        self.lvltut        = StaticImage("images/menusprites/tutorial.png",900,310)
+        self.lvl1          = StaticImage("images/menusprites/lvl1.png",415,177)
+        self.lvl2          = StaticImage("images/menusprites/lvl2.png",415,262)
+        self.lvl3          = StaticImage("images/menusprites/lvl3.png",415,347)
+        self.lvl4          = StaticImage("images/menusprites/lvl4.png",415,430)
+        self.lvl5          = StaticImage("images/menusprites/lvl5.png",415,515)
+        self.lvltut        = StaticImage("images/menusprites/tutorial.png",400,93)
         #options page
         self.options_bg          = StaticImage( "images/menusprites/optionsScreen.png",0,0)
         self.volup_button        = StaticImage( "images/menusprites/volumeUp.png",445, 262 )
