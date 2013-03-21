@@ -183,8 +183,14 @@ class AvengersGame:
                 self.startMenu.draw(self.camera)
                 wasplaying = False
 
+                if self.startMenu.isPlaying():
+                    self.levelNumber = self.startMenu.getLevel()
+                    self.hud.resetTime()
+                    self.currLevel = self.getCurrentLevel()
+                    logger.get().clear()
+
                 #'Load Game' clicked
-                if self.startMenu.loadLevel == True:
+                if self.startMenu.loadLevel:
                     self.loadLevel()
             
             #Fill the screen, draw level, flip the buffer
