@@ -39,6 +39,7 @@ class Level(object):
         self._entities = pygame.sprite.Group()
         self._hearts = pygame.sprite.Group()
         self._ammo = pygame.sprite.Group()
+        self._stars = pygame.sprite.Group()
         self._checkpoints = []
         #True when all checkpoints have been reached
         #put one checkpoint at end of level
@@ -162,6 +163,11 @@ class Level(object):
             for ammo in ammoCollisions:
                 self.player.incAmmo()
                 ammo.kill()
+                
+            starCollisions = pygame.sprite.spritecollide(self.player,self._stars,False)
+            for star in starCollisions:
+                self.player.star()
+                star.kill()
 
             #update parallax
             if self.parallax:
@@ -230,6 +236,9 @@ class Level(object):
 
             for ammoObj in self._ammo:
                 ammoObj.draw(camera)
+            
+            for starObj in self._stars:
+                starObj.draw(camera)
 
     def get_player_rect(self):
         return self.player.get_rect()
@@ -257,6 +266,9 @@ class Level(object):
 
     def _addAmmo(self,ammoObj):
         self._ammo.add(ammoObj)
+    
+    def _addStar(self, starObj):
+        self._stars.add(starObj)
 
     def saveLevel(self):
         f = open('save', 'w')
@@ -497,6 +509,7 @@ class Level1(Level):
 
         self._addHeart( levelobject.Heart(1000,300) )
         self._addAmmo( levelobject.Ammo(700,300) )
+        self._addStar( levelobject.Star(1300, 150) )
 
             #temp end of level
         self._addCheckpoint(12500)

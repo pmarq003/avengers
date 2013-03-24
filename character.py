@@ -3,6 +3,7 @@ import eventmanager
 import logger
 import sound
 import random
+import time
 from animation import Animation,StaticAnimation
 from levelobject import LevelObject
 from pygame.sprite import Sprite
@@ -15,6 +16,8 @@ class Character(LevelObject):
 		self.isJumping = False   #used to detect the peak of player's jump
 		self.facingRight = False #player facing right?
 		self.attacking = False   #player attacking?
+		self.set_blink = False
+		self.has_star = False
 
 		self.velX = 0
 		self.velY = 0
@@ -35,6 +38,11 @@ class Character(LevelObject):
 		if not toset == self.anim:
 			toset.reset()
 		self.anim = toset
+		
+		if self.has_star and self.anim.blink == False:
+			self.anim.blink = True
+		elif self.has_star == False:
+		    self.anim.blink = False
 
 	def _play_attack(self):
 		soundd = self.animFolder
@@ -52,7 +60,6 @@ class Character(LevelObject):
 	#orientation is used to track whether the character is facing left or right
 	def update(self):
 		self.anim.update()
-
 		#If we're not alive don't process anything
 		if self.alive:
 			#Do any updates pertaining to the child character class.
@@ -85,8 +92,10 @@ class Character(LevelObject):
 		self.anim.blink = True
 		
 	def blink(self, boolean):  
-		self._load_image( self.stand )
+		#self._load_image( self.stand )
 		self.anim.blink = boolean
+		if boolean: print("blink set to true")
+		else: print("blink set to false")
 
 	def stallX(self):
 		self.velX = 0
