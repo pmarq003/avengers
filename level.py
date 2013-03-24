@@ -130,7 +130,8 @@ class Level(object):
             collidedEnemies = pygame.sprite.spritecollide(self.player,self._enemies,False)
             for enemy in collidedEnemies:
                 if self.player.has_star:
-                    score.get().incScore(30)
+                    if enemy.alive:
+                        score.get().incScore(30)
                     enemy.die()
                 else:
                     self._handleCollision(self.player,enemy)
