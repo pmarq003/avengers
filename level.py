@@ -12,6 +12,8 @@ import eventmanager
 from parallax import Parallax
 import startmenu
 import sound
+import score
+
 
 """
     level.py
@@ -127,7 +129,11 @@ class Level(object):
             #detect enemy collisions for player
             collidedEnemies = pygame.sprite.spritecollide(self.player,self._enemies,False)
             for enemy in collidedEnemies:
-                self._handleCollision(self.player,enemy)
+                if self.player.has_star:
+                    score.get().incScore(30)
+                    enemy.die()
+                else:
+                    self._handleCollision(self.player,enemy)
 
             #detect terrain collisions for enemy
             enemyTerrainCollisions = pygame.sprite.groupcollide(self._enemies,self._terrain,False,False)
