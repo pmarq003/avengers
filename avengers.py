@@ -5,7 +5,6 @@ import level
 import player
 import pausemenu
 import pygame
-import time
 import logger
 import startmenu
 import hud
