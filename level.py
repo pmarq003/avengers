@@ -710,9 +710,9 @@ class Level4(Level):
         self._addNode( levelobject.Node(3700,-500,0,0,-1,-1) )
 
         self._addNode( levelobject.Node(200,500) )
-        self._addEnemy( enemy.FastMetroid(600,500, self.player, FLYHORIZ) )
-        self._addEnemy( enemy.FastMetroid(700,500, self.player, FLYHORIZ) )
-        self._addEnemy( enemy.FastMetroid(800,500, self.player, FLYHORIZ) )
+        self._addEnemy( enemy.FastMetroid(600,500, self.player, PLATFORM) )
+        self._addEnemy( enemy.FastMetroid(700,500, self.player, PLATFORM) )
+        self._addEnemy( enemy.FastMetroid(800,500, self.player, PLATFORM) )
         self._addNode( levelobject.Node(200,500) )
 
         #Ammo cache off to the right of the pyramid

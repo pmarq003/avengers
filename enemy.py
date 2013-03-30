@@ -528,6 +528,7 @@ class SpacePirate(Enemy):
     animFolder = 'enemysprites/spacepirate'
 
 class Metroid(Enemy):
+    isFlying = True
     numWalkFrames = 7        #number pics in move anim
     walkDelay = 5        #delay factor to make anims visible
 
