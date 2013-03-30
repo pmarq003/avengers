@@ -235,8 +235,8 @@ class Level(object):
                 entObj.draw(camera)
 
             #TODO uncomment for debugging
-            #for nodeObj in self._nodes:
-            #    nodeObj.draw(camera)
+            for nodeObj in self._nodes:
+                nodeObj.draw(camera)
 
             for heartObj in self._hearts:
                 heartObj.draw(camera)
@@ -625,17 +625,105 @@ class Level4(Level):
 
         #level objects in order
             #floor + checkpoint
-        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.MetroidGround(0,SCREEN_HEIGHT-16) )
         self._addCheckpoint(0)
         
         #Space Pirates
         self._addNode( levelobject.Node(20,550) )
-        self._addEnemy( enemy.SpacePirate(700,400, self.player, PLATFORM) )
-        self._addEnemy( enemy.SpacePirate(900,400, self.player, PLATFORM) )
-        self._addEnemy( enemy.SpacePirate(1200,400, self.player, PLATFORM) )
-        self._addNode( levelobject.Node(1500,550) )
+        #self._addEnemy( enemy.SpacePirate(700,400, self.player, PLATFORM) )
+        #self._addEnemy( enemy.SpacePirate(800,400, self.player, PLATFORM) )
+        #self._addEnemy( enemy.SpacePirate(900,400, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(1000,550) )
+
+        self._addHeart( levelobject.Heart(1200,550) )
+
+        self._addNode( levelobject.Node(900,380) )
+        self._addTerrain( levelobject.MetroidPlatform(900,400) )
+        #self._addEnemy( enemy.Metroid(950,350, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(900+256,380) )
+
+        self._addNode( levelobject.Node(1300,230) )
+        self._addTerrain( levelobject.MetroidPlatform(1300,250) )
+        #self._addEnemy( enemy.Metroid(1350,200, self.player, PLATFORM) )
+        #self._addEnemy( enemy.Metroid(1450,200, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(1300+256,230) )
+
+        self._addNode( levelobject.Node(1700,80) )
+        self._addTerrain( levelobject.MetroidPlatform(1700,100) )
+        #self._addEnemy( enemy.Metroid(1750,50, self.player, PLATFORM) )
+        #self._addEnemy( enemy.Metroid(1800,50, self.player, PLATFORM) )
+        #self._addEnemy( enemy.Metroid(1850,50, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(1700+256,80) )
+
+        self._addTerrain( levelobject.MetroidPlatform(2100,-50) )
+        self._addAmmo( levelobject.Ammo( 2100, -80 ) )
+        self._addAmmo( levelobject.Ammo( 2150, -80 ) )
+        self._addStar( levelobject.Star( 2200, -300 ) )
+        self._addAmmo( levelobject.Ammo( 2250, -80 ) )
+        self._addAmmo( levelobject.Ammo( 2300, -80 ) )
         
-        self._addCheckpoint(1000)
+        self._addHeart( levelobject.Heart( 2150, -110 ) )
+        self._addAmmo( levelobject.Ammo( 2200, -110 ) )
+        self._addHeart( levelobject.Heart( 2300, -110 ) )
+
+        self._addHeart( levelobject.Heart( 2230, -140 ) )
+
+        #First level pyramid
+        self._addNode( levelobject.Node(2300,530) )
+        self._addTerrain( levelobject.MetroidPlatform(2300, 550) )
+        #self._addEnemy( enemy.SpacePirate(2350,500, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(2300+256,530) )
+
+        self._addNode( levelobject.Node(2800,530) )
+        self._addTerrain( levelobject.MetroidPlatform(2800, 550) )
+        #self._addEnemy( enemy.SpacePirate(2850,500, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(2800+256,530) )
+
+        self._addNode( levelobject.Node(3300,530) )
+        self._addTerrain( levelobject.MetroidPlatform(3300, 550) )
+        #self._addEnemy( enemy.SpacePirate(3350,500, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(3300+256,530) )
+
+        self._addNode( levelobject.Node(3800,530) )
+        self._addTerrain( levelobject.MetroidPlatform(3800, 550) )
+        #self._addEnemy( enemy.SpacePirate(3850,500, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(3800+256,530) )
+
+
+        #Second level pyramid
+        self._addNode( levelobject.Node(3050,330) )
+        self._addTerrain( levelobject.MetroidPlatform(3050, 350) )
+        #self._addEnemy( enemy.SpacePirate(3100,300, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(3050+256,330) )
+
+        self._addNode( levelobject.Node(3550,330) )
+        self._addTerrain( levelobject.MetroidPlatform(3550, 350) )
+        #self._addEnemy( enemy.SpacePirate(3600,300, self.player, PLATFORM) )
+        self._addNode( levelobject.Node(3550+256,330) )
+
+        #Top of pyramid
+        self._addTerrain( levelobject.MetroidPlatform(3300, 150) )
+
+        #Going up
+        self._addNode( levelobject.Node(3700,200,0,0,-1,-1) )
+        self._addTerrain( levelobject.MetroidMovablePlatform( 3600, 150, 0, 5 ) )
+        self._addNode( levelobject.Node(3700,-500,0,0,-1,-1) )
+
+        self._addNode( levelobject.Node(200,500) )
+        self._addEnemy( enemy.FastMetroid(600,500, self.player, FLYHORIZ) )
+        self._addEnemy( enemy.FastMetroid(700,500, self.player, FLYHORIZ) )
+        self._addEnemy( enemy.FastMetroid(800,500, self.player, FLYHORIZ) )
+        self._addNode( levelobject.Node(200,500) )
+
+        #Ammo cache off to the right of the pyramid
+        self._addNode( levelobject.Node(4500,530) )
+        self._addTerrain( levelobject.MetroidPlatform(4500, 550) )
+        self._addAmmo( levelobject.Ammo( 4550, 530 ) )
+        self._addAmmo( levelobject.Ammo( 4550+50, 530 ) )
+        self._addAmmo( levelobject.Ammo( 4550+100, 530 ) )
+        self._addNode( levelobject.Node(4500+256,530) )
+
+        self._addCheckpoint(10000)
 
 
 """
