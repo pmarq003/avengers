@@ -15,10 +15,6 @@ class Enemy(Character):
     can_get_hurt  = True
     can_give_hurt = True
 
-    def charSpecificUpdate(self):
-        if(self.velY == 0):
-            self._load_image( self.stand )
-
     def got_hurt(self,by):
         if by.attacking:
             score.get().incScore(30)
@@ -26,14 +22,14 @@ class Enemy(Character):
         elif by.can_get_hurt:
             by.got_hurt(self)
 
-    def __init__(self, x, y, player, ai):
+    def __init__(self, x, y, ai):
         #general stuff
         self.isFlying = False   #is the player flying?
         self.facingRight = False #player facing right?
         self.peaking = False     #is player at the peak of its jump?
         self.canMove = False
         self.canJump = False
-        self.player = player
+        self.player = None
         self.ai = ai
 
         #choose AI to implement
@@ -51,6 +47,9 @@ class Enemy(Character):
     #updates the players velocities and animations
     #orientation is used to track whether the character is facing left or right
     def charSpecificUpdate(self):
+        #if(self.velY == 0):
+        #    self._load_image( self.stand )
+
         self.AI_implementations[self.ai]()
 
         #counteract gravity
@@ -66,6 +65,10 @@ class Enemy(Character):
     def stall(self):
         self.stallX()
         self.stallY()
+
+    #need to set the player because of loading/char select madness
+    def setPlayer(self, player):
+        self.player = player
 
     """
     AI
@@ -385,7 +388,7 @@ class Goomba(Enemy):
     jumpVel = 0    #jumping velocity
 
     #distance before detect player
-    playerRadius = 500
+    playerRadius = 900
 
     animFolder = 'enemysprites/goomba'
 
