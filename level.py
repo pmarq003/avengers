@@ -178,7 +178,7 @@ class Level(object):
 
             #update parallax
             if self.parallax:
-                self.parallax.update(self.player.velX, self.player.velY)
+                self.parallax.update(self.player.rect.x, self.player.rect.y)
 
             #player / checkpoint collisions
             i = 0
@@ -243,9 +243,10 @@ class Level(object):
 
             for ammoObj in self._ammo:
                 ammoObj.draw(camera)
-            
+
             for starObj in self._stars:
                 starObj.draw(camera)
+
 
     def get_player_rect(self):
         return self.player.get_rect()
@@ -416,22 +417,24 @@ class Level1(Level):
         self._addNode( levelobject.Node(4200,SCREEN_HEIGHT-75,0,0,-1) )
         self._addNode( levelobject.Node(4200,SCREEN_HEIGHT-115,0,0,-1) )
         self._addNode( levelobject.Node(4200,SCREEN_HEIGHT-150,0,0,-1) )
-            #enemies
+            #enemies + heart
         self._addEnemy( enemy.Fuzzy(2900, 500, self.player, HOP) )
         self._addEnemy( enemy.ParaKoopa(3100, 150, self.player, FLYSWOOP) )
+        self._addHeart( levelobject.Heart(3275,300) )
         self._addEnemy( enemy.Fuzzy(3150, 500, self.player, HOP) )
         self._addTerrain( levelobject.MarioPlatform6(3200,400) )
         self._addEnemy( enemy.Fuzzy(3400, 500, self.player, HOP) )
         self._addEnemy( enemy.Fuzzy(3600, 500, self.player, HOP) )
         self._addEnemy( enemy.Fuzzy(3800, 500, self.player, HOP) )
         self._addEnemy( enemy.Fuzzy(4000, 500, self.player, HOP) )
-            #mushroom platforms
+            #mushroom platforms + ammo
         self._addTerrain( levelobject.MarioMushroomPlatform(4450,500) )
         self._addEnemy( enemy.Fuzzy(4470, 500, self.player, JUMP) )
         self._addTerrain( levelobject.MarioMushroomPlatform(4700,300) )
         self._addTerrain( levelobject.MarioMushroomPlatformBase(4716,400) )
         self._addTerrain( levelobject.MarioMushroomPlatformBase(4716,502) )
         self._addEnemy( enemy.Fuzzy(4720, 300, self.player, JUMP) )
+        self._addAmmo( levelobject.Ammo(4720,250) )
         self._addTerrain( levelobject.MarioMushroomPlatform(5000,300) )
         self._addTerrain( levelobject.MarioMushroomPlatformBase(5016,400) )
         self._addTerrain( levelobject.MarioMushroomPlatformBase(5016,502) )
@@ -514,9 +517,9 @@ class Level1(Level):
         self._addTerrain( levelobject.MarioGround1632(12932,SCREEN_HEIGHT-16) )
         self._addTerrain( levelobject.MarioCastle(12700,SCREEN_HEIGHT-338) )
 
-        self._addHeart( levelobject.Heart(1000,300) )
-        self._addAmmo( levelobject.Ammo(700,300) )
-        self._addStar( levelobject.Star(1300, 150) )
+        #self._addHeart( levelobject.Heart(1000,300) )
+        #self._addAmmo( levelobject.Ammo(700,300) )
+        #self._addStar( levelobject.Star(1300, 150) )
 
             #temp end of level
         self._addCheckpoint(12500)

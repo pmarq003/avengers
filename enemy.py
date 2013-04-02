@@ -484,7 +484,7 @@ class Sonic(Enemy):
     walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
-    runVel = 5     #xcoord movement velocity
+    runVel = 35     #xcoord movement velocity
     jumpVel = 0    #jumping velocity
 
     #distance before detect player
