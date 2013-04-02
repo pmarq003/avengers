@@ -8,6 +8,7 @@ from pygame.sprite import Sprite
 import random
 import avengers
 import score
+import time
 
 
 class Enemy(Character):
@@ -42,6 +43,7 @@ class Enemy(Character):
                                     JUMP:     self.AI_jump,
                                     HOP:      self.AI_hop,
                                     FLYVERT:  self.AI_flyvert,
+                                    FLYHORIZ: self.AI_flyhoriz,
                                     FLYSWOOP: self.AI_flyswoop }
 
         Character.__init__(self,x,y)
@@ -184,7 +186,20 @@ class Enemy(Character):
 
         self._load_image( self.walk )
 
-    #6: FLYSWOOP - fly in a parabola
+    #6: FLYHORIZ - fly left and right only
+    #   requires nodes to start and end points
+    def AI_flyhoriz(self):
+        #negate gravity
+        self.isFlying = True
+
+        if self.facingRight:
+            self.velX = self.runVel
+        else:
+            self.velX = -self.runVel
+
+        self._load_image( self.walk )
+
+    #7: FLYSWOOP - fly in a parabola
     def AI_flyswoop(self):
         #self.isJumping keeps track of left or right movement
         #self.peaking keeps track of up or down movement
@@ -236,6 +251,7 @@ class Enemy(Character):
 
     #handles specific AI interactions with nodes in level
     def handleNodeCollision(self, node):
+        print("node collision")
         #tells platform AI to change direction
         if self.ai == PLATFORM:
             if self.facingRight:
@@ -250,6 +266,13 @@ class Enemy(Character):
         #tells flying AI to change directions
         elif self.ai == FLYVERT:
             self.peaking = not self.peaking
+
+        elif self.ai == FLYHORIZ:
+            self.facingRight = not self.facingRight
+            self.velX *= -1
+            if self.facingRight: print("now facing right")
+            else: print("now facing left")
+            #time.sleep(1)
 
 
 class CaptainRussia(Enemy):
@@ -503,7 +526,23 @@ class SpacePirate(Enemy):
     playerRadius = 500
 
     animFolder = 'enemysprites/spacepirate'
+
+class Metroid(Enemy):
+    isFlying = True
+    numWalkFrames = 7        #number pics in move anim
+    walkDelay = 5        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 3     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/metroid'
     
+class FastMetroid(Metroid):
+    runVel = 15
     
 """
 Castlevania-themed enemies
