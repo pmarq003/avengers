@@ -388,6 +388,11 @@ class Level1(Level):
             #goombas
         self._addNode( levelobject.Node(20,550) )
         self._addEnemy( enemy.Goomba(500,400, PLATFORM) )
+
+        self._addNode( levelobject.Node(100, 200) )
+        self._addEnemy( enemy.ParaKoopa(700, 200, FLYHORIZ) )
+        self._addNode( levelobject.Node(900, 200) )
+
         self._addEnemy( enemy.Goomba(700,400, FLOOR) )
         self._addEnemy( enemy.Goomba(800,400, PLATFORM) )
         self._addEnemy( enemy.Goomba(900,400, FLOOR) )

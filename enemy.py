@@ -33,14 +33,15 @@ class Enemy(Character):
         self.ai = ai
 
         #choose AI to implement
-        self.AI_implementations = { NONE:     self.AI_nothing,
-                                    FLOOR:    self.AI_floor,
-                                    PLATFORM: self.AI_platform,
-                                    JUMP:     self.AI_jump,
-                                    HOP:      self.AI_hop,
-                                    FLYVERT:  self.AI_flyvert,
-                                    FLYHORIZ: self.AI_flyhoriz,
-                                    FLYSWOOP: self.AI_flyswoop }
+        self.AI_implementations = { NONE:       self.AI_nothing,
+                                    FLOOR:      self.AI_floor,
+                                    PLATFORM:   self.AI_platform,
+                                    JUMP:       self.AI_jump,
+                                    HOP:        self.AI_hop,
+                                    FLYVERT:    self.AI_flyvert,
+                                    FLYHORIZ:   self.AI_flyhoriz,
+                                    FLYSWOOP:   self.AI_flyswoop,
+                                    FLYATTACK:  self.AI_flyattack }
 
         Character.__init__(self,x,y)
 
@@ -170,8 +171,8 @@ class Enemy(Character):
 
     #5: FLYVERT - fly up and down only
     #   requires nodes to start and end points
+    #   self.peaking keeps track of up or down movement
     def AI_flyvert(self):
-        #self.peaking keeps track of up or down movement
 
         #negate gravity
         self.isFlying = True
@@ -191,6 +192,7 @@ class Enemy(Character):
 
     #6: FLYHORIZ - fly left and right only
     #   requires nodes to start and end points
+    #   self.peaking keeps track of right or left
     def AI_flyhoriz(self):
         #negate gravity
         self.isFlying = True
@@ -248,6 +250,10 @@ class Enemy(Character):
 
         self._load_image( self.walk )
 
+    #8: FLYATTACK - start offscreen, when player is in radius swoop down towards him/her
+    def AI_flyattack(self):
+        None
+
     """
     AI Node Collision
     """
@@ -271,6 +277,10 @@ class Enemy(Character):
             self.peaking = not self.peaking
 
         elif self.ai == FLYHORIZ:
+            if self.facingRight:
+                self.rect.right = node.rect.left
+            else:
+                self.rect.left = node.rect.right
             self.facingRight = not self.facingRight
             self.velX *= -1
             if self.facingRight: print("now facing right")

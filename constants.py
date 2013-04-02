@@ -22,5 +22,6 @@ HOP = 4         #hop around (randomly)
 FLYVERT = 5     #fly up and down
 FLYHORIZ = 6     #fly left and right
 FLYSWOOP = 7    #fly in a parabola
+FLYATTACK = 8   #(start offscreen) and swoop to player
 
 PLAYER_LIVES = 3
