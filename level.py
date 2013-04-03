@@ -388,11 +388,6 @@ class Level1(Level):
             #goombas
         self._addNode( levelobject.Node(20,550) )
         self._addEnemy( enemy.Goomba(500,400, PLATFORM) )
-
-        self._addNode( levelobject.Node(100, 200) )
-        self._addEnemy( enemy.ParaKoopa(700, 200, FLYHORIZ) )
-        self._addNode( levelobject.Node(900, 200) )
-
         self._addEnemy( enemy.Goomba(700,400, FLOOR) )
         self._addEnemy( enemy.Goomba(800,400, PLATFORM) )
         self._addEnemy( enemy.Goomba(900,400, FLOOR) )
@@ -475,6 +470,9 @@ class Level1(Level):
         self._addTerrain( levelobject.MarioCloud(7870, -720) )
         self._addEnemy( enemy.ParaKoopa(7800,-959, FLYSWOOP) )
         self._addTerrain( levelobject.MarioCloud(8100, -400) )
+            #surprise flying koopas for previous section
+        self._addEnemy( enemy.ParaKoopa(8530,-2000, FLYATTACK) )
+        self._addEnemy( enemy.ParaKoopa(8730,-2500, FLYATTACK) )
             #two koopas in between two clouds
         self._addTerrain( levelobject.MarioCloud(8400,-600) )
         self._addNode( levelobject.Node(8600, -500) )
