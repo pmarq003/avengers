@@ -517,12 +517,15 @@ class Level1(Level):
         self._addNode( levelobject.Node(11000,-100,0,0,0,-1) )
         self._addTerrain( levelobject.MarioMovablePlatform(11000,0,0,5) )
         self._addNode( levelobject.Node(11000,400,0,0,0,-1) )
-            #floor
+            #floor, checkpoint, shyguys for distractions, and attacking parakoopas
         self._addTerrain( levelobject.Checkpoint(11350,SCREEN_HEIGHT-153) )
         self._addCheckpoint(11300)
         self._addTerrain( levelobject.MarioGround1632(11300,SCREEN_HEIGHT-16) )
 
-        self._addEnemy( enemy.ShyGuy(12700,400, FLOOR) )
+        self._addEnemy( enemy.ShyGuy(11800,450, FLOOR) )
+        self._addEnemy( enemy.ShyGuy(12000,450, FLOOR) )
+        self._addEnemy( enemy.ParaKoopa(12400, -100, FLYATTACK) )
+        self._addEnemy( enemy.ParaKoopa(12600, 300, FLYATTACK) )
 
         self._addTerrain( levelobject.MarioGround1632(12932,SCREEN_HEIGHT-16) )
         self._addTerrain( levelobject.MarioCastle(12700,SCREEN_HEIGHT-338) )

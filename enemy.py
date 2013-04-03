@@ -252,7 +252,43 @@ class Enemy(Character):
 
     #8: FLYATTACK - start offscreen, when player is in radius swoop down towards him/her
     def AI_flyattack(self):
-        None
+        self.isFlying = True
+
+        #checks player radius
+        if not self.canMove and abs(self.rect.left - self.player.rect.left) <= self.playerRadius:
+            self.canMove = True
+
+        if self.velX == 0:
+            self._load_image( self.walk )
+
+        if self.canMove:
+
+            if(self.player.rect.left > self.rect.right):
+                self.facingRight = True
+            elif(self.player.rect.right < self.rect.left):
+                self.facingRight = False
+
+            #vector to player
+            velx = self.player.rect.x - self.rect.x
+            vely = self.player.rect.y - self.rect.y
+
+            #prevent division by zero in next step
+            if velx == 0:
+                self.velx = -1
+
+            #scale speed - make enemy twice as fast for kicks
+            self.velX = 2 * self.runVel * velx*velx / (velx*velx + vely*vely)
+            self.velY = 2 * self.runVel * vely*vely / (velx*velx + vely*vely)
+
+            #correct for facing left
+            if not self.facingRight:
+                self.velX = self.velX * -1
+
+            #correct for player above enemy
+            if self.player.rect.y < self.rect.y:
+                self.velY = self.velY * -1
+
+            self._load_image( self.walk )
 
     """
     AI Node Collision
@@ -283,9 +319,6 @@ class Enemy(Character):
                 self.rect.left = node.rect.right
             self.facingRight = not self.facingRight
             self.velX *= -1
-            if self.facingRight: print("now facing right")
-            else: print("now facing left")
-            #time.sleep(1)
 
 
 class CaptainRussia(Enemy):
@@ -470,7 +503,7 @@ class ParaKoopa(Enemy):
     currentHoriz = 0
 
     #distance before detect player
-    playerRadius = 500
+    playerRadius = 1000
 
     animFolder = 'enemysprites/parakoopa'
 
