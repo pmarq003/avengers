@@ -600,8 +600,37 @@ class Level3(Level):
 
         #level objects in order
             #floor + checkpoint
-        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.MegamanPlatThin3(0,SCREEN_HEIGHT-14) )
         self._addCheckpoint(0)
+        self._addTerrain( levelobject.MegamanPlatNorm(384,SCREEN_HEIGHT-65) )
+        self._addTerrain( levelobject.MegamanPlatTallerWide(497,SCREEN_HEIGHT-96) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin2(789,SCREEN_HEIGHT-150) )
+        
+        self._addTerrain( levelobject.MegamanPlatTallerWide(1145,SCREEN_HEIGHT-96) )
+        self._addTerrain( levelobject.MegamanPlatLong(1337,SCREEN_HEIGHT-65) )
+        self._addTerrain( levelobject.MegamanPlatTallerWide(3193,SCREEN_HEIGHT-96) )
+        self._addTerrain( levelobject.MegamanPlatTallestWide(3385,SCREEN_HEIGHT-128) )
+        
+        self._addTerrain( levelobject.MegamanPlatTallestWide(3727,SCREEN_HEIGHT-128) )
+        self._addTerrain( levelobject.MegamanPlatTallerWide(3919,SCREEN_HEIGHT-96) )
+        
+        self._addTerrain( levelobject.MegamanPlatTallerWide(4286,SCREEN_HEIGHT-96) )
+        self._addTerrain( levelobject.MegamanPlatTallestWide(4478,SCREEN_HEIGHT-128) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin3(4853,SCREEN_HEIGHT-150) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin3(5412,SCREEN_HEIGHT-280) )
+        self._addTerrain( levelobject.MegamanPlatThin3(5412,SCREEN_HEIGHT-34) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin3(5971,SCREEN_HEIGHT-150) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin3(6530,SCREEN_HEIGHT-280) )
+        self._addTerrain( levelobject.MegamanPlatThin3(6530,SCREEN_HEIGHT-34) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin3(7089,SCREEN_HEIGHT-130) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin3(7648,SCREEN_HEIGHT-34) )
         
         #Megamans
         self._addNode( levelobject.Node(20,550) )
@@ -610,7 +639,7 @@ class Level3(Level):
         self._addEnemy( enemy.BoyRobot1(1200,400, PLATFORM) )
         self._addNode( levelobject.Node(1500,550) )
         
-        self._addCheckpoint(1000)
+        self._addCheckpoint(200000)
 
 
 """

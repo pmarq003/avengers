@@ -120,6 +120,8 @@ class AvengersGame:
                     self.screen.fill(constants.LEVEL0_BGCOLOR)
                 elif self.currLevel.levelNumber == 1:
                     self.screen.fill(constants.LEVEL1_BGCOLOR)
+                elif self.currLevel.levelNumber == 3:
+                    self.screen.fill(constants.LEVEL3_BGCOLOR)
                 else:
                     self.screen.fill(constants.DEFAULT_BGCOLOR)
                 self.currLevel.draw(self.camera)

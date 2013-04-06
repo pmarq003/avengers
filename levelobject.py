@@ -146,6 +146,39 @@ class MetroidPlatform(LevelObject):
 class MetroidMovablePlatform(MarioMovablePlatform):
 	base_img_path = 'images/levelsprites/metroid/platform.png'
 
+
+#    MegaMan-related level objects
+
+class MegamanPlatNorm(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatNorm.gif'
+
+class MegamanPlatThin(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatThin.gif'
+
+class MegamanPlatThin2(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatThin2.gif'
+	
+class MegamanPlatThin3(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatThin3.gif'
+
+class MegamanPlatLong(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatLong.gif'
+	
+class MegamanPlatTall(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatTall.gif'
+	
+class MegamanPlatTaller(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatTaller.gif'
+	
+class MegamanPlatTallerWide(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatTallerWide.gif'
+	
+class MegamanPlatTallestWide(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatTallestWide.gif'
+	
+class MegamanPlatTallest(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatTallest.gif'
+
 #   Other stuff 
 
 class Checkpoint(LevelObject):
