@@ -137,12 +137,21 @@ class Level(object):
                 else:
                     self._handleCollision(self.player,enemy)
 
+            #detect entity collisions for player
+            collidedEnts = pygame.sprite.spritecollide(self.player,self._entities,False)
+            for entObj in collidedEnts:
+                if not self.player.has_star:
+                    self.player.try_hurt(entObj)
+                    if entObj.kill_on_collide:
+                        entObj.kill()
+
             #detect terrain collisions for enemy
             enemyTerrainCollisions = pygame.sprite.groupcollide(self._enemies,self._terrain,False,False)
             for enemy,terObjs in enemyTerrainCollisions.items():
                 for ter in terObjs:
                     self._handleCollision(enemy,ter)
 
+            #detect entity collision for enemy
             enemyEntityCollisions = pygame.sprite.groupcollide(self._enemies,self._entities,False,False)
             for enemy,entObjs in enemyEntityCollisions.items():
                 for ent in entObjs:
@@ -162,16 +171,19 @@ class Level(object):
                 for node in nodeObjs:
                     self._handleNodeCollision(terr,node)
 
+            #detect heart powerup collisions
             heartCollisions = pygame.sprite.spritecollide(self.player,self._hearts,False)
             for heart in heartCollisions:
                 self.gameObj.player_lives += 1
                 heart.kill()
 
+            #detect ammo powerup collisions
             ammoCollisions = pygame.sprite.spritecollide(self.player,self._ammo,False)
             for ammo in ammoCollisions:
                 self.player.incAmmo()
                 ammo.kill()
-                
+
+            #detect star powerup collisions
             starCollisions = pygame.sprite.spritecollide(self.player,self._stars,False)
             for star in starCollisions:
                 self.player.star()
@@ -387,7 +399,8 @@ class Level1(Level):
         self._addCheckpoint(0)
             #goombas
         self._addNode( levelobject.Node(20,550) )
-        self._addEnemy( enemy.Goomba(500,400, PLATFORM) )
+        self._addEnemy( enemy.ShootingShyGuy(500,400, RPROJ, self) )
+        #self._addEnemy( enemy.Goomba(500,400, PLATFORM) )
         self._addEnemy( enemy.Goomba(700,400, FLOOR) )
         self._addEnemy( enemy.Goomba(800,400, PLATFORM) )
         self._addEnemy( enemy.Goomba(900,400, FLOOR) )
