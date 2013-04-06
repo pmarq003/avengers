@@ -232,7 +232,7 @@ class Hulk(Player):
 
 class IronMan(Player):
 	numWalkFrames = 4		#number pics in move anim
-	walkDelay = 5		#delay factor to make anims visible
+	walkDelay = 2		#delay factor to make anims visible
 
 	#movement vars
 	runVel = 7	 #xcoord movement velocity
