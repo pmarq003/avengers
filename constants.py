@@ -24,6 +24,7 @@ FLYVERT     = 5     #fly up and down
 FLYHORIZ    = 6     #fly left and right
 FLYSWOOP    = 7     #fly in a parabola
 FLYATTACK   = 8     #(start offscreen) and swoop to player
-RPROJ       = 9     #randomly shoot projectiles
+RPROJ       = 9     #randomly shoot projectiles and follow player
+RPROJSTAND  = 10    #randomly stand still and shoot projectiles
 
 PLAYER_LIVES = 3

@@ -56,6 +56,7 @@ class Node(LevelObject):
 
 #   Tutorial level objects
 
+
 class TutGround(LevelObject):
 	base_img_path = 'images/levelsprites/tut/tutground.gif'
 
@@ -83,7 +84,9 @@ class TutSign6(LevelObject):
 	solid = False
 	base_img_path = 'images/levelsprites/tut/tutsign6.gif'
 
+
 #    Mario-related level objects
+
 
 class MarioGround1632(LevelObject):
 	base_img_path = 'images/levelsprites/smw/marioground1632.png'
@@ -123,7 +126,9 @@ class MarioCastle(LevelObject):
 class MarioCloud(LevelObject):
 	base_img_path = 'images/levelsprites/smw/mariocloud.png'
 
+
 #    Sonic-related level objects
+
 
 class SonicPlatformThick4(LevelObject):
 	base_img_path = 'images/levelsprites/sonic/sonicplatform_thick4.jpg'
@@ -148,6 +153,7 @@ class MetroidMovablePlatform(MarioMovablePlatform):
 
 
 #    MegaMan-related level objects
+
 
 class MegamanPlatNorm(LevelObject):
 	base_img_path = 'images/levelsprites/megaman/PlatNorm.gif'
@@ -179,7 +185,9 @@ class MegamanPlatTallestWide(LevelObject):
 class MegamanPlatTallest(LevelObject):
 	base_img_path = 'images/levelsprites/megaman/PlatTallest.gif'
 
+
 #   Other stuff 
+
 
 class Checkpoint(LevelObject):
 	solid = False

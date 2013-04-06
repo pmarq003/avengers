@@ -399,8 +399,7 @@ class Level1(Level):
         self._addCheckpoint(0)
             #goombas
         self._addNode( levelobject.Node(20,550) )
-        self._addEnemy( enemy.ShootingShyGuy(500,400, RPROJ, self) )
-        #self._addEnemy( enemy.Goomba(500,400, PLATFORM) )
+        self._addEnemy( enemy.Goomba(500,400, PLATFORM) )
         self._addEnemy( enemy.Goomba(700,400, FLOOR) )
         self._addEnemy( enemy.Goomba(800,400, PLATFORM) )
         self._addEnemy( enemy.Goomba(900,400, FLOOR) )
@@ -524,7 +523,7 @@ class Level1(Level):
         self._addNode( levelobject.Node(10850,-300) )
         self._addEnemy( enemy.ParaKoopa(10850,   0, FLYVERT) )
         self._addNode( levelobject.Node(10850, 100) )
-
+        self._addHeart( levelobject.Heart(11000,-500) )
         self._addNode( levelobject.Node(11000,-100,0,0,0,-1) )
         self._addTerrain( levelobject.MarioMovablePlatform(11000,0,0,5) )
         self._addNode( levelobject.Node(11000,400,0,0,0,-1) )
@@ -532,21 +531,49 @@ class Level1(Level):
         self._addTerrain( levelobject.Checkpoint(11350,SCREEN_HEIGHT-153) )
         self._addCheckpoint(11300)
         self._addTerrain( levelobject.MarioGround1632(11300,SCREEN_HEIGHT-16) )
-
+        self._addAmmo( levelobject.Ammo(11500,450) )
+        self._addAmmo( levelobject.Ammo(11800,450) )
         self._addEnemy( enemy.ShyGuy(11800,450, FLOOR) )
         self._addEnemy( enemy.ShyGuy(12000,450, FLOOR) )
+        self._addEnemy( enemy.ShootingShyGuy(12500,400, RPROJ, self) )
         self._addEnemy( enemy.ParaKoopa(12400, -100, FLYATTACK) )
         self._addEnemy( enemy.ParaKoopa(12600, 300, FLYATTACK) )
 
-        self._addTerrain( levelobject.MarioGround1632(12932,SCREEN_HEIGHT-16) )
-        self._addTerrain( levelobject.MarioCastle(12700,SCREEN_HEIGHT-338) )
+            #platforms with projectile enemies
+        self._addTerrain( levelobject.MarioPlatform6(13000,400) )
+        self._addEnemy( enemy.ShootingShyGuy(13100,200, RPROJSTAND, self) )
 
-        #self._addHeart( levelobject.Heart(1000,300) )
-        #self._addAmmo( levelobject.Ammo(700,300) )
-        #self._addStar( levelobject.Star(1300, 150) )
+        self._addTerrain( levelobject.MarioPlatform6(13200,200) )
+        self._addEnemy( enemy.ShootingShyGuy(13300,100, RPROJSTAND, self) )
 
-            #temp end of level
-        self._addCheckpoint(12500)
+        self._addTerrain( levelobject.MarioPlatform6(13400,0) )
+        self._addEnemy( enemy.ShootingShyGuy(13500,-100, RPROJSTAND, self) )
+
+        self._addTerrain( levelobject.MarioPlatform6(13600,-200) )
+        self._addEnemy( enemy.ShootingShyGuy(13700,-300, RPROJSTAND, self) )
+
+        self._addTerrain( levelobject.MarioPlatform6(13800, 0) )
+        self._addEnemy( enemy.ShootingShyGuy(13900,-100, RPROJSTAND, self) )
+        self._addTerrain( levelobject.MarioPlatform6(13800,-400) )
+        self._addEnemy( enemy.ShootingShyGuy(13900,-500, RPROJSTAND, self) )
+        self._addTerrain( levelobject.MarioPlatform6(13800, -600) )
+        self._addEnemy( enemy.ShootingShyGuy(13900,-700, RPROJSTAND, self) )
+
+        self._addTerrain( levelobject.MarioPlatform6(14200, 0) )
+        self._addEnemy( enemy.ShootingShyGuy(14300,-100, RPROJSTAND, self) )
+
+        self._addTerrain( levelobject.MarioPlatform6(14400,200) )
+        self._addEnemy( enemy.ShootingShyGuy(14500,100, RPROJSTAND, self) )
+
+        self._addTerrain( levelobject.MarioPlatform6(14600,400) )
+        self._addEnemy( enemy.ShootingShyGuy(14700,200, RPROJSTAND, self) )
+
+            #end of level
+        self._addTerrain( levelobject.MarioGround1632(15000,SCREEN_HEIGHT-16) )
+        self._addEnemy( enemy.Mario(15700,400, FLOOR) )
+        self._addEnemy( enemy.Luigi(15800,400, FLOOR) )
+        self._addTerrain( levelobject.MarioCastle(15700,SCREEN_HEIGHT-338) )
+        self._addCheckpoint(15700)
 
 
 """

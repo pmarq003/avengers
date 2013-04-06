@@ -47,7 +47,8 @@ class Enemy(Character):
                                     FLYHORIZ:   self.AI_flyhoriz,
                                     FLYSWOOP:   self.AI_flyswoop,
                                     FLYATTACK:  self.AI_flyattack,
-                                    RPROJ:      self.AI_rproj}
+                                    RPROJ:      self.AI_rproj,
+                                    RPROJSTAND: self.AI_rprojstand}
 
         Character.__init__(self,x,y)
 
@@ -297,7 +298,7 @@ class Enemy(Character):
 
             self._load_image( self.walk )
 
-    #9 RPROJ - randomly shoot projectiles
+    #9 RPROJ - randomly shoot projectiles and follow player
     def AI_rproj(self):
         #checks player radius
         if not self.canMove and abs(self.rect.left - self.player.rect.left) <= self.playerRadius:
@@ -315,7 +316,7 @@ class Enemy(Character):
                 self.facingRight = False
 
             #shoot
-            if self.sattack_timer == 0 and random.random() < 0.015:
+            if self.sattack_timer == 0 and random.random() < 0.025:
                 self.sattack_timer = 5
                 self._load_image( self.norm_attack )
                 self.stallX()
@@ -341,6 +342,47 @@ class Enemy(Character):
             else:
                 self.sattack_timer = self.sattack_timer - 1
                 self._load_image( self.norm_attack )
+
+    #10 RPROJSTAND - randomly shoot projectiles while standing still
+    def AI_rprojstand(self):
+        #checks player radius
+        if not self.canMove and abs(self.rect.left - self.player.rect.left) <= self.playerRadius:
+            self.canMove = True
+
+        if self.velX == 0:
+            self._load_image( self.walk )
+
+        if self.canMove:
+
+            #update direction facing
+            if(self.player.rect.left > self.rect.right):
+                self.facingRight = True
+            elif(self.player.rect.right < self.rect.left):
+                self.facingRight = False
+
+            #shoot
+            if self.sattack_timer == 0 and random.random() < 0.020:
+                self.sattack_timer = 5
+                self._load_image( self.norm_attack )
+                self.stallX()
+                if self.facingRight:
+                    entity = self.ProjectileRight(0,0)
+                    entity.rect.topleft = self.rect.topright
+                    self.level.addEntity(entity)
+                else:
+                    entity = self.ProjectileLeft(0,0)
+                    entity.rect.topright = self.rect.topleft
+                    self.level.addEntity(entity)
+
+            #else move
+            elif self.sattack_timer == 0:
+                self._load_image( self.stand )
+
+            #else load attack image
+            else:
+                self.sattack_timer = self.sattack_timer - 1
+                self._load_image( self.norm_attack )
+
 
     """
     AI Node Collision - give actions when a specific AI hits a node
@@ -478,11 +520,11 @@ class Mario(Enemy):
     walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
-    runVel = 10     #xcoord movement velocity
+    runVel = 15     #xcoord movement velocity
     jumpVel = 15    #jumping velocity
 
     #distance before detect player
-    playerRadius = 500
+    playerRadius = 700
 
     animFolder = 'enemysprites/mario'
 
@@ -491,11 +533,11 @@ class Luigi(Enemy):
     walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
-    runVel = 10     #xcoord movement velocity
+    runVel = 20     #xcoord movement velocity
     jumpVel = 20    #jumping velocity
 
     #distance before detect player
-    playerRadius = 500
+    playerRadius = 700
 
     animFolder = 'enemysprites/luigi'
 
@@ -594,7 +636,7 @@ class ShootingShyGuy(Enemy):
             TransientEntity.update(self)
             self.rect.left += 20
 
-   
+
 
 """
 Sonic-themed enemies
