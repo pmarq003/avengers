@@ -178,6 +178,18 @@ class MegamanPlatTallestWide(LevelObject):
 	
 class MegamanPlatTallest(LevelObject):
 	base_img_path = 'images/levelsprites/megaman/PlatTallest.gif'
+	
+class MegamanMovablePlat(MarioMovablePlatform):
+	base_img_path = 'images/levelsprites/megaman/PlatThin.gif'
+	
+class MegamanMovablePlat2(MarioMovablePlatform):
+	base_img_path = 'images/levelsprites/megaman/PlatThin2.gif'
+	
+class MegamanMovablePlat3(MarioMovablePlatform):
+	base_img_path = 'images/levelsprites/megaman/PlatThin3.gif'
+	
+class Serenity(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/serenity.png'
 
 #   Other stuff 
 

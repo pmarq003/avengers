@@ -595,8 +595,11 @@ class Level3(Level):
         self.bgm = 'sounds/bgm/lvl3.wav'
 
         #background
-        self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
-        self.parallax = False
+        #self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
+        self.background = None
+        bg1  = 'images/levelsprites/megaman/background.png'
+        bg2  = 'images/levelsprites/megaman/backgroundTrans.png'
+        self.parallax = Parallax(bg1,0,-55,bg2,0,0)
 
         #level objects in order
             #floor + checkpoint
@@ -617,6 +620,7 @@ class Level3(Level):
         
         self._addTerrain( levelobject.MegamanPlatTallerWide(4286,SCREEN_HEIGHT-96) )
         self._addTerrain( levelobject.MegamanPlatTallestWide(4478,SCREEN_HEIGHT-128) )
+        self._addCheckpoint(4860)
         
         self._addTerrain( levelobject.MegamanPlatThin3(4853,SCREEN_HEIGHT-150) )
         
@@ -632,14 +636,51 @@ class Level3(Level):
         
         self._addTerrain( levelobject.MegamanPlatThin3(7648,SCREEN_HEIGHT-34) )
         
+        #Do you feel it yet? I don't know man, the platforms are moving...
+        self._addNode( levelobject.Node(8300,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addTerrain( levelobject.MegamanMovablePlat3( 8207, SCREEN_HEIGHT-150, 0, 3 ) )
+        self._addNode( levelobject.Node(8300,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        
+        self._addNode( levelobject.Node(8800,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addTerrain( levelobject.MegamanMovablePlat3( 8766, SCREEN_HEIGHT-450, 0, 3 ) )
+        self._addNode( levelobject.Node(8800,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        
+        self._addNode( levelobject.Node(9400,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addTerrain( levelobject.MegamanMovablePlat3( 9325, SCREEN_HEIGHT-250, 0, 3 ) )
+        self._addNode( levelobject.Node(9400,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        
+        self._addNode( levelobject.Node(9900,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addTerrain( levelobject.MegamanMovablePlat3( 9884, SCREEN_HEIGHT-50, 0, 3 ) )
+        self._addNode( levelobject.Node(9900,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        
+        self._addNode( levelobject.Node(10500,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addTerrain( levelobject.MegamanMovablePlat3( 10443, SCREEN_HEIGHT-350, 0, 3 ) )
+        self._addNode( levelobject.Node(10500,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        
+        self._addNode( levelobject.Node(11100,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addTerrain( levelobject.MegamanMovablePlat3( 11002, SCREEN_HEIGHT-250, 0, 3 ) )
+        self._addNode( levelobject.Node(11100,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        
+        self._addCheckpoint(11570)
+        self._addTerrain( levelobject.MegamanPlatLong(11563,SCREEN_HEIGHT-65) )
+        self._addTerrain( levelobject.MegamanPlatThin2(12500,SCREEN_HEIGHT-220) )
+        self._addTerrain( levelobject.MegamanPlatThin2(12956,SCREEN_HEIGHT-220) )
+        
+        self._addTerrain( levelobject.MegamanPlatLong(13567,SCREEN_HEIGHT-65) )
+        self._addTerrain( levelobject.MegamanPlatThin3(14000,SCREEN_HEIGHT-220) )
+        self._addTerrain( levelobject.MegamanPlatTallestWide(15423,SCREEN_HEIGHT-96) )
+        
+        self._addTerrain( levelobject.MegamanPlatLong(15790,SCREEN_HEIGHT-65) )
+        self._addTerrain( levelobject.MegamanPlatLong(17646,SCREEN_HEIGHT-65) )
+        self._addTerrain( levelobject.Serenity(17500,SCREEN_HEIGHT-665))
+        self._addCheckpoint(17500)
+        
         #Megamans
         self._addNode( levelobject.Node(20,550) )
         self._addEnemy( enemy.BoyRobot1(700,400, PLATFORM) )
         self._addEnemy( enemy.BoyRobot1(900,400, PLATFORM) )
         self._addEnemy( enemy.BoyRobot1(1200,400, PLATFORM) )
         self._addNode( levelobject.Node(1500,550) )
-        
-        self._addCheckpoint(200000)
 
 
 """
