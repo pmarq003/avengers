@@ -108,6 +108,9 @@ class Player(Character):
 
 	def incAmmo(self):
 		self.sattack_ammo = 10 if self.sattack_ammo >= 10 else self.sattack_ammo + 1
+		
+	def incAmmo3(self):
+		self.sattack_ammo = 10
 
 	def decAmmo(self):
 		self.sattack_ammo = 0 if self.sattack_ammo <= 0 else self.sattack_ammo - 1
