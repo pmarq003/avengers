@@ -537,7 +537,66 @@ class Sonic(Enemy):
     playerRadius = 500
 
     animFolder = 'enemysprites/sonic'
+
+class Robotnik(Enemy):
+    numWalkFrames = 2        #number pics in move anim
+    walkDelay = 5        #delay factor to make anims visible
     
+    #movement vars
+    runVel = 7     #xcoord movement velocity
+    jumpVel = 4    #jumping velocity
+    
+    #for FLYVERT
+    vertDist = 40       #increase for longer vertical distance
+    currentDist = 0     #KEEP ZERO
+    #for FLYSWOOP
+    horizRadius = 60    #increase for wider swoop
+    currentHoriz = 0
+
+    #distance before detect player
+    playerRadius = 1000
+    
+    animFolder = 'enemysprites/robotnik'
+    
+class Chao(Enemy):
+    numWalkFrames = 5        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+    
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+    
+    #distance before detect player
+    playerRadius = 900
+    
+    animFolder = 'enemysprites/chao'
+    
+class Cream(Enemy):
+    numWalkFrames = 5        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 15    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/cream'
+    
+class Gamma(Enemy):
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 15    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/gamma'
+
 """
 Megaman-themed enemies
 """
