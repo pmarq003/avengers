@@ -697,7 +697,7 @@ class Level3(Level):
         self._addEnemy( enemy.Drone(1700,SCREEN_HEIGHT-200, FLYVERT) )
         self._addNode( levelobject.Node(1700,SCREEN_HEIGHT-70) )
         self._addNode( levelobject.Node(1800,SCREEN_HEIGHT-85) )
-        self._addEnemy( enemy.BoyRobot1(1900,SCREEN_HEIGHT-105, RPROJ, self) )
+        self._addEnemy( enemy.BoyRobot1(1900,SCREEN_HEIGHT-105, PLATFORM) )
         self._addEnemy( enemy.BoyRobot1(2000,SCREEN_HEIGHT-105, PLATFORM) )
         self._addNode( levelobject.Node(2130,SCREEN_HEIGHT-85) ) 
         self._addEnemy( enemy.BoyRobot1(2200,SCREEN_HEIGHT-105, PLATFORM) )
