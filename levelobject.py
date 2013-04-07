@@ -56,6 +56,7 @@ class Node(LevelObject):
 
 #   Tutorial level objects
 
+
 class TutGround(LevelObject):
 	base_img_path = 'images/levelsprites/tut/tutground.gif'
 
@@ -83,7 +84,9 @@ class TutSign6(LevelObject):
 	solid = False
 	base_img_path = 'images/levelsprites/tut/tutsign6.gif'
 
+
 #    Mario-related level objects
+
 
 class MarioGround1632(LevelObject):
 	base_img_path = 'images/levelsprites/smw/marioground1632.png'
@@ -123,7 +126,9 @@ class MarioCastle(LevelObject):
 class MarioCloud(LevelObject):
 	base_img_path = 'images/levelsprites/smw/mariocloud.png'
 
+
 #    Sonic-related level objects
+
 
 class SonicPlatformThick4(LevelObject):
 	base_img_path = 'images/levelsprites/sonic/sonicplatform_thick4.jpg'
@@ -146,7 +151,55 @@ class MetroidPlatform(LevelObject):
 class MetroidMovablePlatform(MarioMovablePlatform):
 	base_img_path = 'images/levelsprites/metroid/platform.png'
 
+
+#    MegaMan-related level objects
+
+
+class MegamanPlatNorm(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatNorm.gif'
+
+class MegamanPlatThin(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatThin.gif'
+
+class MegamanPlatThin2(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatThin2.gif'
+	
+class MegamanPlatThin3(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatThin3.gif'
+
+class MegamanPlatLong(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatLong.gif'
+	
+class MegamanPlatTall(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatTall.gif'
+	
+class MegamanPlatTaller(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatTaller.gif'
+	
+class MegamanPlatTallerWide(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatTallerWide.gif'
+	
+class MegamanPlatTallestWide(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatTallestWide.gif'
+	
+class MegamanPlatTallest(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/PlatTallest.gif'
+	
+class MegamanMovablePlat(MarioMovablePlatform):
+	base_img_path = 'images/levelsprites/megaman/PlatThin.gif'
+	
+class MegamanMovablePlat2(MarioMovablePlatform):
+	base_img_path = 'images/levelsprites/megaman/PlatThin2.gif'
+	
+class MegamanMovablePlat3(MarioMovablePlatform):
+	base_img_path = 'images/levelsprites/megaman/PlatThin3.gif'
+	
+class Serenity(LevelObject):
+	base_img_path = 'images/levelsprites/megaman/serenity.png'
+
+
 #   Other stuff 
+
 
 class Checkpoint(LevelObject):
 	solid = False

@@ -3,6 +3,7 @@ from character import Character
 from constants import *
 from animation import Animation,StaticAnimation
 from levelobject import LevelObject
+from levelobject import TransientEntity
 from pygame.sprite import Sprite
 
 import random
@@ -22,7 +23,7 @@ class Enemy(Character):
         elif by.can_get_hurt:
             by.got_hurt(self)
 
-    def __init__(self, x, y, ai):
+    def __init__(self, x, y, ai, level=None):
         #general stuff
         self.isFlying = False   #is the player flying?
         self.facingRight = False #player facing right?
@@ -31,6 +32,10 @@ class Enemy(Character):
         self.canJump = False
         self.player = None
         self.ai = ai
+        #shooting timer
+        self.sattack_timer = 0
+        #level instance - pass if enemy interacts with level
+        self.level = level
 
         #choose AI to implement
         self.AI_implementations = { NONE:       self.AI_nothing,
@@ -41,7 +46,9 @@ class Enemy(Character):
                                     FLYVERT:    self.AI_flyvert,
                                     FLYHORIZ:   self.AI_flyhoriz,
                                     FLYSWOOP:   self.AI_flyswoop,
-                                    FLYATTACK:  self.AI_flyattack }
+                                    FLYATTACK:  self.AI_flyattack,
+                                    RPROJ:      self.AI_rproj,
+                                    RPROJSTAND: self.AI_rprojstand}
 
         Character.__init__(self,x,y)
 
@@ -250,7 +257,7 @@ class Enemy(Character):
 
         self._load_image( self.walk )
 
-    #8: FLYATTACK - start offscreen, when player is in radius swoop down towards him/her
+    #8: FLYATTACK - position enemy offscreen, then when player is in radius swoop down towards him/her
     def AI_flyattack(self):
         self.isFlying = True
 
@@ -263,6 +270,7 @@ class Enemy(Character):
 
         if self.canMove:
 
+            #update direction facing
             if(self.player.rect.left > self.rect.right):
                 self.facingRight = True
             elif(self.player.rect.right < self.rect.left):
@@ -290,13 +298,98 @@ class Enemy(Character):
 
             self._load_image( self.walk )
 
+    #9 RPROJ - randomly shoot projectiles and follow player
+    def AI_rproj(self):
+        #checks player radius
+        if not self.canMove and abs(self.rect.left - self.player.rect.left) <= self.playerRadius:
+            self.canMove = True
+
+        if self.velX == 0:
+            self._load_image( self.walk )
+
+        if self.canMove:
+
+            #update direction facing
+            if(self.player.rect.left > self.rect.right):
+                self.facingRight = True
+            elif(self.player.rect.right < self.rect.left):
+                self.facingRight = False
+
+            #shoot
+            if self.sattack_timer == 0 and random.random() < 0.025:
+                self.sattack_timer = 5
+                self._load_image( self.norm_attack )
+                self.stallX()
+                if self.facingRight:
+                    entity = self.ProjectileRight(0,0)
+                    entity.rect.topleft = self.rect.topright
+                    self.level.addEntity(entity)
+                else:
+                    entity = self.ProjectileLeft(0,0)
+                    entity.rect.topright = self.rect.topleft
+                    self.level.addEntity(entity)
+
+            #else move
+            elif self.sattack_timer == 0:
+                if self.facingRight:
+                    self.velX = self.runVel
+                    self._load_image( self.walk )
+                else:
+                    self.velX = -self.runVel
+                    self._load_image( self.walk )
+
+            #else load attack image
+            else:
+                self.sattack_timer = self.sattack_timer - 1
+                self._load_image( self.norm_attack )
+
+    #10 RPROJSTAND - randomly shoot projectiles while standing still
+    def AI_rprojstand(self):
+        #checks player radius
+        if not self.canMove and abs(self.rect.left - self.player.rect.left) <= self.playerRadius:
+            self.canMove = True
+
+        if self.velX == 0:
+            self._load_image( self.walk )
+
+        if self.canMove:
+
+            #update direction facing
+            if(self.player.rect.left > self.rect.right):
+                self.facingRight = True
+            elif(self.player.rect.right < self.rect.left):
+                self.facingRight = False
+
+            #shoot
+            if self.sattack_timer == 0 and random.random() < 0.020:
+                self.sattack_timer = 5
+                self._load_image( self.norm_attack )
+                self.stallX()
+                if self.facingRight:
+                    entity = self.ProjectileRight(0,0)
+                    entity.rect.topleft = self.rect.topright
+                    self.level.addEntity(entity)
+                else:
+                    entity = self.ProjectileLeft(0,0)
+                    entity.rect.topright = self.rect.topleft
+                    self.level.addEntity(entity)
+
+            #else move
+            elif self.sattack_timer == 0:
+                self._load_image( self.stand )
+
+            #else load attack image
+            else:
+                self.sattack_timer = self.sattack_timer - 1
+                self._load_image( self.norm_attack )
+
+
     """
-    AI Node Collision
+    AI Node Collision - give actions when a specific AI hits a node
     """
 
     #handles specific AI interactions with nodes in level
     def handleNodeCollision(self, node):
-        print("node collision")
         #tells platform AI to change direction
         if self.ai == PLATFORM:
             if self.facingRight:
@@ -320,19 +413,6 @@ class Enemy(Character):
             self.facingRight = not self.facingRight
             self.velX *= -1
 
-
-class CaptainRussia(Enemy):
-    numWalkFrames = 4        #number pics in move anim
-    walkDelay = 2        #delay factor to make anims visible
-
-    #movement vars
-    runVel = 10     #xcoord movement velocity
-    jumpVel = 25    #jumping velocity
-
-    #distance before detect player
-    playerRadius = 500
-
-    animFolder = 'enemysprites/captnrussia'
 
 """
 Tutorial enemies
@@ -440,11 +520,11 @@ class Mario(Enemy):
     walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
-    runVel = 10     #xcoord movement velocity
+    runVel = 15     #xcoord movement velocity
     jumpVel = 15    #jumping velocity
 
     #distance before detect player
-    playerRadius = 500
+    playerRadius = 700
 
     animFolder = 'enemysprites/mario'
 
@@ -453,11 +533,11 @@ class Luigi(Enemy):
     walkDelay = 2        #delay factor to make anims visible
 
     #movement vars
-    runVel = 10     #xcoord movement velocity
+    runVel = 20     #xcoord movement velocity
     jumpVel = 20    #jumping velocity
 
     #distance before detect player
-    playerRadius = 500
+    playerRadius = 700
 
     animFolder = 'enemysprites/luigi'
 
@@ -519,7 +599,44 @@ class ShyGuy(Enemy):
     playerRadius = 500
 
     animFolder = 'enemysprites/shyguy'
-    
+
+class ShootingShyGuy(Enemy):
+    numWalkFrames = 5        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 15    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/shootingshyguy'
+
+    #projectile classes
+    class ProjectileLeft(TransientEntity):
+            attacking = False #True
+            can_give_hurt = True
+            kill_on_collide = True#True
+            base_img_path = 'images/enemysprites/shootingshyguy/projectile_left.gif'
+            timeout = 100
+
+            def update(self):
+                TransientEntity.update(self)
+                self.rect.left -= 20
+
+    class ProjectileRight(TransientEntity):
+        attacking = False#True
+        can_give_hurt = True
+        kill_on_collide = True#True
+        base_img_path = 'images/enemysprites/shootingshyguy/projectile_right.gif'
+        timeout = 100
+
+        def update(self):
+            TransientEntity.update(self)
+            self.rect.left += 20
+
+
 
 """
 Sonic-themed enemies

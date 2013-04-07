@@ -137,12 +137,21 @@ class Level(object):
                 else:
                     self._handleCollision(self.player,enemy)
 
+            #detect entity collisions for player
+            collidedEnts = pygame.sprite.spritecollide(self.player,self._entities,False)
+            for entObj in collidedEnts:
+                if not self.player.has_star:
+                    self.player.try_hurt(entObj)
+                    if entObj.kill_on_collide:
+                        entObj.kill()
+
             #detect terrain collisions for enemy
             enemyTerrainCollisions = pygame.sprite.groupcollide(self._enemies,self._terrain,False,False)
             for enemy,terObjs in enemyTerrainCollisions.items():
                 for ter in terObjs:
                     self._handleCollision(enemy,ter)
 
+            #detect entity collision for enemy
             enemyEntityCollisions = pygame.sprite.groupcollide(self._enemies,self._entities,False,False)
             for enemy,entObjs in enemyEntityCollisions.items():
                 for ent in entObjs:
@@ -162,16 +171,19 @@ class Level(object):
                 for node in nodeObjs:
                     self._handleNodeCollision(terr,node)
 
+            #detect heart powerup collisions
             heartCollisions = pygame.sprite.spritecollide(self.player,self._hearts,False)
             for heart in heartCollisions:
                 self.gameObj.player_lives += 1
                 heart.kill()
 
+            #detect ammo powerup collisions
             ammoCollisions = pygame.sprite.spritecollide(self.player,self._ammo,False)
             for ammo in ammoCollisions:
                 self.player.incAmmo()
                 ammo.kill()
-                
+
+            #detect star powerup collisions
             starCollisions = pygame.sprite.spritecollide(self.player,self._stars,False)
             for star in starCollisions:
                 self.player.star()
@@ -511,7 +523,7 @@ class Level1(Level):
         self._addNode( levelobject.Node(10850,-300) )
         self._addEnemy( enemy.ParaKoopa(10850,   0, FLYVERT) )
         self._addNode( levelobject.Node(10850, 100) )
-
+        self._addHeart( levelobject.Heart(11000,-500) )
         self._addNode( levelobject.Node(11000,-100,0,0,0,-1) )
         self._addTerrain( levelobject.MarioMovablePlatform(11000,0,0,5) )
         self._addNode( levelobject.Node(11000,400,0,0,0,-1) )
@@ -519,21 +531,49 @@ class Level1(Level):
         self._addTerrain( levelobject.Checkpoint(11350,SCREEN_HEIGHT-153) )
         self._addCheckpoint(11300)
         self._addTerrain( levelobject.MarioGround1632(11300,SCREEN_HEIGHT-16) )
-
+        self._addAmmo( levelobject.Ammo(11500,450) )
+        self._addAmmo( levelobject.Ammo(11800,450) )
         self._addEnemy( enemy.ShyGuy(11800,450, FLOOR) )
         self._addEnemy( enemy.ShyGuy(12000,450, FLOOR) )
+        self._addEnemy( enemy.ShootingShyGuy(12500,400, RPROJ, self) )
         self._addEnemy( enemy.ParaKoopa(12400, -100, FLYATTACK) )
         self._addEnemy( enemy.ParaKoopa(12600, 300, FLYATTACK) )
 
-        self._addTerrain( levelobject.MarioGround1632(12932,SCREEN_HEIGHT-16) )
-        self._addTerrain( levelobject.MarioCastle(12700,SCREEN_HEIGHT-338) )
+            #platforms with projectile enemies
+        self._addTerrain( levelobject.MarioPlatform6(13000,400) )
+        self._addEnemy( enemy.ShootingShyGuy(13100,200, RPROJSTAND, self) )
 
-        #self._addHeart( levelobject.Heart(1000,300) )
-        #self._addAmmo( levelobject.Ammo(700,300) )
-        #self._addStar( levelobject.Star(1300, 150) )
+        self._addTerrain( levelobject.MarioPlatform6(13200,200) )
+        self._addEnemy( enemy.ShootingShyGuy(13300,100, RPROJSTAND, self) )
 
-            #temp end of level
-        self._addCheckpoint(12500)
+        self._addTerrain( levelobject.MarioPlatform6(13400,0) )
+        self._addEnemy( enemy.ShootingShyGuy(13500,-100, RPROJSTAND, self) )
+
+        self._addTerrain( levelobject.MarioPlatform6(13600,-200) )
+        self._addEnemy( enemy.ShootingShyGuy(13700,-300, RPROJSTAND, self) )
+
+        self._addTerrain( levelobject.MarioPlatform6(13800, 0) )
+        self._addEnemy( enemy.ShootingShyGuy(13900,-100, RPROJSTAND, self) )
+        self._addTerrain( levelobject.MarioPlatform6(13800,-400) )
+        self._addEnemy( enemy.ShootingShyGuy(13900,-500, RPROJSTAND, self) )
+        self._addTerrain( levelobject.MarioPlatform6(13800, -600) )
+        self._addEnemy( enemy.ShootingShyGuy(13900,-700, RPROJSTAND, self) )
+
+        self._addTerrain( levelobject.MarioPlatform6(14200, 0) )
+        self._addEnemy( enemy.ShootingShyGuy(14300,-100, RPROJSTAND, self) )
+
+        self._addTerrain( levelobject.MarioPlatform6(14400,200) )
+        self._addEnemy( enemy.ShootingShyGuy(14500,100, RPROJSTAND, self) )
+
+        self._addTerrain( levelobject.MarioPlatform6(14600,400) )
+        self._addEnemy( enemy.ShootingShyGuy(14700,200, RPROJSTAND, self) )
+
+            #end of level
+        self._addTerrain( levelobject.MarioGround1632(15000,SCREEN_HEIGHT-16) )
+        self._addEnemy( enemy.Mario(15700,400, FLOOR) )
+        self._addEnemy( enemy.Luigi(15800,400, FLOOR) )
+        self._addTerrain( levelobject.MarioCastle(15700,SCREEN_HEIGHT-338) )
+        self._addCheckpoint(15700)
 
 
 """
@@ -595,13 +635,85 @@ class Level3(Level):
         self.bgm = 'sounds/bgm/lvl3.wav'
 
         #background
-        self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
-        self.parallax = False
+        #self.background = levelobject.StaticImage('images/levelsprites/megaman/background.png',0,-55)
+        self.background = None
+        bg1  = 'images/levelsprites/megaman/background.png'
+        bg2  = 'images/levelsprites/megaman/backgroundTrans.png'
+        self.parallax = Parallax(bg1,0,-55,bg2,0,0)
 
         #level objects in order
             #floor + checkpoint
-        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.MegamanPlatThin3(0,SCREEN_HEIGHT-14) )
         self._addCheckpoint(0)
+        self._addTerrain( levelobject.MegamanPlatNorm(384,SCREEN_HEIGHT-65) )
+        self._addTerrain( levelobject.MegamanPlatTallerWide(497,SCREEN_HEIGHT-96) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin2(789,SCREEN_HEIGHT-150) )
+        
+        self._addTerrain( levelobject.MegamanPlatTallerWide(1145,SCREEN_HEIGHT-96) )
+        self._addTerrain( levelobject.MegamanPlatLong(1337,SCREEN_HEIGHT-65) )
+        self._addTerrain( levelobject.MegamanPlatTallerWide(3193,SCREEN_HEIGHT-96) )
+        self._addTerrain( levelobject.MegamanPlatTallestWide(3385,SCREEN_HEIGHT-128) )
+        
+        self._addTerrain( levelobject.MegamanPlatTallestWide(3727,SCREEN_HEIGHT-128) )
+        self._addTerrain( levelobject.MegamanPlatTallerWide(3919,SCREEN_HEIGHT-96) )
+        
+        self._addTerrain( levelobject.MegamanPlatTallerWide(4286,SCREEN_HEIGHT-96) )
+        self._addTerrain( levelobject.MegamanPlatTallestWide(4478,SCREEN_HEIGHT-128) )
+        self._addCheckpoint(4860)
+        
+        self._addTerrain( levelobject.MegamanPlatThin3(4853,SCREEN_HEIGHT-150) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin3(5412,SCREEN_HEIGHT-280) )
+        self._addTerrain( levelobject.MegamanPlatThin3(5412,SCREEN_HEIGHT-34) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin3(5971,SCREEN_HEIGHT-150) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin3(6530,SCREEN_HEIGHT-280) )
+        self._addTerrain( levelobject.MegamanPlatThin3(6530,SCREEN_HEIGHT-34) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin3(7089,SCREEN_HEIGHT-130) )
+        
+        self._addTerrain( levelobject.MegamanPlatThin3(7648,SCREEN_HEIGHT-34) )
+        
+        #Do you feel it yet? I don't know man, the platforms are moving...
+        self._addNode( levelobject.Node(8300,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addTerrain( levelobject.MegamanMovablePlat3( 8207, SCREEN_HEIGHT-150, 0, 3 ) )
+        self._addNode( levelobject.Node(8300,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        
+        self._addNode( levelobject.Node(8800,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addTerrain( levelobject.MegamanMovablePlat3( 8766, SCREEN_HEIGHT-450, 0, 3 ) )
+        self._addNode( levelobject.Node(8800,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        
+        self._addNode( levelobject.Node(9400,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addTerrain( levelobject.MegamanMovablePlat3( 9325, SCREEN_HEIGHT-250, 0, 3 ) )
+        self._addNode( levelobject.Node(9400,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        
+        self._addNode( levelobject.Node(9900,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addTerrain( levelobject.MegamanMovablePlat3( 9884, SCREEN_HEIGHT-50, 0, 3 ) )
+        self._addNode( levelobject.Node(9900,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        
+        self._addNode( levelobject.Node(10500,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addTerrain( levelobject.MegamanMovablePlat3( 10443, SCREEN_HEIGHT-350, 0, 3 ) )
+        self._addNode( levelobject.Node(10500,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        
+        self._addNode( levelobject.Node(11100,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addTerrain( levelobject.MegamanMovablePlat3( 11002, SCREEN_HEIGHT-250, 0, 3 ) )
+        self._addNode( levelobject.Node(11100,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        
+        self._addCheckpoint(11570)
+        self._addTerrain( levelobject.MegamanPlatLong(11563,SCREEN_HEIGHT-65) )
+        self._addTerrain( levelobject.MegamanPlatThin2(12500,SCREEN_HEIGHT-220) )
+        self._addTerrain( levelobject.MegamanPlatThin2(12956,SCREEN_HEIGHT-220) )
+        
+        self._addTerrain( levelobject.MegamanPlatLong(13567,SCREEN_HEIGHT-65) )
+        self._addTerrain( levelobject.MegamanPlatThin3(14000,SCREEN_HEIGHT-220) )
+        self._addTerrain( levelobject.MegamanPlatTallestWide(15423,SCREEN_HEIGHT-96) )
+        
+        self._addTerrain( levelobject.MegamanPlatLong(15790,SCREEN_HEIGHT-65) )
+        self._addTerrain( levelobject.MegamanPlatLong(17646,SCREEN_HEIGHT-65) )
+        self._addTerrain( levelobject.Serenity(17500,SCREEN_HEIGHT-665))
+        self._addCheckpoint(17500)
         
         #Megamans
         self._addNode( levelobject.Node(20,550) )
@@ -609,8 +721,6 @@ class Level3(Level):
         self._addEnemy( enemy.BoyRobot1(900,400, PLATFORM) )
         self._addEnemy( enemy.BoyRobot1(1200,400, PLATFORM) )
         self._addNode( levelobject.Node(1500,550) )
-        
-        self._addCheckpoint(1000)
 
 
 """
