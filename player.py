@@ -136,6 +136,9 @@ class CaptainAmerica(Player):
 	primary_attack_speed = 10
 	primary_attack_length = 5
 	primary_attack_recovery = 5
+	
+	def special_attack(self):
+		self.star()
 
 class BlackWidow(Player):
 	numWalkFrames = 3        #number pics in move anim
