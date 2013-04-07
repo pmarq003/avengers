@@ -850,13 +850,68 @@ class Level5(Level):
         #level objects in order
             #floor + checkpoint
         self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.MetroidPlatform(1230,-50) )
+        self._addTerrain( levelobject.MetroidPlatform(600,-650) )
+
+        self._addNode( levelobject.Node(2520,-660) )
+        self._addTerrain( levelobject.MetroidPlatform(2500,-650) )
+        self._addEnemy( enemy.Ghoul(2650,-700, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(2550,-700, PLATFORM) )
+        self._addNode( levelobject.Node(2700,-660) )
+
+        self._addTerrain( levelobject.MarioGround1632(5100,SCREEN_HEIGHT-32) )
+        
         self._addCheckpoint(0)
+
+        #debug
+        self._addHeart( levelobject.Heart( 50, 500 ) )
+        self._addStar( levelobject.Star( 50, 500) )
+        self._addStar( levelobject.Star( 1500, 500) )
         
         #Ghouls
-        self._addNode( levelobject.Node(20,550) )
-        self._addEnemy( enemy.Ghoul(700,400, PLATFORM) )
+        self._addNode( levelobject.Node(80,550) )
+
+        #fuck campers
+        self._addEnemy( enemy.Ghoul(700,-2000, PLATFORM) )
+
+        self._addEnemy( enemy.Ghoul(700,450, PLATFORM) )
         self._addEnemy( enemy.Ghoul(900,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(1000,400, PLATFORM) )
         self._addEnemy( enemy.Ghoul(1200,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(1250,450, PLATFORM) )
+
+        #force player up
+        self._addNode( levelobject.Node(2500,550) )
+        self._addTerrain( levelobject.MarioGround1632(2500,SCREEN_HEIGHT-32) )
+        self._addEnemy( enemy.Ghoul(2550,450, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(2650,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(2950,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3650,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3750,450, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(2501,450, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(2600,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(2700,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(2800,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(2900,450, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3000,450, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3100,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3200,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3300,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3400,450, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3500,450, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3600,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3700,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3800,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3900,450, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(4000,450, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(4100,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3250,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(3750,400, PLATFORM) )
+        self._addEnemy( enemy.Ghoul(4050,450, PLATFORM) )
+        self._addNode( levelobject.Node(4132,550) )
+
+
         self._addNode( levelobject.Node(1500,550) )
+
         
-        self._addCheckpoint(1000)
+        self._addCheckpoint(10500)
