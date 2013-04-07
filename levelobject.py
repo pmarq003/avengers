@@ -53,6 +53,8 @@ class LevelObject(Sprite):
 class Node(LevelObject):
 	base_img_path = 'images/node.jpg'
 
+class Node500(LevelObject):
+	base_img_path = 'images/node500.jpg'
 
 #   Tutorial level objects
 
