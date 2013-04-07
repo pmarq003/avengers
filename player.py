@@ -41,35 +41,38 @@ class Player(Character):
 
 		elif evman.NORMPRESSED or self.attack_timer != 0: #normal attack pressed
 
-			if self.isJumping:
-				self._load_image( self.jump_attack )
-			else:
-				self._load_image( self.norm_attack )
-
-			#mid attack
-			if self.attack_timer > 1:
-				self.attacking = True
-				self.attack_timer -= 1
-				self.velX = self.primary_attack_speed if self.facingRight else -1*self.primary_attack_speed
-
-			#start recovery phase
-			elif self.attack_timer == 1:
-				self.attacking = False
-				self.attack_timer = -1*self.primary_attack_recovery
-				if not self.isJumping: self.stallX()
-
-			#start attack
-			elif self.attack_timer == 0:
-				self.attacking = True
-				self.attack_timer = self.primary_attack_length
-				#now plays a random sound which may or may not be captain falcon
-				self._play_attack()
-
-			#mid recovery
-			else:
-				self.attacking = False
-				self.attack_timer += 1
-				if not self.isJumping: self.stallX()
+			try: self.special_attack()
+			except AttributeError:
+	
+				if self.isJumping:
+					self._load_image( self.jump_attack )
+				else:
+					self._load_image( self.norm_attack )
+	
+				#mid attack
+				if self.attack_timer > 1:
+					self.attacking = True
+					self.attack_timer -= 1
+					self.velX = self.primary_attack_speed if self.facingRight else -1*self.primary_attack_speed
+	
+				#start recovery phase
+				elif self.attack_timer == 1:
+					self.attacking = False
+					self.attack_timer = -1*self.primary_attack_recovery
+					if not self.isJumping: self.stallX()
+	
+				#start attack
+				elif self.attack_timer == 0:
+					self.attacking = True
+					self.attack_timer = self.primary_attack_length
+					#now plays a random sound which may or may not be captain falcon
+					self._play_attack()
+	
+				#mid recovery
+				else:
+					self.attacking = False
+					self.attack_timer += 1
+					if not self.isJumping: self.stallX()
 
 
 		elif evman.LEFTPRESSED: #left key pressed
@@ -184,6 +187,37 @@ class Hawkeye(Player):
 		def update(self):
 			TransientEntity.update(self)
 			self.rect.left += 20
+
+	def normal_attack(self):
+		self._load_image( self.norm_attack )
+		self.stallX()
+
+		#On the second frame the rect for the player will be updated
+		#so we can position the lightning correctly relative to that
+		if self.sattack_timer == 2:
+			if self.facingRight:
+				entity = self.ArrowRight(0,0)
+				entity.rect.topleft = self.rect.topright
+				self.level.addEntity(entity)
+			else:
+				entity = self.ArrowLeft(0,0)
+				entity.rect.topright = self.rect.topleft
+				self.level.addEntity(entity)
+			self.sattack_timer -= 1
+
+		#mid attack
+		elif self.sattack_timer > 1:
+			self.sattack_timer -= 1
+
+		#end of attack
+		elif self.sattack_timer == 1:
+			self.attacking = False
+			self.sattack_timer = 0
+
+		#start of attack
+		else:
+			self.attacking = True
+			self.sattack_timer = 5
 
 	def special_attack(self):
 		self._load_image( self.norm_attack )
