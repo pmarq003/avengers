@@ -646,7 +646,9 @@ class Level3(Level):
         self._addTerrain( levelobject.MegamanPlatThin3(0,SCREEN_HEIGHT-14) )
         self._addCheckpoint(0)
         self._addTerrain( levelobject.MegamanPlatNorm(384,SCREEN_HEIGHT-65) )
+        self._addHeart( levelobject.Heart( 422, SCREEN_HEIGHT-206 ) )
         self._addTerrain( levelobject.MegamanPlatTallerWide(497,SCREEN_HEIGHT-96) )
+        self._addAmmo( levelobject.Ammo( 552, SCREEN_HEIGHT-206 ) )
         
         self._addNode( levelobject.Node(794,SCREEN_HEIGHT-170) )
         self._addEnemy( enemy.BoyRobot1(900,SCREEN_HEIGHT-220, PLATFORM) )
@@ -654,6 +656,7 @@ class Level3(Level):
         self._addNode( levelobject.Node(1035,SCREEN_HEIGHT-170) )
         
         self._addTerrain( levelobject.MegamanPlatTallerWide(1145,SCREEN_HEIGHT-96) )
+        self._addAmmo( levelobject.Ammo( 1200, SCREEN_HEIGHT-206 ) )
         self._addNode( levelobject.Node(1335,SCREEN_HEIGHT-85) )
         self._addEnemy( enemy.BoyRobot1(1400,SCREEN_HEIGHT-105, PLATFORM) )
         self._addNode( levelobject.Node(1595,SCREEN_HEIGHT-85) )
@@ -672,6 +675,7 @@ class Level3(Level):
         self._addEnemy( enemy.BoyRobot1(2950,SCREEN_HEIGHT-105, PLATFORM) )
         self._addNode( levelobject.Node(3190,SCREEN_HEIGHT-85) )
         self._addTerrain( levelobject.MegamanPlatTallerWide(3193,SCREEN_HEIGHT-96) )
+        #self._addStar( levelobject.Star( 3275, SCREEN_HEIGHT-450 ) )
         self._addNode( levelobject.Node(3383,SCREEN_HEIGHT-148) )
         self._addEnemy( enemy.BoyRobot2(3400,SCREEN_HEIGHT-168, PLATFORM) )
         self._addTerrain( levelobject.MegamanPlatTallestWide(3385,SCREEN_HEIGHT-128) )
@@ -698,6 +702,7 @@ class Level3(Level):
         self._addNode( levelobject.Node(5402,SCREEN_HEIGHT-300) )
         self._addEnemy( enemy.BoyRobot2(5500,SCREEN_HEIGHT-320, PLATFORM) )
         self._addEnemy( enemy.BoyRobot3(5660,SCREEN_HEIGHT-320, PLATFORM) )
+        self._addHeart( levelobject.Heart( 5585, SCREEN_HEIGHT-470 ) )
         self._addTerrain( levelobject.MegamanPlatThin3(5412,SCREEN_HEIGHT-280) )
         self._addNode( levelobject.Node(5790,SCREEN_HEIGHT-300) )
         self._addTerrain( levelobject.MegamanPlatThin3(5412,SCREEN_HEIGHT-34) )
@@ -712,6 +717,8 @@ class Level3(Level):
         self._addEnemy( enemy.BoyRobot2(6825,SCREEN_HEIGHT-320, PLATFORM) )
         self._addTerrain( levelobject.MegamanPlatThin3(6530,SCREEN_HEIGHT-280) )
         self._addNode( levelobject.Node(6909,SCREEN_HEIGHT-300) )
+        self._addAmmo( levelobject.Ammo( 6617, SCREEN_HEIGHT-110 ) )
+        self._addAmmo( levelobject.Ammo( 6745, SCREEN_HEIGHT-110 ) )
         self._addTerrain( levelobject.MegamanPlatThin3(6530,SCREEN_HEIGHT-34) )
         
         self._addNode( levelobject.Node(7085,SCREEN_HEIGHT-150) )
@@ -728,37 +735,43 @@ class Level3(Level):
         
         self._addNode( levelobject.Node500(8190,SCREEN_HEIGHT-505) )
         
-        self._addNode( levelobject.Node(8300,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addNode( levelobject.Node(8200,SCREEN_HEIGHT-14,0,0,-1,-1) )
         self._addEnemy( enemy.BoyRobot2(8400,SCREEN_HEIGHT-520, PLATFORM) )
         self._addTerrain( levelobject.MegamanMovablePlat3( 8207, SCREEN_HEIGHT-150, 0, 3 ) )
-        self._addNode( levelobject.Node(8300,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        self._addNode( levelobject.Node(8200,SCREEN_HEIGHT-500,0,0,-1,-1) )
         
         self._addNode( levelobject.Node500(8595,SCREEN_HEIGHT-505) )
         
+        self._addAmmo( levelobject.Ammo( 8631, SCREEN_HEIGHT-700 ) )
+        
         self._addNode( levelobject.Node500(8749,SCREEN_HEIGHT-505) )
         
-        self._addNode( levelobject.Node(8800,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addNode( levelobject.Node(8755,SCREEN_HEIGHT-14,0,0,-1,-1) )
         self._addEnemy( enemy.BoyRobot1(9000,SCREEN_HEIGHT-520, PLATFORM) )
         self._addTerrain( levelobject.MegamanMovablePlat3( 8766, SCREEN_HEIGHT-450, 0, 3 ) )
-        self._addNode( levelobject.Node(8800,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        self._addNode( levelobject.Node(8755,SCREEN_HEIGHT-500,0,0,-1,-1) )
         
         self._addNode( levelobject.Node500(9155,SCREEN_HEIGHT-505) )
         
+        self._addAmmo( levelobject.Ammo( 9189, SCREEN_HEIGHT-700 ) )
+        
         self._addNode( levelobject.Node500(9308,SCREEN_HEIGHT-505) )
         
-        self._addNode( levelobject.Node(9400,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addNode( levelobject.Node(9315,SCREEN_HEIGHT-14,0,0,-1,-1) )
         self._addEnemy( enemy.BoyRobot3(9600,SCREEN_HEIGHT-520, PLATFORM) )
         self._addTerrain( levelobject.MegamanMovablePlat3( 9325, SCREEN_HEIGHT-250, 0, 3 ) )
-        self._addNode( levelobject.Node(9400,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        self._addNode( levelobject.Node(9315,SCREEN_HEIGHT-500,0,0,-1,-1) )
         
         self._addNode( levelobject.Node500(9714,SCREEN_HEIGHT-505) )
         
+        self._addHeart( levelobject.Heart( 9772, SCREEN_HEIGHT-700 ) )
+        
         self._addNode( levelobject.Node500(9867,SCREEN_HEIGHT-505) )
         
-        self._addNode( levelobject.Node(9900,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addNode( levelobject.Node(9874,SCREEN_HEIGHT-14,0,0,-1,-1) )
         self._addEnemy( enemy.BoyRobot2(10100,SCREEN_HEIGHT-520, PLATFORM) )
         self._addTerrain( levelobject.MegamanMovablePlat3( 9884, SCREEN_HEIGHT-50, 0, 3 ) )
-        self._addNode( levelobject.Node(9900,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        self._addNode( levelobject.Node(9874,SCREEN_HEIGHT-500,0,0,-1,-1) )
         
         self._addNode( levelobject.Node500(10273,SCREEN_HEIGHT-505) )
         
@@ -768,10 +781,10 @@ class Level3(Level):
         
         self._addNode( levelobject.Node500(10426,SCREEN_HEIGHT-505) )
         
-        self._addNode( levelobject.Node(10500,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addNode( levelobject.Node(10433,SCREEN_HEIGHT-14,0,0,-1,-1) )
         self._addEnemy( enemy.BoyRobot3(10650,SCREEN_HEIGHT-520, PLATFORM) )
         self._addTerrain( levelobject.MegamanMovablePlat3( 10443, SCREEN_HEIGHT-350, 0, 3 ) )
-        self._addNode( levelobject.Node(10500,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        self._addNode( levelobject.Node(10433,SCREEN_HEIGHT-500,0,0,-1,-1) )
         
         self._addNode( levelobject.Node500(10832,SCREEN_HEIGHT-505) )
 
@@ -781,10 +794,10 @@ class Level3(Level):
 
         self._addNode( levelobject.Node500(10985,SCREEN_HEIGHT-505) )
         
-        self._addNode( levelobject.Node(11100,SCREEN_HEIGHT-14,0,0,-1,-1) )
+        self._addNode( levelobject.Node(10990,SCREEN_HEIGHT-14,0,0,-1,-1) )
         self._addEnemy( enemy.BoyRobot3(11250,SCREEN_HEIGHT-290, PLATFORM) )
         self._addTerrain( levelobject.MegamanMovablePlat3( 11002, SCREEN_HEIGHT-250, 0, 3 ) )
-        self._addNode( levelobject.Node(11100,SCREEN_HEIGHT-500,0,0,-1,-1) )
+        self._addNode( levelobject.Node(10990,SCREEN_HEIGHT-500,0,0,-1,-1) )
         
         self._addNode( levelobject.Node500(11391,SCREEN_HEIGHT-505) )
         
@@ -796,10 +809,14 @@ class Level3(Level):
         self._addTerrain( levelobject.MegamanPlatLong(11563,SCREEN_HEIGHT-65) )
         self._addNode( levelobject.Node(12485,SCREEN_HEIGHT-85) )
         self._addTerrain( levelobject.MegamanPlatThin2(12500,SCREEN_HEIGHT-220) )
+        self._addHeart( levelobject.Heart( 12548, SCREEN_HEIGHT-267 ) )
+        self._addHeart( levelobject.Heart( 12653, SCREEN_HEIGHT-267 ) )
         self._addNode( levelobject.Node(12850,SCREEN_HEIGHT-350) )
         self._addEnemy( enemy.Drone(12850,SCREEN_HEIGHT-200, FLYVERT) )
         self._addNode( levelobject.Node(12850,SCREEN_HEIGHT-70) )
         self._addTerrain( levelobject.MegamanPlatThin2(12956,SCREEN_HEIGHT-220) )
+        self._addAmmo( levelobject.Ammo( 13000, SCREEN_HEIGHT-255 ) )
+        self._addAmmo( levelobject.Ammo( 13085, SCREEN_HEIGHT-255 ) )
         self._addNode( levelobject.Node(13310,SCREEN_HEIGHT-250) )
         self._addEnemy( enemy.Drone(13310,SCREEN_HEIGHT-200, FLYVERT) )
         self._addNode( levelobject.Node(13310,SCREEN_HEIGHT-70) )
