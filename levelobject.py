@@ -225,10 +225,18 @@ class TransientEntity(LevelObject):
 class Heart(LevelObject):
 	solid = False
 	base_img_path = 'images/heart.png'
+	
+class Heart3(LevelObject):
+	solid = False
+	base_img_path = 'images/heart3.png'
 
 class Ammo(LevelObject):
 	solid = False
 	base_img_path = 'images/ammo.png'
+	
+class Ammo3(LevelObject):
+	solid = False
+	base_img_path = 'images/ammo3.png'
 	
 class Star(LevelObject):
 	solid = False
