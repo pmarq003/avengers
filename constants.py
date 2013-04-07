@@ -26,5 +26,6 @@ FLYSWOOP    = 7     #fly in a parabola
 FLYATTACK   = 8     #(start offscreen) and swoop to player
 RPROJ       = 9     #randomly shoot projectiles and follow player
 RPROJSTAND  = 10    #randomly stand still and shoot projectiles
+CUSTOM      = 11    #enemy object is going to define its own ai
 
 PLAYER_LIVES = 3

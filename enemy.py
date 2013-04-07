@@ -48,7 +48,8 @@ class Enemy(Character):
                                     FLYSWOOP:   self.AI_flyswoop,
                                     FLYATTACK:  self.AI_flyattack,
                                     RPROJ:      self.AI_rproj,
-                                    RPROJSTAND: self.AI_rprojstand}
+                                    RPROJSTAND: self.AI_rprojstand,
+                                    CUSTOM:     None}
 
         Character.__init__(self,x,y)
 
@@ -58,7 +59,10 @@ class Enemy(Character):
         #if(self.velY == 0):
         #    self._load_image( self.stand )
 
-        self.AI_implementations[self.ai]()
+        if self.ai != CUSTOM:
+            self.AI_implementations[self.ai]()
+        else:
+            self.customAI()
 
         #counteract gravity
         if self.isFlying and self.alive:
@@ -877,6 +881,35 @@ class Metroid(Enemy):
     playerRadius = 500
 
     animFolder = 'enemysprites/metroid'
+
+class Ridley(Enemy):
+    can_get_hurt = False #hard-mode
+    numWalkFrames = 1        #number pics in move anim
+    walkDelay = 5        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 15     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/ridley'
+
+    def __init__(self, x, y, ai, level=None):
+        Enemy.__init__(self,x,y,ai,level)
+        self.norm_attack = Animation('images/' + self.animFolder + '/norm_attack_left{0}.gif',  5, 5),\
+						   Animation('images/' + self.animFolder + '/norm_attack_right{0}.gif', 5, 5)
+
+    def customAI(self):
+        playerDistance = abs(self.rect.left - self.player.rect.right)
+        if playerDistance < 400:
+            self._load_image( self.norm_attack )
+            self.velX = -self.runVel
+        else:
+            self._load_image( self.stand )
+            self.velX = 0
+
     
 class FastMetroid(Metroid):
     runVel = 15

@@ -43,6 +43,8 @@ class LevelObject(Sprite):
 	def try_hurt(self,by):
 		if self.can_get_hurt and by.can_give_hurt:
 			self.got_hurt(by)
+		elif by.can_get_hurt and self.can_give_hurt:
+			by.got_hurt(self)
 
 	def die(self):
 		pass
