@@ -730,6 +730,52 @@ class BoyRobot1(Enemy):
     playerRadius = 500
 
     animFolder = 'enemysprites/boyrobot1'
+
+class BoyRobot2(Enemy):
+    numWalkFrames = 5        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/boyrobot2'
+    
+class BoyRobot3(Enemy):
+    numWalkFrames = 5        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 5     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/boyrobot3'
+    
+class Drone(Enemy):
+    numWalkFrames = 4        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 7     #xcoord movement velocity
+    jumpVel = 4    #jumping velocity
+
+    #for FLYVERT
+    vertDist = 40       #increase for longer vertical distance
+    currentDist = 0     #KEEP ZERO
+    #for FLYSWOOP
+    horizRadius = 60    #increase for wider swoop
+    currentHoriz = 0
+
+    #distance before detect player
+    playerRadius = 200
+
+    animFolder = 'enemysprites/drone'
     
     
 """
