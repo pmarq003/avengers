@@ -41,7 +41,7 @@ class Player(Character):
 
 		elif evman.NORMPRESSED or self.attack_timer != 0: #normal attack pressed
 
-			try: self.special_attack()
+			try: self.normal_attack()
 			except AttributeError:
 	
 				if self.isJumping:
@@ -263,6 +263,51 @@ class Hulk(Player):
 	primary_attack_speed = 10
 	primary_attack_length = 5
 	primary_attack_recovery = 5
+	
+	class HulkBlastLeft(TransientEntity):
+		attacking = True
+		can_give_hurt = True
+		base_img_path = 'images/hulk/blast.png'
+		timeout = 10
+
+	class HulkBlastRight(TransientEntity):
+		attacking = True
+		can_give_hurt = True
+		base_img_path = 'images/hulk/blast.png'
+		timeout = 10
+
+
+	def special_attack(self):
+		self._load_image( self.jump_attack )
+		self.stallX()
+		self.velY = -1 #counter gravity
+
+		#On the second frame the rect for the player will be updated
+		#so we can position the blast correctly relative to that
+		if self.sattack_timer == 9:
+			if self.facingRight:
+				entity = self.HulkBlastRight(0,0)
+				entity.rect.bottomleft = self.rect.bottomright
+				self.level.addEntity(entity)
+			else:
+				entity = self.HulkBlastLeft(0,0)
+				entity.rect.bottomright = self.rect.bottomleft
+				self.level.addEntity(entity)
+			self.sattack_timer -= 1
+
+		#mid attack
+		elif self.sattack_timer > 1:
+			self.sattack_timer -= 1
+
+		#end of attack
+		elif self.sattack_timer == 1:
+			self.attacking = False
+			self.sattack_timer = 0
+
+		#start of attack
+		else:
+			self.attacking = True
+			self.sattack_timer = 10
 
 class IronMan(Player):
 	numWalkFrames = 4		#number pics in move anim
