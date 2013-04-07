@@ -730,6 +730,29 @@ class BoyRobot1(Enemy):
     playerRadius = 500
 
     animFolder = 'enemysprites/boyrobot1'
+    
+    #projectile classes
+    class ProjectileLeft(TransientEntity):
+            attacking = False #True
+            can_give_hurt = True
+            kill_on_collide = True#True
+            base_img_path = 'images/enemysprites/shootingshyguy/projectile_left.gif'
+            timeout = 100
+
+            def update(self):
+                TransientEntity.update(self)
+                self.rect.left -= 20
+
+    class ProjectileRight(TransientEntity):
+        attacking = False#True
+        can_give_hurt = True
+        kill_on_collide = True#True
+        base_img_path = 'images/enemysprites/shootingshyguy/projectile_right.gif'
+        timeout = 100
+
+        def update(self):
+            TransientEntity.update(self)
+            self.rect.left += 20
 
 class BoyRobot2(Enemy):
     numWalkFrames = 5        #number pics in move anim
@@ -744,6 +767,29 @@ class BoyRobot2(Enemy):
 
     animFolder = 'enemysprites/boyrobot2'
     
+    #projectile classes
+    class ProjectileLeft(TransientEntity):
+            attacking = False #True
+            can_give_hurt = True
+            kill_on_collide = True#True
+            base_img_path = 'images/enemysprites/shootingshyguy/projectile_left.gif'
+            timeout = 100
+
+            def update(self):
+                TransientEntity.update(self)
+                self.rect.left -= 20
+
+    class ProjectileRight(TransientEntity):
+        attacking = False#True
+        can_give_hurt = True
+        kill_on_collide = True#True
+        base_img_path = 'images/enemysprites/shootingshyguy/projectile_right.gif'
+        timeout = 100
+
+        def update(self):
+            TransientEntity.update(self)
+            self.rect.left += 20
+    
 class BoyRobot3(Enemy):
     numWalkFrames = 5        #number pics in move anim
     walkDelay = 2        #delay factor to make anims visible
@@ -756,6 +802,29 @@ class BoyRobot3(Enemy):
     playerRadius = 500
 
     animFolder = 'enemysprites/boyrobot3'
+    
+    #projectile classes
+    class ProjectileLeft(TransientEntity):
+            attacking = False #True
+            can_give_hurt = True
+            kill_on_collide = True#True
+            base_img_path = 'images/enemysprites/shootingshyguy/projectile_left.gif'
+            timeout = 100
+
+            def update(self):
+                TransientEntity.update(self)
+                self.rect.left -= 20
+
+    class ProjectileRight(TransientEntity):
+        attacking = False#True
+        can_give_hurt = True
+        kill_on_collide = True#True
+        base_img_path = 'images/enemysprites/shootingshyguy/projectile_right.gif'
+        timeout = 100
+
+        def update(self):
+            TransientEntity.update(self)
+            self.rect.left += 20
     
 class Drone(Enemy):
     numWalkFrames = 4        #number pics in move anim
