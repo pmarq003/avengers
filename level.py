@@ -1065,6 +1065,8 @@ class Level5(Level):
 
         #level objects in order
             #floor + checkpoint
+        self._addCheckpoint(0)
+
         self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
         self._addTerrain( levelobject.MetroidPlatform(1230,-50) )
         self._addTerrain( levelobject.MetroidPlatform(600,-650) )
@@ -1072,12 +1074,16 @@ class Level5(Level):
         self._addNode( levelobject.Node(2520,-660) )
         self._addTerrain( levelobject.MetroidPlatform(2500,-650) )
         self._addEnemy( enemy.Ghoul(2650,-700, PLATFORM) )
-        self._addEnemy( enemy.Ghoul(2550,-700, PLATFORM) )
+        self._addEnemy( enemy.GhoulSlow(2550,-700, PLATFORM) )
         self._addNode( levelobject.Node(2700,-660) )
-
-        self._addTerrain( levelobject.MarioGround1632(5100,SCREEN_HEIGHT-32) )
         
-        self._addCheckpoint(0)
+
+        self._addTerrain( levelobject.MetroidPlatform(3000,350) )
+
+
+        self._addCheckpoint(3001)
+        self._addTerrain( levelobject.Checkpoint(3000,210) )
+
 
         #debug
         self._addHeart( levelobject.Heart( 50, 500 ) )
@@ -1128,6 +1134,18 @@ class Level5(Level):
 
 
         self._addNode( levelobject.Node(1500,550) )
+        self._addTerrain( levelobject.MarioGround1632(5100,SCREEN_HEIGHT-32) )
 
-        
+        self._addNode( levelobject.Node(5250,SCREEN_HEIGHT-50) )     
+        self._addEnemy( enemy.GhoulSlow(5260,500, PLATFORM) )
+        self._addNode( levelobject.Node(5400,SCREEN_HEIGHT-50) )
+
+        self._addNode( levelobject.Node(5916,SCREEN_HEIGHT-50) )     
+        self._addEnemy( enemy.GhoulSlow(5950,500, PLATFORM) )
+        self._addNode( levelobject.Node(6000,SCREEN_HEIGHT-50) )
+
+        self._addNode( levelobject.Node(6300,SCREEN_HEIGHT-50) )     
+        self._addEnemy( enemy.GhoulSlow(6400,500, PLATFORM) )
+        self._addNode( levelobject.Node(6500,SCREEN_HEIGHT-50) )
+
         self._addCheckpoint(10500)

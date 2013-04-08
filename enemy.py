@@ -930,3 +930,16 @@ class Ghoul(Enemy):
     playerRadius = 500
 
     animFolder = 'enemysprites/ghoul'
+
+class GhoulSlow(Enemy):
+    numWalkFrames = 1        #number pics in move anim
+    walkDelay = 2        #delay factor to make anims visible
+
+    #movement vars
+    runVel = 10     #xcoord movement velocity
+    jumpVel = 0    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/ghoul'
