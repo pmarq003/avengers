@@ -1206,7 +1206,7 @@ class Level5(Level):
         self.bgm = 'sounds/bgm/lvl5.wav'
 
         #background
-        self.background = levelobject.StaticImage('images/levelsprites/castlevania/background.jpg',0,-55)
+        self.background = levelobject.StaticImage('images/levelsprites/castlevania/background.jpg',0,-2155)
         self.parallax = False
 
         #level objects in order
