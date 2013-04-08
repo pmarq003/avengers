@@ -652,10 +652,10 @@ class Sonic(Enemy):
 
     #movement vars
     runVel = 35     #xcoord movement velocity
-    jumpVel = 0    #jumping velocity
+    jumpVel = 5    #jumping velocity
 
     #distance before detect player
-    playerRadius = 500
+    playerRadius = 50
 
     animFolder = 'enemysprites/sonic'
 
@@ -664,14 +664,14 @@ class Robotnik(Enemy):
     walkDelay = 5        #delay factor to make anims visible
     
     #movement vars
-    runVel = 7     #xcoord movement velocity
-    jumpVel = 4    #jumping velocity
+    runVel = 3     #xcoord movement velocity
+    jumpVel = 3    #jumping velocity
     
     #for FLYVERT
-    vertDist = 40       #increase for longer vertical distance
+    vertDist = 5       #increase for longer vertical distance
     currentDist = 0     #KEEP ZERO
     #for FLYSWOOP
-    horizRadius = 60    #increase for wider swoop
+    horizRadius = 200    #increase for wider swoop
     currentHoriz = 0
 
     #distance before detect player
