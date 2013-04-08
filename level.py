@@ -623,22 +623,168 @@ class Level2(Level):
         self.bgm = 'sounds/bgm/lvl2.wav'
 
         #background
-        self.background = levelobject.StaticImage('images/levelsprites/sonic/background.jpg',0,-55)
+        self.background = levelobject.StaticImage('images/levelsprites/sonic/background2.png',0,-250)
         self.parallax = False
 
         #level objects in order
             #floor + checkpoint
-        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.SonicPlatformThick4(0,SCREEN_HEIGHT-32) )
         self._addCheckpoint(0)
         
-        #sonics
-        self._addNode( levelobject.Node(20,550) )
-        self._addEnemy( enemy.Sonic(700,400, PLATFORM) )
-        self._addEnemy( enemy.Sonic(900,400, PLATFORM) )
-        self._addEnemy( enemy.Sonic(1200,400, PLATFORM) )
-        self._addNode( levelobject.Node(1500,550) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589,SCREEN_HEIGHT-64) )
+        #spam some annoying enemies
+        self._addNode( levelobject.Node(589,SCREEN_HEIGHT-80))
+        self._addEnemy( enemy.Chao(700,400, PLATFORM))
+        self._addEnemy( enemy.Chao(750,400, PLATFORM))
+        self._addEnemy( enemy.Chao(800,400, PLATFORM))
+        self._addEnemy( enemy.Chao(850,400, PLATFORM))
+        self._addEnemy( enemy.Chao(900,400, PLATFORM))
+        self._addEnemy( enemy.Chao(950,400, PLATFORM))
+        self._addEnemy( enemy.Chao(1000,400, PLATFORM))
+        self._addEnemy( enemy.Chao(1050,400, PLATFORM))
+        self._addEnemy( enemy.Chao(1100,400, PLATFORM))
+        self._addNode( levelobject.Node(1150,SCREEN_HEIGHT-80))
         
-        self._addCheckpoint(1000)
+        self._addTerrain( levelobject.SonicPlatformThick4(589*2,SCREEN_HEIGHT-128) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589*3,SCREEN_HEIGHT-64) )
+        #spam some more enemies
+        self._addNode( levelobject.Node(589*3,SCREEN_HEIGHT-80))
+        self._addEnemy( enemy.Chao(1800,400, PLATFORM))
+        self._addEnemy( enemy.Chao(1850,400, PLATFORM))
+        self._addEnemy( enemy.Chao(1900,400, PLATFORM))
+        self._addEnemy( enemy.Chao(1950,400, PLATFORM))
+        self._addEnemy( enemy.Chao(2000,400, PLATFORM))
+        self._addEnemy( enemy.Chao(2050,400, PLATFORM))
+        self._addEnemy( enemy.Chao(2100,400, PLATFORM))
+        self._addEnemy( enemy.Chao(2150,400, PLATFORM))
+        self._addEnemy( enemy.Chao(2200,400, PLATFORM))
+        self._addNode( levelobject.Node(589*4-16,SCREEN_HEIGHT-80))
+        
+        #jumping enemies
+        self._addNode( levelobject.Node(2356,SCREEN_HEIGHT-48,0,0,-1) )
+        self._addNode( levelobject.Node(2356,SCREEN_HEIGHT-91,0,0,-1) )
+        self._addNode( levelobject.Node(2356,SCREEN_HEIGHT-131,0,0,-1) )
+        self._addNode( levelobject.Node(2356,SCREEN_HEIGHT-166,0,0,-1) )
+        self._addNode( levelobject.Node(2356,SCREEN_HEIGHT-180,0,0,-1) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589*4,SCREEN_HEIGHT-48) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589*5,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589*6,SCREEN_HEIGHT-48) )
+        #Jumping bunnies (she's some minor character, isn't she?)
+        self._addEnemy( enemy.Cream(2450,SCREEN_HEIGHT-60, HOP) )
+        self._addEnemy( enemy.Cream(2750,SCREEN_HEIGHT-60, HOP) )
+        self._addEnemy( enemy.Cream(2950,SCREEN_HEIGHT-60, HOP) )
+        self._addHeart( levelobject.Heart(3000,300) )
+        self._addEnemy( enemy.Cream(3150,SCREEN_HEIGHT-60, HOP) )
+        self._addEnemy( enemy.Cream(3250,SCREEN_HEIGHT-60, HOP) )
+        self._addEnemy( enemy.Cream(3350,SCREEN_HEIGHT-60, HOP) )
+        self._addNode( levelobject.Node(3534,SCREEN_HEIGHT-48,0,0,-1) )
+        self._addNode( levelobject.Node(3534,SCREEN_HEIGHT-91,0,0,-1) )
+        self._addNode( levelobject.Node(3534,SCREEN_HEIGHT-131,0,0,-1) )
+        self._addNode( levelobject.Node(3534,SCREEN_HEIGHT-166,0,0,-1) )
+        self._addNode( levelobject.Node(3534,SCREEN_HEIGHT-180,0,0,-1) )
+        
+        self._addTerrain( levelobject.SonicPlatformThick4(589*7,SCREEN_HEIGHT-64) )
+        #make a nice gap here
+        self._addTerrain( levelobject.SonicPlatformThick4(589*9-589/2,SCREEN_HEIGHT-64) )
+        self._addNode( levelobject.Node(5000, SCREEN_HEIGHT-264) )
+        self._addEnemy( enemy.Robotnik(5000,SCREEN_HEIGHT-200, FLYVERT) )
+        self._addNode( levelobject.Node(5000, SCREEN_HEIGHT-100) )
+        
+        self._addTerrain( levelobject.SonicPlatformThick4(589*10,SCREEN_HEIGHT-128) )
+        
+        self._addTerrain( levelobject.SonicPlatformThick4(589*11,SCREEN_HEIGHT-160) )
+        self._addTerrain( levelobject.SonicCheckers(589*11,SCREEN_HEIGHT-28))
+        self._addEnemy( enemy.Gamma(6500,450, FLOOR) )
+        self._addEnemy( enemy.Gamma(6500,450, FLOOR) )
+        
+        self._addTerrain( levelobject.SonicPlatformThin(589*12+589/2,SCREEN_HEIGHT-212) )
+
+        self._addNode( levelobject.Node(7805,SCREEN_HEIGHT-264,0,0,-1) )
+        self._addNode( levelobject.Node(7805,SCREEN_HEIGHT-294,0,0,-1) )
+        self._addNode( levelobject.Node(7805,SCREEN_HEIGHT-324,0,0,-1) )
+        self._addNode( levelobject.Node(7805,SCREEN_HEIGHT-354,0,0,-1) )
+        self._addNode( levelobject.Node(7805,SCREEN_HEIGHT-384,0,0,-1) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589*13+589/4,SCREEN_HEIGHT-256) )
+        self._addTerrain( levelobject.SonicCheckers(589*13+589/4,SCREEN_HEIGHT-256+132))
+        self._addEnemy( enemy.Cream(7900,SCREEN_HEIGHT-60, HOP) )
+        self._addEnemy( enemy.Cream(8000,SCREEN_HEIGHT-60, HOP) )
+        self._addEnemy( enemy.Cream(8100,SCREEN_HEIGHT-60, HOP) )
+        self._addNode( levelobject.Node(8393,SCREEN_HEIGHT-264,0,0,-1) )
+        self._addNode( levelobject.Node(8393,SCREEN_HEIGHT-294,0,0,-1) )
+        self._addNode( levelobject.Node(8393,SCREEN_HEIGHT-324,0,0,-1) )
+        self._addNode( levelobject.Node(8393,SCREEN_HEIGHT-354,0,0,-1) )
+        self._addNode( levelobject.Node(8393,SCREEN_HEIGHT-384,0,0,-1) )
+        
+        self._addNode( levelobject.Node(8500, SCREEN_HEIGHT-500) )
+        self._addEnemy( enemy.Robotnik(8500,SCREEN_HEIGHT-400, FLYVERT) )
+        self._addNode( levelobject.Node(8500, SCREEN_HEIGHT-200) )
+        
+        self._addTerrain( levelobject.SonicPlatformThick4(589*15,SCREEN_HEIGHT-212) )
+        self._addTerrain( levelobject.SonicCheckers(589*15,SCREEN_HEIGHT-212+132))
+        self._addTerrain( levelobject.Checkpoint(9000,SCREEN_HEIGHT-212-137) )
+        self._addCheckpoint(9000)
+        
+        self._addTerrain( levelobject.SonicPlatformThick4(589*16,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589*17,SCREEN_HEIGHT-64) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589*18,SCREEN_HEIGHT-96) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589*19,SCREEN_HEIGHT-128) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589*20,SCREEN_HEIGHT-160) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589*21,SCREEN_HEIGHT-196) )
+#        self._addNode( levelobject.Node(10850,-700) )
+#        self._addEnemy( enemy.ParaKoopa(10850,-500, FLYVERT) )
+#        self._addNode( levelobject.Node(10850,-300) )
+#        self._addEnemy( enemy.ParaKoopa(10850,   0, FLYVERT) )
+#        self._addNode( levelobject.Node(10850, 100) )
+#        self._addHeart( levelobject.Heart(11000,-500) )
+#        self._addNode( levelobject.Node(11000,-100,0,0,0,-1) )
+#        self._addTerrain( levelobject.MarioMovablePlatform(11000,0,0,5) )
+#        self._addNode( levelobject.Node(11000,400,0,0,0,-1) )
+#            #floor, checkpoint, shyguys for distractions, and attacking parakoopas
+#        self._addTerrain( levelobject.Checkpoint(11350,SCREEN_HEIGHT-153) )
+#        self._addCheckpoint(11300)
+#        self._addTerrain( levelobject.MarioGround1632(11300,SCREEN_HEIGHT-16) )
+#        self._addAmmo( levelobject.Ammo(11500,450) )
+#        self._addAmmo( levelobject.Ammo(11800,450) )
+#        self._addEnemy( enemy.ShyGuy(11800,450, FLOOR) )
+#        self._addEnemy( enemy.ShyGuy(12000,450, FLOOR) )
+#        self._addEnemy( enemy.ShootingShyGuy(12500,400, RPROJ, self) )
+#        self._addEnemy( enemy.ParaKoopa(12400, -100, FLYATTACK) )
+#        self._addEnemy( enemy.ParaKoopa(12600, 300, FLYATTACK) )
+#        
+        
+        self._addTerrain( levelobject.SonicPlatformThin(589*23-200,SCREEN_HEIGHT-290) )
+        self._addTerrain( levelobject.Heart(589*23+589/4-200,SCREEN_HEIGHT-350-137) )
+        self._addTerrain( levelobject.Checkpoint(589*23+589/4-200,SCREEN_HEIGHT-290-137) )
+        self._addCheckpoint(589*23+589/4-200)
+        
+        self._addTerrain( levelobject.SonicPlatformThick4(589*23,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589*24,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.SonicPlatformThick4(589*25,SCREEN_HEIGHT-32) )
+        
+        
+        #bosses
+        self._addNode( levelobject.Node(13600,550) )
+        self._addNode( levelobject.Node(13600,530) )
+        self._addNode( levelobject.Node(13600,510) )
+        self._addNode( levelobject.Node(13600,490) )
+        self._addNode( levelobject.Node(13600,470) )
+        self._addNode( levelobject.Node(13600,450) )
+        self._addNode( levelobject.Node(13600,430) )
+        self._addNode( levelobject.Node(13600,410) )
+        self._addEnemy( enemy.Sonic(14000,450, HOP) )
+        self._addEnemy( enemy.Sonic(14200,450, HOP) )
+        self._addEnemy( enemy.Robotnik(14200,500, FLYSWOOP))
+        self._addEnemy( enemy.Sonic(14400,450, HOP) )
+        self._addNode( levelobject.Node(14500,550) )
+        self._addNode( levelobject.Node(14500,530) )
+        self._addNode( levelobject.Node(14500,510) )
+        self._addNode( levelobject.Node(14500,490) )
+        self._addNode( levelobject.Node(14500,470) )
+        self._addNode( levelobject.Node(14500,450) )
+        self._addNode( levelobject.Node(14500,430) )
+        self._addNode( levelobject.Node(14500,410) )
+        
+        self._addCheckpoint(14500)
 
 """
     Megaman level

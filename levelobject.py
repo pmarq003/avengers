@@ -145,6 +145,12 @@ class SonicPlatform(LevelObject):
 	
 class SonicPlatformThin(LevelObject):
 	base_img_path = 'images/levelsprites/sonic/sonicplatform_thin.gif'
+	
+class SonicLoop(LevelObject):
+	base_img_path = 'images/levelsprites/sonic/sonicloop.jpg'
+	
+class SonicCheckers(LevelObject):
+	base_img_path = 'images/levelsprites/sonic/sonicplatform_checkers.jpg'
 
 class MetroidGround(LevelObject):
 	base_img_path = 'images/levelsprites/metroid/ground.png'
