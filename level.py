@@ -1220,7 +1220,9 @@ class Level5(Level):
         self._addNode( levelobject.Node(2520,-660) )
         self._addTerrain( levelobject.MetroidPlatform(2500,-650) )
         self._addEnemy( enemy.Ghoul(2650,-700, PLATFORM) )
+        self._addAmmo( levelobject.Ammo(2650, -680) )
         self._addHeart( levelobject.Heart( 2600, -680 ) )
+        self._addAmmo( levelobject.Ammo(2550, -680) )
         self._addEnemy( enemy.GhoulSlow(2550,-700, PLATFORM) )
         self._addNode( levelobject.Node(2700,-660) )
         
@@ -1231,9 +1233,9 @@ class Level5(Level):
 
 
         #debug
-        self._addHeart( levelobject.Heart( 50, 500 ) )
-        self._addStar( levelobject.Star( 50, 500) )
-        self._addStar( levelobject.Star( 1500, 500) )
+        #self._addHeart( levelobject.Heart( 50, 500 ) )
+        #self._addStar( levelobject.Star( 50, 500) )
+        #self._addStar( levelobject.Star( 1500, 500) )
         
         #Ghouls
         self._addNode( levelobject.Node(80,550) )
