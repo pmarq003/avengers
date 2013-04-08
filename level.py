@@ -34,13 +34,15 @@ class Level(object):
         self.charsel = charsel.CharSel()
         self.charSelected = False
   #      self.plot = plot.Plot(-1)
-        self.plotOver = False
+        self.plotOver = True
         self._terrain = pygame.sprite.Group()
         self._enemies = pygame.sprite.Group()
         self._nodes = pygame.sprite.Group()
         self._entities = pygame.sprite.Group()
         self._hearts = pygame.sprite.Group()
+        self._heart3s = pygame.sprite.Group()
         self._ammo = pygame.sprite.Group()
+        self._ammo3 = pygame.sprite.Group()
         self._stars = pygame.sprite.Group()
         self._checkpoints = []
         #True when all checkpoints have been reached
@@ -176,12 +178,24 @@ class Level(object):
             for heart in heartCollisions:
                 self.gameObj.player_lives += 1
                 heart.kill()
+                
+            #detect heart3 powerup collisions
+            heart3Collisions = pygame.sprite.spritecollide(self.player,self._heart3s,False)
+            for heart3 in heart3Collisions:
+                self.gameObj.player_lives += 3
+                heart3.kill()
 
             #detect ammo powerup collisions
             ammoCollisions = pygame.sprite.spritecollide(self.player,self._ammo,False)
             for ammo in ammoCollisions:
                 self.player.incAmmo()
                 ammo.kill()
+                
+            #detect ammo3 powerup collisions
+            ammo3Collisions = pygame.sprite.spritecollide(self.player,self._ammo3,False)
+            for ammo3 in ammo3Collisions:
+                self.player.incAmmo3()
+                ammo3.kill()
 
             #detect star powerup collisions
             starCollisions = pygame.sprite.spritecollide(self.player,self._stars,False)
@@ -253,8 +267,14 @@ class Level(object):
 
             for heartObj in self._hearts:
                 heartObj.draw(camera)
+                
+            for heartObj in self._heart3s:
+                heartObj.draw(camera)
 
             for ammoObj in self._ammo:
+                ammoObj.draw(camera)
+                
+            for ammoObj in self._ammo3:
                 ammoObj.draw(camera)
 
             for starObj in self._stars:
@@ -284,9 +304,15 @@ class Level(object):
 
     def _addHeart(self,heartObj):
         self._hearts.add(heartObj)
+        
+    def _addHeart3(self,heartObj):
+        self._heart3s.add(heartObj)
 
     def _addAmmo(self,ammoObj):
         self._ammo.add(ammoObj)
+        
+    def _addAmmo3(self,ammoObj):
+        self._ammo3.add(ammoObj)
     
     def _addStar(self, starObj):
         self._stars.add(starObj)
@@ -641,14 +667,22 @@ class Level3(Level):
         bg2  = 'images/levelsprites/megaman/backgroundTrans.png'
         self.parallax = Parallax(bg1,0,-55,bg2,0,0)
 
+        #Ammo and Heart Examples
+        #self._addAmmo3( levelobject.Ammo3( 552, SCREEN_HEIGHT-506 ) )
+        #self._addHeart3( levelobject.Heart3( 422, SCREEN_HEIGHT-406 ) )
+        #self._addHeart( levelobject.Heart( 422, SCREEN_HEIGHT-206 ) )
+        #self._addAmmo( levelobject.Ammo( 552, SCREEN_HEIGHT-206 ) )
+
         #level objects in order
             #floor + checkpoint
         self._addTerrain( levelobject.MegamanPlatThin3(0,SCREEN_HEIGHT-14) )
         self._addCheckpoint(0)
         self._addTerrain( levelobject.MegamanPlatNorm(384,SCREEN_HEIGHT-65) )
         self._addHeart( levelobject.Heart( 422, SCREEN_HEIGHT-206 ) )
+        #self._addHeart3( levelobject.Heart3( 422, SCREEN_HEIGHT-406 ) )
         self._addTerrain( levelobject.MegamanPlatTallerWide(497,SCREEN_HEIGHT-96) )
         self._addAmmo( levelobject.Ammo( 552, SCREEN_HEIGHT-206 ) )
+        #self._addAmmo3( levelobject.Ammo3( 552, SCREEN_HEIGHT-506 ) )
         
         self._addNode( levelobject.Node(794,SCREEN_HEIGHT-170) )
         self._addEnemy( enemy.BoyRobot1(900,SCREEN_HEIGHT-220, PLATFORM) )
@@ -753,7 +787,7 @@ class Level3(Level):
         
         self._addNode( levelobject.Node500(9155,SCREEN_HEIGHT-505) )
         
-        self._addAmmo( levelobject.Ammo( 9189, SCREEN_HEIGHT-700 ) )
+        self._addAmmo3( levelobject.Ammo3(9189, SCREEN_HEIGHT-700 ) )
         
         self._addNode( levelobject.Node500(9308,SCREEN_HEIGHT-505) )
         
@@ -782,7 +816,7 @@ class Level3(Level):
         self._addNode( levelobject.Node500(10426,SCREEN_HEIGHT-505) )
         
         self._addNode( levelobject.Node(10433,SCREEN_HEIGHT-14,0,0,-1,-1) )
-        self._addEnemy( enemy.BoyRobot3(10650,SCREEN_HEIGHT-520, PLATFORM) )
+        self._addEnemy( enemy.BoyRobot3(10650,SCREEN_HEIGHT-520, RPROJSTAND, self) )
         self._addTerrain( levelobject.MegamanMovablePlat3( 10443, SCREEN_HEIGHT-350, 0, 3 ) )
         self._addNode( levelobject.Node(10433,SCREEN_HEIGHT-500,0,0,-1,-1) )
         
@@ -795,7 +829,7 @@ class Level3(Level):
         self._addNode( levelobject.Node500(10985,SCREEN_HEIGHT-505) )
         
         self._addNode( levelobject.Node(10990,SCREEN_HEIGHT-14,0,0,-1,-1) )
-        self._addEnemy( enemy.BoyRobot3(11250,SCREEN_HEIGHT-290, PLATFORM) )
+        self._addEnemy( enemy.BoyRobot3(11250,SCREEN_HEIGHT-290, RPROJSTAND, self) )
         self._addTerrain( levelobject.MegamanMovablePlat3( 11002, SCREEN_HEIGHT-250, 0, 3 ) )
         self._addNode( levelobject.Node(10990,SCREEN_HEIGHT-500,0,0,-1,-1) )
         
@@ -804,13 +838,13 @@ class Level3(Level):
         self._addCheckpoint(11570)
         self._addNode( levelobject.Node(11563,SCREEN_HEIGHT-85) )
         self._addEnemy( enemy.BoyRobot2(11600,SCREEN_HEIGHT-105, PLATFORM) )
-        self._addEnemy( enemy.BoyRobot1(11700,SCREEN_HEIGHT-105, PLATFORM) )
+        self._addEnemy( enemy.BoyRobot1(11700,SCREEN_HEIGHT-105, RPROJ, self) )
         self._addEnemy( enemy.BoyRobot2(11800,SCREEN_HEIGHT-105, PLATFORM) )
         self._addTerrain( levelobject.MegamanPlatLong(11563,SCREEN_HEIGHT-65) )
         self._addNode( levelobject.Node(12485,SCREEN_HEIGHT-85) )
         self._addTerrain( levelobject.MegamanPlatThin2(12500,SCREEN_HEIGHT-220) )
         self._addHeart( levelobject.Heart( 12548, SCREEN_HEIGHT-267 ) )
-        self._addHeart( levelobject.Heart( 12653, SCREEN_HEIGHT-267 ) )
+        self._addHeart3( levelobject.Heart3( 12653, SCREEN_HEIGHT-267 ) )
         self._addNode( levelobject.Node(12850,SCREEN_HEIGHT-350) )
         self._addEnemy( enemy.Drone(12850,SCREEN_HEIGHT-200, FLYVERT) )
         self._addNode( levelobject.Node(12850,SCREEN_HEIGHT-70) )
@@ -828,21 +862,21 @@ class Level3(Level):
         self._addEnemy( enemy.BoyRobot3(14800,SCREEN_HEIGHT-105, PLATFORM) )
         self._addTerrain( levelobject.MegamanPlatLong(13567,SCREEN_HEIGHT-65) )
         self._addNode( levelobject.Node(14803,SCREEN_HEIGHT-85) )
-        self._addEnemy( enemy.BoyRobot2(15000,SCREEN_HEIGHT-105, PLATFORM) )
+        self._addEnemy( enemy.BoyRobot2(15000,SCREEN_HEIGHT-105, RPROJ, self) )
         self._addNode( levelobject.Node(15420,SCREEN_HEIGHT-85) )
         self._addNode( levelobject.Node(13985,SCREEN_HEIGHT-240) )
         self._addEnemy( enemy.BoyRobot2(14200,SCREEN_HEIGHT-260, PLATFORM) )
         self._addTerrain( levelobject.MegamanPlatThin3(14000,SCREEN_HEIGHT-220) )
         self._addNode( levelobject.Node(14380,SCREEN_HEIGHT-240) )
-        self._addEnemy( enemy.BoyRobot3(14200,SCREEN_HEIGHT-320, PLATFORM) )
+        self._addEnemy( enemy.BoyRobot3(14200,SCREEN_HEIGHT-320, RPROJ, self) )
         self._addNode( levelobject.Node(15418,SCREEN_HEIGHT-116) )
-        self._addEnemy( enemy.BoyRobot3(15500,SCREEN_HEIGHT-126, PLATFORM) )
+        self._addEnemy( enemy.BoyRobot3(15500,SCREEN_HEIGHT-126, RPROJ, self) )
         self._addTerrain( levelobject.MegamanPlatTallestWide(15423,SCREEN_HEIGHT-96) )
         self._addNode( levelobject.Node(15610,SCREEN_HEIGHT-116) )
         
         self._addNode( levelobject.Node(15790,SCREEN_HEIGHT-85) )
         self._addEnemy( enemy.BoyRobot2(15900,SCREEN_HEIGHT-105, PLATFORM) )
-        self._addEnemy( enemy.BoyRobot3(16000,SCREEN_HEIGHT-105, PLATFORM) )
+        self._addEnemy( enemy.BoyRobot3(16500,SCREEN_HEIGHT-105, RPROJ, self) )
         self._addEnemy( enemy.BoyRobot2(16100,SCREEN_HEIGHT-105, PLATFORM) )
         self._addNode( levelobject.Node(16790,SCREEN_HEIGHT-85) )
         self._addTerrain( levelobject.MegamanPlatLong(15790,SCREEN_HEIGHT-65) )
@@ -889,29 +923,29 @@ class Level4(Level):
         
         #Space Pirates
         self._addNode( levelobject.Node(20,550) )
-        #self._addEnemy( enemy.SpacePirate(700,400, PLATFORM) )
-        #self._addEnemy( enemy.SpacePirate(800,400, PLATFORM) )
-        #self._addEnemy( enemy.SpacePirate(900,400, PLATFORM) )
+        self._addEnemy( enemy.SpacePirate(700,400, PLATFORM) )
+        self._addEnemy( enemy.SpacePirate(800,400, PLATFORM) )
+        self._addEnemy( enemy.SpacePirate(900,400, PLATFORM) )
         self._addNode( levelobject.Node(1000,550) )
 
         self._addHeart( levelobject.Heart(1200,550) )
 
         self._addNode( levelobject.Node(900,380) )
         self._addTerrain( levelobject.MetroidPlatform(900,400) )
-        #self._addEnemy( enemy.Metroid(950,350, PLATFORM) )
+        self._addEnemy( enemy.Metroid(950,350, PLATFORM) )
         self._addNode( levelobject.Node(900+256,380) )
 
         self._addNode( levelobject.Node(1300,230) )
         self._addTerrain( levelobject.MetroidPlatform(1300,250) )
-        #self._addEnemy( enemy.Metroid(1350,200, PLATFORM) )
-        #self._addEnemy( enemy.Metroid(1450,200, PLATFORM) )
+        self._addEnemy( enemy.Metroid(1350,200, PLATFORM) )
+        self._addEnemy( enemy.Metroid(1450,200, PLATFORM) )
         self._addNode( levelobject.Node(1300+256,230) )
 
         self._addNode( levelobject.Node(1700,80) )
         self._addTerrain( levelobject.MetroidPlatform(1700,100) )
-        #self._addEnemy( enemy.Metroid(1750,50, PLATFORM) )
-        #self._addEnemy( enemy.Metroid(1800,50, PLATFORM) )
-        #self._addEnemy( enemy.Metroid(1850,50, PLATFORM) )
+        self._addEnemy( enemy.Metroid(1750,50, PLATFORM) )
+        self._addEnemy( enemy.Metroid(1800,50, PLATFORM) )
+        self._addEnemy( enemy.Metroid(1850,50, PLATFORM) )
         self._addNode( levelobject.Node(1700+256,80) )
 
         self._addTerrain( levelobject.MetroidPlatform(2100,-50) )
@@ -930,49 +964,38 @@ class Level4(Level):
         #First level pyramid
         self._addNode( levelobject.Node(2300,530) )
         self._addTerrain( levelobject.MetroidPlatform(2300, 550) )
-        #self._addEnemy( enemy.SpacePirate(2350,500, PLATFORM) )
+        self._addEnemy( enemy.SpacePirate(2350,500, PLATFORM) )
         self._addNode( levelobject.Node(2300+256,530) )
 
         self._addNode( levelobject.Node(2800,530) )
         self._addTerrain( levelobject.MetroidPlatform(2800, 550) )
-        #self._addEnemy( enemy.SpacePirate(2850,500, PLATFORM) )
+        self._addEnemy( enemy.SpacePirate(2850,500, PLATFORM) )
         self._addNode( levelobject.Node(2800+256,530) )
 
         self._addNode( levelobject.Node(3300,530) )
         self._addTerrain( levelobject.MetroidPlatform(3300, 550) )
-        #self._addEnemy( enemy.SpacePirate(3350,500, PLATFORM) )
+        self._addEnemy( enemy.SpacePirate(3350,500, PLATFORM) )
         self._addNode( levelobject.Node(3300+256,530) )
 
         self._addNode( levelobject.Node(3800,530) )
         self._addTerrain( levelobject.MetroidPlatform(3800, 550) )
-        #self._addEnemy( enemy.SpacePirate(3850,500, PLATFORM) )
+        self._addEnemy( enemy.SpacePirate(3850,500, PLATFORM) )
         self._addNode( levelobject.Node(3800+256,530) )
 
 
         #Second level pyramid
         self._addNode( levelobject.Node(3050,330) )
         self._addTerrain( levelobject.MetroidPlatform(3050, 350) )
-        #self._addEnemy( enemy.SpacePirate(3100,300, PLATFORM) )
+        self._addEnemy( enemy.SpacePirate(3100,300, PLATFORM) )
         self._addNode( levelobject.Node(3050+256,330) )
 
         self._addNode( levelobject.Node(3550,330) )
         self._addTerrain( levelobject.MetroidPlatform(3550, 350) )
-        #self._addEnemy( enemy.SpacePirate(3600,300, PLATFORM) )
+        self._addEnemy( enemy.SpacePirate(3600,300, PLATFORM) )
         self._addNode( levelobject.Node(3550+256,330) )
 
         #Top of pyramid
         self._addTerrain( levelobject.MetroidPlatform(3300, 150) )
-
-        #Going up
-        self._addNode( levelobject.Node(3700,200,0,0,-1,-1) )
-        self._addTerrain( levelobject.MetroidMovablePlatform( 3600, 150, 0, 5 ) )
-        self._addNode( levelobject.Node(3700,-500,0,0,-1,-1) )
-
-        self._addNode( levelobject.Node(200,500) )
-        self._addEnemy( enemy.FastMetroid(600,500, PLATFORM) )
-        self._addEnemy( enemy.FastMetroid(700,500, PLATFORM) )
-        self._addEnemy( enemy.FastMetroid(800,500, PLATFORM) )
-        self._addNode( levelobject.Node(200,500) )
 
         #Ammo cache off to the right of the pyramid
         self._addNode( levelobject.Node(4500,530) )
@@ -982,7 +1005,38 @@ class Level4(Level):
         self._addAmmo( levelobject.Ammo( 4550+100, 530 ) )
         self._addNode( levelobject.Node(4500+256,530) )
 
-        self._addCheckpoint(10000)
+        #Going up
+        self._addNode( levelobject.Node(3700,200,0,0,-1,-1) )
+        self._addTerrain( levelobject.MetroidMovablePlatform( 3600, 150, 0, 5 ) )
+        self._addNode( levelobject.Node(3700,-500,0,0,-1,-1) )
+
+        
+        #Death line
+        self._addNode( levelobject.Node(3000,-600,0,0,-1,-1))
+        self._addEnemy( enemy.FastMetroid(3100,-600, FLYHORIZ) )
+        self._addEnemy( enemy.FastMetroid(3200,-600, FLYHORIZ) )
+        self._addEnemy( enemy.FastMetroid(3300,-600, FLYHORIZ) )
+        self._addEnemy( enemy.FastMetroid(3400,-600, FLYHORIZ) )
+        self._addEnemy( enemy.FastMetroid(3500,-600, FLYHORIZ) )
+        self._addEnemy( enemy.FastMetroid(3600,-600, FLYHORIZ) )
+        self._addEnemy( enemy.FastMetroid(3700,-600, FLYHORIZ) )
+        self._addEnemy( enemy.FastMetroid(3800,-600, FLYHORIZ) )
+        self._addEnemy( enemy.FastMetroid(3900,-600, FLYHORIZ) )
+        self._addEnemy( enemy.FastMetroid(4000,-600, FLYHORIZ) )
+        self._addNode( levelobject.Node(5000,-600,0,0,-1,-1))
+
+        #Going right
+        self._addNode( levelobject.Node(4000,-510,0,0,-1,-1) )
+        self._addTerrain( levelobject.MetroidMovablePlatform( 4400, -510, 12, 0 ) )
+        self._addNode( levelobject.Node(5780,-510,0,0,-1,-1) )
+
+        #Next area
+        self._addCheckpoint(6100)
+        self._addTerrain( levelobject.MetroidGround(6000,-500) )
+
+        self._addEnemy( enemy.Ridley(7000, -900, CUSTOM))
+
+        self._addCheckpoint(7800)
 
 
 """

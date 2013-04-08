@@ -160,6 +160,7 @@ class AvengersGame:
                     #'quit to main' clicked
                     if self.pauseMenu.showMainMenu:
                         self.startMenu.playing = False
+                        self.startMenu.show_level = False
                         self.currLevel = self.getCurrentLevel()
                         self.pauseMenu.showMainMenu = False
                         eventmanager.get().PAUSED = False

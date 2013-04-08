@@ -23,7 +23,7 @@ class Player(Character):
 
 	def charSpecificUpdate(self):
 		
-		if (time.clock() - self.timer > 15) and self.has_star :
+		if (time.time() - self.timer > 10) and self.has_star :
 			self.stopStar()
 
 		evman = eventmanager.get()
@@ -108,6 +108,9 @@ class Player(Character):
 
 	def incAmmo(self):
 		self.sattack_ammo = 10 if self.sattack_ammo >= 10 else self.sattack_ammo + 1
+		
+	def incAmmo3(self):
+		self.sattack_ammo = 10
 
 	def decAmmo(self):
 		self.sattack_ammo = 0 if self.sattack_ammo <= 0 else self.sattack_ammo - 1
@@ -116,7 +119,7 @@ class Player(Character):
 		self.can_get_hurt = False
 		self.has_star = True
 		print("Star power has started.")
-		self.timer = time.clock()
+		self.timer = time.time()
 		
 	def stopStar(self):
 		self.can_get_hurt = True
@@ -134,23 +137,39 @@ class CaptainAmerica(Player):
 	animFolder = 'america'
 
 	primary_attack_speed = 10
-	primary_attack_length = 5
+	primary_attack_length = 8
 	primary_attack_recovery = 5
+	
+	def special_attack(self):
+		if not self.has_star and self.sattack_timer <= 0:
+			self.star()
+			self.timer -= 8 #Normally 10 seconds, now 2 seconds
+			self.sattack_timer = 5
+
+		self.sattack_timer -= 1
 
 class BlackWidow(Player):
-	numWalkFrames = 3        #number pics in move anim
-	walkDelay = 3        #delay factor to make anims visible
+	numWalkFrames = 3		#number pics in move anim
+	walkDelay = 3		#delay factor to make anims visible
 
 	#movement vars
-	runVel = 10     #xcoord movement velocity
-	jumpVel = 25    #jumping velocity
+	runVel = 10	 #xcoord movement velocity
+	jumpVel = 25	#jumping velocity
 
 	animFolder = 'blackwidow'
 
 	primary_attack_speed = 10
-	primary_attack_length = 5
+	primary_attack_length = 8
 	primary_attack_recovery = 5
 
+	def special_attack(self):
+		self.attacking = True
+		if self.sattack_timer <= 0:
+			self.sattack_timer = 20
+			if self.facingRight: self.rect.left += 500
+			else:				self.rect.left -= 500
+		
+		self.sattack_timer -= 1
 
 class Hawkeye(Player):
 	numWalkFrames = 4		#number pics in move anim
@@ -165,6 +184,28 @@ class Hawkeye(Player):
 	primary_attack_speed = 10
 	primary_attack_length = 5
 	primary_attack_recovery = 5
+
+	class FireArrowLeft(TransientEntity):
+		attacking = True
+		can_give_hurt = True
+		kill_on_collide = True
+		base_img_path = 'images/hawkeye/fire_arrow_left.png'
+		timeout = 100
+
+		def update(self):
+			TransientEntity.update(self)
+			self.rect.left -= 30
+
+	class FireArrowRight(TransientEntity):
+		attacking = True
+		can_give_hurt = True
+		kill_on_collide = True
+		base_img_path = 'images/hawkeye/fire_arrow_right.png'
+		timeout = 100
+
+		def update(self):
+			TransientEntity.update(self)
+			self.rect.left += 30
 	
 	class ArrowLeft(TransientEntity):
 		attacking = True
@@ -194,30 +235,31 @@ class Hawkeye(Player):
 
 		#On the second frame the rect for the player will be updated
 		#so we can position the lightning correctly relative to that
-		if self.sattack_timer == 2:
+		if self.attack_timer == 2:
+			entity = None
 			if self.facingRight:
 				entity = self.ArrowRight(0,0)
 				entity.rect.topleft = self.rect.topright
-				self.level.addEntity(entity)
 			else:
 				entity = self.ArrowLeft(0,0)
 				entity.rect.topright = self.rect.topleft
-				self.level.addEntity(entity)
-			self.sattack_timer -= 1
+			entity.rect.move_ip(0,20)
+			self.level.addEntity(entity)
+			self.attack_timer -= 1
 
 		#mid attack
-		elif self.sattack_timer > 1:
-			self.sattack_timer -= 1
+		elif self.attack_timer > 1:
+			self.attack_timer -= 1
 
 		#end of attack
-		elif self.sattack_timer == 1:
+		elif self.attack_timer == 1:
 			self.attacking = False
-			self.sattack_timer = 0
+			self.attack_timer = 0
 
 		#start of attack
 		else:
 			self.attacking = True
-			self.sattack_timer = 5
+			self.attack_timer = 5
 
 	def special_attack(self):
 		self._load_image( self.norm_attack )
@@ -226,14 +268,15 @@ class Hawkeye(Player):
 		#On the second frame the rect for the player will be updated
 		#so we can position the lightning correctly relative to that
 		if self.sattack_timer == 2:
+			entity = None
 			if self.facingRight:
-				entity = self.ArrowRight(0,0)
+				entity = self.FireArrowRight(0,0)
 				entity.rect.topleft = self.rect.topright
-				self.level.addEntity(entity)
 			else:
-				entity = self.ArrowLeft(0,0)
+				entity = self.FireArrowLeft(0,0)
 				entity.rect.topright = self.rect.topleft
-				self.level.addEntity(entity)
+			entity.rect.move_ip(0,10)
+			self.level.addEntity(entity)
 			self.sattack_timer -= 1
 
 		#mid attack

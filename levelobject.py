@@ -43,6 +43,8 @@ class LevelObject(Sprite):
 	def try_hurt(self,by):
 		if self.can_get_hurt and by.can_give_hurt:
 			self.got_hurt(by)
+		elif by.can_get_hurt and self.can_give_hurt:
+			by.got_hurt(self)
 
 	def die(self):
 		pass
@@ -223,10 +225,18 @@ class TransientEntity(LevelObject):
 class Heart(LevelObject):
 	solid = False
 	base_img_path = 'images/heart.png'
+	
+class Heart3(LevelObject):
+	solid = False
+	base_img_path = 'images/heart3.png'
 
 class Ammo(LevelObject):
 	solid = False
 	base_img_path = 'images/ammo.png'
+	
+class Ammo3(LevelObject):
+	solid = False
+	base_img_path = 'images/ammo3.png'
 	
 class Star(LevelObject):
 	solid = False
