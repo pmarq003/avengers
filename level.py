@@ -668,8 +668,10 @@ class Level3(Level):
         self.parallax = Parallax(bg1,0,-55,bg2,0,0)
 
         #Ammo and Heart Examples
-        self._addAmmo3( levelobject.Ammo3( 552, SCREEN_HEIGHT-506 ) )
-        self._addHeart3( levelobject.Heart3( 422, SCREEN_HEIGHT-406 ) )
+        #self._addAmmo3( levelobject.Ammo3( 552, SCREEN_HEIGHT-506 ) )
+        #self._addHeart3( levelobject.Heart3( 422, SCREEN_HEIGHT-406 ) )
+        #self._addHeart( levelobject.Heart( 422, SCREEN_HEIGHT-206 ) )
+        #self._addAmmo( levelobject.Ammo( 552, SCREEN_HEIGHT-206 ) )
 
         #level objects in order
             #floor + checkpoint
@@ -785,7 +787,7 @@ class Level3(Level):
         
         self._addNode( levelobject.Node500(9155,SCREEN_HEIGHT-505) )
         
-        self._addAmmo( levelobject.Ammo( 9189, SCREEN_HEIGHT-700 ) )
+        self._addAmmo3( levelobject.Ammo3(9189, SCREEN_HEIGHT-700 ) )
         
         self._addNode( levelobject.Node500(9308,SCREEN_HEIGHT-505) )
         
@@ -842,7 +844,7 @@ class Level3(Level):
         self._addNode( levelobject.Node(12485,SCREEN_HEIGHT-85) )
         self._addTerrain( levelobject.MegamanPlatThin2(12500,SCREEN_HEIGHT-220) )
         self._addHeart( levelobject.Heart( 12548, SCREEN_HEIGHT-267 ) )
-        self._addHeart( levelobject.Heart( 12653, SCREEN_HEIGHT-267 ) )
+        self._addHeart3( levelobject.Heart3( 12653, SCREEN_HEIGHT-267 ) )
         self._addNode( levelobject.Node(12850,SCREEN_HEIGHT-350) )
         self._addEnemy( enemy.Drone(12850,SCREEN_HEIGHT-200, FLYVERT) )
         self._addNode( levelobject.Node(12850,SCREEN_HEIGHT-70) )
