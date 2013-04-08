@@ -23,7 +23,7 @@ class Player(Character):
 
 	def charSpecificUpdate(self):
 		
-		if (time.clock() - self.timer > 15) and self.has_star :
+		if (time.time() - self.timer > 10) and self.has_star :
 			self.stopStar()
 
 		evman = eventmanager.get()
@@ -119,7 +119,7 @@ class Player(Character):
 		self.can_get_hurt = False
 		self.has_star = True
 		print("Star power has started.")
-		self.timer = time.clock()
+		self.timer = time.time()
 		
 	def stopStar(self):
 		self.can_get_hurt = True
@@ -137,11 +137,16 @@ class CaptainAmerica(Player):
 	animFolder = 'america'
 
 	primary_attack_speed = 10
-	primary_attack_length = 5
+	primary_attack_length = 8
 	primary_attack_recovery = 5
 	
 	def special_attack(self):
-		self.star()
+		if not self.has_star and self.sattack_timer <= 0:
+			self.star()
+			self.timer -= 8 #Normally 10 seconds, now 2 seconds
+			self.sattack_timer = 5
+
+		self.sattack_timer -= 1
 
 class BlackWidow(Player):
 	numWalkFrames = 3		#number pics in move anim
@@ -154,9 +159,17 @@ class BlackWidow(Player):
 	animFolder = 'blackwidow'
 
 	primary_attack_speed = 10
-	primary_attack_length = 5
+	primary_attack_length = 8
 	primary_attack_recovery = 5
 
+	def special_attack(self):
+		self.attacking = True
+		if self.sattack_timer <= 0:
+			self.sattack_timer = 20
+			if self.facingRight: self.rect.left += 500
+			else:				self.rect.left -= 500
+		
+		self.sattack_timer -= 1
 
 class Hawkeye(Player):
 	numWalkFrames = 4		#number pics in move anim
@@ -262,7 +275,7 @@ class Hawkeye(Player):
 			else:
 				entity = self.FireArrowLeft(0,0)
 				entity.rect.topright = self.rect.topleft
-			#entity.rect.move_ip(0,10)
+			entity.rect.move_ip(0,10)
 			self.level.addEntity(entity)
 			self.sattack_timer -= 1
 
