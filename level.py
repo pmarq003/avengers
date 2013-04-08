@@ -1224,11 +1224,11 @@ class Level5(Level):
         self._addNode( levelobject.Node(2700,-660) )
         
 
-        self._addTerrain( levelobject.MetroidPlatform(3000,350) )
+        self._addTerrain( levelobject.MetroidPlatform(3000,-300) )
 
 
         self._addCheckpoint(3001)
-        self._addTerrain( levelobject.Checkpoint(3000,210) )
+        self._addTerrain( levelobject.Checkpoint(3000,-440) )
 
 
         #debug
@@ -1293,5 +1293,7 @@ class Level5(Level):
         self._addNode( levelobject.Node(6300,SCREEN_HEIGHT-50) )     
         self._addEnemy( enemy.GhoulSlow(6400,500, PLATFORM) )
         self._addNode( levelobject.Node(6500,SCREEN_HEIGHT-50) )
+
+        self._addTerrain( levelobject.MetroidPlatform(4800,-650) )
 
         self._addCheckpoint(10500)
