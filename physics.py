@@ -1,6 +1,8 @@
+import eventmanager
 import level
-from level import *
 import pygame
+from constants import DOWN,UP,LEFT,RIGHT
+from level import *
 
 class physics(object):
     def __init__(self):
@@ -28,16 +30,24 @@ class physics(object):
             rightOverlap = a.rect.right - b.rect.left
 
         #correct only the smallest overlap
+        #top overlap
         if min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == abs(topOverlap):
             a.stallY()
             a.rect.top = b.rect.bottom
+        #bottom overlap
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == botOverlap:
             a.stallY()
             a.isJumping = False
             a.rect.bottom = b.rect.top
+            #check for teleporter
+            if b.teleporter == True and b.teleportDir == DOWN and eventmanager.get().DOWNPRESSED:
+                if a.rect.left > b.rect.left and a.rect.right < b.rect.right:
+                    b.teleport()
+        #left overlap
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == abs(leftOverlap):
             a.stallX()
             a.rect.left = b.rect.right
+        #right overlap
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == rightOverlap:
             a.stallX()
             a.rect.right = b.rect.left

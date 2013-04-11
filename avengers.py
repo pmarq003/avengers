@@ -81,7 +81,7 @@ class AvengersGame:
                 if (time.clock() - self.timer > 2) and self.invincible :
                     self.stopInvincibility()
             elif eventmanager.get().REPLAYPRESSED == True :
-                # save game before hand
+                #save game before hand
                 self.saveState()
                 logger.get().replay()
                 self.saveCharSelection() # for some reason, replay resets the save file's char to 0
@@ -94,13 +94,16 @@ class AvengersGame:
 
                 if not wasplaying: sound.play_bgm(self.currLevel.bgm)
 
+                #player died
                 if not self.currLevel.player_alive:
                     self.player_lives -= 1
+                    #reset logger
                     logger.get().setStart(self.currLevel.player.rect.x, self.currLevel.player.rect.y)
-
                     logger.get().clear()
+                    #reload level
                     self.loadLevel()
 
+                    #game over
                     if self.player_lives < 1:
                         self.currLevel.charSelected = False
                         self.currLevel.charsel.char = 0
@@ -133,16 +136,16 @@ class AvengersGame:
                         self.hud.incTime()
                         self.frameCount = 0
                     self.hud.draw(self.camera, self)
-                #This didn't work. It only drew the camera icon,
-                #it didn't update. Took it out. -mike
-#                else:
-#                    self.hud.drawVol(self.camera)
 
                 #Update player and enemies positions/current actions
                 if not eventmanager.get().isPaused():
                     self.currLevel.update()
                     if self.currLevel.charSelected:
                         self.hud.update()
+                    #check for telportation
+                    if constants.TELEPORT == True:
+                        self.handleTeleport()
+                        constants.TELEPORT = False
                     #check for level completion
                     if self.currLevel.levelCompleted:
                         wasplaying = False
@@ -152,7 +155,7 @@ class AvengersGame:
                         logger.get().clear()
                     else:
                         wasplaying = True
-                
+
                 else:
                 #show pause menu
                     self.pauseMenu.draw(self.camera)
@@ -205,7 +208,9 @@ class AvengersGame:
             if leftover > 0: pygame.time.wait(int(leftover))
 
     def getCurrentLevel(self):
-        if self.levelNumber == 0:
+        if self.levelNumber == -1:
+            return level.LevelNeg1(self)
+        elif self.levelNumber == 0:
             return level.Level0(self)
         elif self.levelNumber == 1:
             return level.Level1(self)
@@ -285,6 +290,40 @@ class AvengersGame:
             logger.get().setStart(self.currLevel.player.rect.x, self.currLevel.player.rect.y)
         self.currLevel.charSelected = True
         self.currLevel.plotOver = True
+        #begin playing level
+        self.startMenu.loadLevel = False
+        self.startMenu.playing = True
+
+    def handleTeleport(self):
+        print 'teleporting'
+        #TODO animate character
+        if constants.TELEDIR == constants.DOWN:
+            for i in range(self.currLevel.player.rect.height):
+                time.sleep(0.005)
+        #get level number 
+        self.levelNumber = constants.TELELEVEL
+        print self.levelNumber
+        #get chosen player
+        choice = self.currLevel.charsel.char
+        #set level
+        self.currLevel = self.getCurrentLevel()
+        #set chosen player
+        if choice == 1:
+            self.currLevel.player = player.Hulk(0,0,self.currLevel)
+        elif choice == 2:
+            self.currLevel.player = player.Thor(0,0,self.currLevel)
+        elif choice == 3:
+            self.currLevel.player = player.CaptainAmerica(0,0,self.currLevel)
+        elif choice == 4:
+            self.currLevel.player = player.IronMan(0,0,self.currLevel)
+        elif choice == 5:
+            self.currLevel.player = player.Hawkeye(0,0,self.currLevel)
+        elif choice == 6:
+            self.currLevel.player = player.BlackWidow(0,0,self.currLevel)
+        self.currLevel.charsel.setChar(choice)
+        #set player coords
+        self.currLevel.player.rect.x = constants.TELEX
+        self.currLevel.player.rect.y = constants.TELEY
         #begin playing level
         self.startMenu.loadLevel = False
         self.startMenu.playing = True

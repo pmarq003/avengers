@@ -1,18 +1,20 @@
 import charsel
+import enemy
+import eventmanager
+import levelobject
 import plot
 import pygame
 import pygame.sprite
 import player
 import physics
-import enemy
-import levelobject
+import score
+import sound
+import startmenu
 from constants import *
 from levelobject import LevelObject,StaticImage
-import eventmanager
 from parallax import Parallax
-import startmenu
-import sound
-import score
+
+import constants
 
 
 """
@@ -325,6 +327,36 @@ class Level(object):
                 " " + str( self.player.rect.y ) )
         f.close()
 
+
+"""
+    Level -1: Nuri Level
+"""
+
+class LevelNeg1(Level):
+     def __init__(self,gameObj):
+        Level.__init__(self,gameObj)
+
+        self.levelNumber = -1
+
+        self.height = SCREEN_HEIGHT
+        #default player to init enemies 
+        self.player = player.IronMan(100,100,self)
+
+        #background music
+        self.bgm = 'sounds/bgm/lvl0.wav'
+
+        #background
+        self.background = None
+        bg1  = 'images/levelsprites/tut/tutbg.gif'
+        bg2  = 'images/levelsprites/tut/tutbg2.gif'
+        self.parallax = Parallax(bg1,0,-400, bg2,0,100)
+
+            #floor
+        self._addTerrain( levelobject.TutGround(0, SCREEN_HEIGHT-16) )
+
+        self._addCheckpoint(10000)
+
+
 """
     Tutorial level
 """
@@ -339,7 +371,7 @@ class Level0(Level):
         self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
-        #default player to init enemies TODO doesn't update position...
+        #default player to init stuff
         self.player = player.IronMan(100,100,self)
 
         #background music
@@ -406,7 +438,7 @@ class Level1(Level):
         self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
-        #default player to init enemies TODO doesn't update position...
+        #default player to init stuff
         self.player = player.IronMan(100,100,self)
 
         #background music
@@ -423,6 +455,14 @@ class Level1(Level):
             #floor + checkpoint
         self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-16) )
         self._addCheckpoint(0)
+
+        #test teleporters
+        self._addTerrain( levelobject.MarioPipeDownTeleporter1(100,
+            SCREEN_HEIGHT-60) )
+        self._addTerrain( levelobject.MarioPipeDown(350,
+            SCREEN_HEIGHT-60) )
+
+
             #goombas
         self._addNode( levelobject.Node(20,550) )
         self._addEnemy( enemy.Goomba(500,400, PLATFORM) )
@@ -616,7 +656,7 @@ class Level2(Level):
         self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
-        #default player to init enemies TODO doesn't update position...
+        #default player to init stuff
         self.player = player.IronMan(100,100,self)
 
         #background music
@@ -843,7 +883,7 @@ class Level3(Level):
         self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
-        #default player to init enemies TODO doesn't update position...
+        #default player to init enemies stuff
         self.player = player.IronMan(100,100,self)
 
         #background music
@@ -1095,7 +1135,7 @@ class Level4(Level):
         self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
-        #default player to init enemies TODO doesn't update position...
+        #default player to init enemies stuff
         self.player = player.IronMan(100,100,self)
 
         #background music
@@ -1242,7 +1282,7 @@ class Level5(Level):
         self.plot = plot.Plot(self.levelNumber)
 
         self.height = SCREEN_HEIGHT
-        #default player to init enemies TODO doesn't update position...
+        #default player to init enemies stuff
         self.player = player.IronMan(100,100,self)
 
         #background music
