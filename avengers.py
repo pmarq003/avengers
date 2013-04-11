@@ -147,6 +147,7 @@ class AvengersGame:
                     #check for telportation
                     if constants.TELEPORT == True:
                         self.handleTeleport()
+                        wasplaying = False
                         constants.TELEPORT = False
                     #check for level completion
                     if self.currLevel.levelCompleted:
