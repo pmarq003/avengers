@@ -119,7 +119,9 @@ class AvengersGame:
 
                 #select bg color depending on level
                 #hopefully to cut down on image size
-                if self.currLevel.levelNumber == 0:
+                if self.currLevel.levelNumber == -1:
+                    self.screen.fill(constants.LEVELNEG1_BGCOLOR)
+                elif self.currLevel.levelNumber == 0:
                     self.screen.fill(constants.LEVEL0_BGCOLOR)
                 elif self.currLevel.levelNumber == 1:
                     self.screen.fill(constants.LEVEL1_BGCOLOR)
@@ -295,14 +297,12 @@ class AvengersGame:
         self.startMenu.playing = True
 
     def handleTeleport(self):
-        print 'teleporting'
         #TODO animate character
         if constants.TELEDIR == constants.DOWN:
             for i in range(self.currLevel.player.rect.height):
                 time.sleep(0.005)
         #get level number 
         self.levelNumber = constants.TELELEVEL
-        print self.levelNumber
         #get chosen player
         choice = self.currLevel.charsel.char
         #set level
@@ -321,7 +321,7 @@ class AvengersGame:
         elif choice == 6:
             self.currLevel.player = player.BlackWidow(0,0,self.currLevel)
         self.currLevel.charsel.setChar(choice)
-        #set player coords
+        #set player coords TODO doesn't work..
         self.currLevel.player.rect.x = constants.TELEX
         self.currLevel.player.rect.y = constants.TELEY
         #begin playing level

@@ -9,10 +9,11 @@ SCREEN_WIDTH    = 1000
 SCREEN_HEIGHT   = 600
 
 #background color constants
-DEFAULT_BGCOLOR = 36, 48, 59
-LEVEL0_BGCOLOR  = 160, 224, 248
-LEVEL1_BGCOLOR  = 248, 248, 224
-LEVEL3_BGCOLOR  = 0, 0, 32
+DEFAULT_BGCOLOR     = 36, 48, 59
+LEVELNEG1_BGCOLOR   = 0, 0, 0
+LEVEL0_BGCOLOR      = 160, 224, 248
+LEVEL1_BGCOLOR      = 248, 248, 224
+LEVEL3_BGCOLOR      = 0, 0, 32
 
 #directional constants
 DOWN    = 0
@@ -39,7 +40,8 @@ FLYSWOOP    = 7     #fly in a parabola
 FLYATTACK   = 8     #(start offscreen) and swoop to player
 RPROJ       = 9     #randomly shoot projectiles and follow player
 RPROJSTAND  = 10    #randomly stand still and shoot projectiles
-CUSTOM      = 11    #enemy object is going to define its own ai
+SHY         = 11    #won't chase player unless not facing them
+CUSTOM      = 100   #enemy object is going to define its own ai
 
 #player constants
 PLAYER_LIVES = 3

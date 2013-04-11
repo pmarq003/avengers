@@ -140,6 +140,9 @@ class MarioCastle(LevelObject):
 class MarioCloud(LevelObject):
     base_img_path = 'images/levelsprites/smw/mariocloud.png'
 
+class CastleFloor(LevelObject):
+    base_img_path = 'images/levelsprites/smw/castlefloor.png'
+
 class MarioPipeDown(LevelObject):
     base_img_path = 'images/levelsprites/smw/pipe.png'
 
@@ -149,9 +152,20 @@ class MarioPipeDownTeleporter1(LevelObject):
 
     def teleport(self):
         constants.TELEPORT = True
-        constants.TELEX = 10
-        constants.TELEY = 10
+        constants.TELEX = 500
+        constants.TELEY = 300
         constants.TELELEVEL = -1
+        constants.TELEDIR = DOWN
+
+class MarioPipeDownTeleporter2(LevelObject):
+    teleporter = True
+    base_img_path = 'images/levelsprites/smw/pipe.png'
+
+    def teleport(self):
+        constants.TELEPORT = True
+        constants.TELEX = 500
+        constants.TELEY = 300
+        constants.TELELEVEL = 1
         constants.TELEDIR = DOWN
 
 

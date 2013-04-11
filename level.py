@@ -264,8 +264,8 @@ class Level(object):
                 entObj.draw(camera)
 
             #TODO uncomment for debugging
-            for nodeObj in self._nodes:
-                nodeObj.draw(camera)
+            #for nodeObj in self._nodes:
+            #    nodeObj.draw(camera)
 
             for heartObj in self._hearts:
                 heartObj.draw(camera)
@@ -347,13 +347,28 @@ class LevelNeg1(Level):
 
         #background
         self.background = None
-        bg1  = 'images/levelsprites/tut/tutbg.gif'
-        bg2  = 'images/levelsprites/tut/tutbg2.gif'
-        self.parallax = Parallax(bg1,0,-400, bg2,0,100)
+        self.parallax = None
+
+            #player spawns here
+        self._addTerrain( levelobject.MarioPipeDown(500, 450) )
 
             #floor
-        self._addTerrain( levelobject.TutGround(0, SCREEN_HEIGHT-16) )
+        self._addTerrain( levelobject.CastleFloor(0, SCREEN_HEIGHT-32) )
 
+            #assorted boos
+        self._addEnemy( enemy.Boo(100,100,SHY) )
+        self._addEnemy( enemy.BooFast(200,150,SHY) )
+        self._addEnemy( enemy.Boo(330,0,SHY) )
+        self._addEnemy( enemy.BooFast(600,450,SHY) )
+        self._addEnemy( enemy.Boo(730,400,SHY) )
+        self._addEnemy( enemy.Boo(800,300,SHY) )
+        self._addEnemy( enemy.BooFast(600,450,SHY) )
+        self._addEnemy( enemy.BooFast(600,450,SHY) )
+
+            #player leaves here
+        self._addTerrain( levelobject.MarioPipeDownTeleporter2(2600,450) )
+
+            #checkpoint to stop level from ending
         self._addCheckpoint(10000)
 
 
@@ -456,9 +471,7 @@ class Level1(Level):
         self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-16) )
         self._addCheckpoint(0)
 
-        #test teleporters
-        self._addTerrain( levelobject.MarioPipeDownTeleporter1(100,
-            SCREEN_HEIGHT-60) )
+
         self._addTerrain( levelobject.MarioPipeDown(350,
             SCREEN_HEIGHT-60) )
 
@@ -519,6 +532,9 @@ class Level1(Level):
         self._addTerrain( levelobject.MarioMushroomPlatformBase(5016,400) )
         self._addTerrain( levelobject.MarioMushroomPlatformBase(5016,502) )
         self._addEnemy( enemy.Fuzzy(5050, 300, JUMP) )
+            #teleporter to level -1
+        self._addTerrain( levelobject.MarioPipeDownTeleporter1(5270,
+            SCREEN_HEIGHT-120) )
             #movable platform + enemies on clouds
         self._addNode( levelobject.Node(5200,300,0,0,-1))
         self._addTerrain( levelobject.MarioMovablePlatform(5400,300, 5) )

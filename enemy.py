@@ -49,6 +49,7 @@ class Enemy(Character):
                                     FLYATTACK:  self.AI_flyattack,
                                     RPROJ:      self.AI_rproj,
                                     RPROJSTAND: self.AI_rprojstand,
+                                    SHY:        self.AI_shy,
                                     CUSTOM:     None}
 
         Character.__init__(self,x,y)
@@ -387,6 +388,45 @@ class Enemy(Character):
                 self.sattack_timer = self.sattack_timer - 1
                 self._load_image( self.norm_attack )
 
+    #11 SHY - won't chase player unless facing
+    def AI_shy(self):
+        self.isFlying = True
+
+        #update direction facing
+        if(self.player.rect.left > self.rect.right):
+            self.facingRight = True
+        elif(self.player.rect.right < self.rect.left):
+            self.facingRight = False
+
+        #vector to player
+        velx = self.player.rect.x - self.rect.x
+        vely = self.player.rect.y - self.rect.y
+
+        #prevent division by zero in next step
+        if velx == 0:
+            self.velx = -1
+
+        #scale speed 
+        self.velX = self.runVel * velx*velx / (velx*velx + vely*vely)
+        self.velY = self.runVel * vely*vely / (velx*velx + vely*vely)
+
+        #correct for facing left
+        if not self.facingRight:
+            self.velX = self.velX * -1
+
+        #correct for player above enemy
+        if self.player.rect.y < self.rect.y:
+            self.velY = self.velY * -1
+
+        #player facing enemy - don't move
+        if (self.facingRight and not self.player.facingRight) or (not
+                self.facingRight and self.player.facingRight):
+            self._load_image( self.stand )
+            self.velX = 0
+            self.velY = 0
+        else:
+            self._load_image( self.walk )
+
 
     """
     AI Node Collision - give actions when a specific AI hits a node
@@ -640,7 +680,31 @@ class ShootingShyGuy(Enemy):
             TransientEntity.update(self)
             self.rect.left += 20
 
+class Boo(Enemy):
+    numWalkFrames = 3
+    walkDelay = 5
 
+    #movement vars
+    runVel = 3     #xcoord movement velocity
+    jumpVel = 15    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/boo'
+
+class BooFast(Enemy):
+    numWalkFrames = 3
+    walkDelay = 5
+
+    #movement vars
+    runVel = 7     #xcoord movement velocity
+    jumpVel = 15    #jumping velocity
+
+    #distance before detect player
+    playerRadius = 500
+
+    animFolder = 'enemysprites/boo'
 
 """
 Sonic-themed enemies
