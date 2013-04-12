@@ -139,7 +139,7 @@ class Level(object):
                         score.get().incScore(30)
                     enemy.die()
                 else:
-                    self._handleCollision(self.player,enemy)
+                    self._handleEnemyCollision(self.player,enemy)
 
             #detect entity collisions for player
             collidedEnts = pygame.sprite.spritecollide(self.player,self._entities,False)
@@ -224,7 +224,8 @@ class Level(object):
             if len(self._checkpoints) == 0:
                 self.levelCompleted = True
 
-
+    def _handleEnemyCollision(self,player,enemy):
+        physics.get().handleCollision(player, enemy, 10)
 
     def _handleNodeCollision(self, enemy, node):
         enemy.handleNodeCollision(node);

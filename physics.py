@@ -7,8 +7,10 @@ from level import *
 class physics(object):
     def __init__(self):
         pass
-        
-    def handleCollision(self,a,b):
+
+    #a = entity1, b = entity2
+    #offset = amount to subtract from b's bounding rectangle
+    def handleCollision(self, a, b, offset=0):
         #sentinel overlap values
         topOverlap = -500
         botOverlap = 500
@@ -17,6 +19,16 @@ class physics(object):
         
         #If either object isn't solid we don't care
         if not a.solid or not b.solid: return
+
+
+        #tries to hurt player based on an adjusted overlap
+        #remove to undo this change.. and uncomment last
+        #b.try_hurt(a)
+        if((a.rect.top - (b.rect.bottom-offset) < 0) or
+            (a.rect.bottom - (b.rect.top+offset) > 0) or
+            (a.rect.left - (b.rect.right-offset) < 0) or
+            (a.rect.right -(b.rect.left+offset) > 0)):
+                b.try_hurt(a)
 
         #check for the actual overlaps
         #from the perspective of the player
@@ -32,28 +44,32 @@ class physics(object):
         #correct only the smallest overlap
         #top overlap
         if min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == abs(topOverlap):
-            a.stallY()
-            a.rect.top = b.rect.bottom
+            if(topOverlap != -500):
+                a.stallY()
+                a.rect.top = b.rect.bottom
         #bottom overlap
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == botOverlap:
-            a.stallY()
-            a.isJumping = False
-            a.rect.bottom = b.rect.top
-            #check for teleporter
-            if b.teleporter == True and b.teleportDir == DOWN and eventmanager.get().DOWNPRESSED:
-                if a.rect.left > b.rect.left and a.rect.right < b.rect.right:
-                    b.teleport()
+            if(botOverlap != 500):
+                a.stallY()
+                a.isJumping = False
+                a.rect.bottom = b.rect.top
+                #check for teleporter
+                if b.teleporter == True and b.teleportDir == DOWN and eventmanager.get().DOWNPRESSED:
+                    if a.rect.left > b.rect.left and a.rect.right < b.rect.right:
+                        b.teleport()
         #left overlap
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == abs(leftOverlap):
-            a.stallX()
-            a.rect.left = b.rect.right
+            if(leftOverlap != -500):
+                a.stallX()
+                a.rect.left = b.rect.right
         #right overlap
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == rightOverlap:
-            a.stallX()
-            a.rect.right = b.rect.left
+            if(rightOverlap != 500):
+                a.stallX()
+                a.rect.right = b.rect.left
 
-        b.try_hurt(a)
-        
+        #b.try_hurt(a)
+
 #Create singleton accessible through physics.get()
 __instance = physics()
 def get(): return __instance
