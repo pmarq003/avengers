@@ -309,6 +309,7 @@ class AvengersGame:
         #set level
         self.currLevel = self.getCurrentLevel()
         #set chosen player
+        """
         if choice == 1:
             self.currLevel.player = player.Hulk(0,0,self.currLevel)
         elif choice == 2:
@@ -321,8 +322,10 @@ class AvengersGame:
             self.currLevel.player = player.Hawkeye(0,0,self.currLevel)
         elif choice == 6:
             self.currLevel.player = player.BlackWidow(0,0,self.currLevel)
+        """
         self.currLevel.charsel.setChar(choice)
         #set player coords TODO doesn't work..
+        self.currLevel.setPlayer(choice, constants.TELEX, constants.TELEY)
         self.currLevel.player.rect.x = constants.TELEX
         self.currLevel.player.rect.y = constants.TELEY
         #begin playing level

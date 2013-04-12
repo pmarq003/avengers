@@ -32,7 +32,7 @@ class Level(object):
 
     def __init__(self,gameObj):
         self.gameObj = gameObj #unfortunately we need this
-        self.levelNumber = -1   #override in specific levels
+        self.levelNumber = -100   #override in specific levels
         self.charsel = charsel.CharSel()
         self.charSelected = False
   #      self.plot = plot.Plot(-1)
@@ -356,18 +356,28 @@ class LevelNeg1(Level):
             #floor
         self._addTerrain( levelobject.CastleFloor(0, SCREEN_HEIGHT-32) )
 
-            #assorted boos
+            #assorted boos before player spawn
         self._addEnemy( enemy.Boo(100,100,SHY) )
+        self._addEnemy( enemy.BooFast(240,130,SHY) )
         self._addEnemy( enemy.BooFast(200,150,SHY) )
         self._addEnemy( enemy.Boo(330,0,SHY) )
-        self._addEnemy( enemy.BooFast(600,450,SHY) )
-        self._addEnemy( enemy.Boo(730,400,SHY) )
+            #boos after player spawn 
+        self._addEnemy( enemy.BooFast(600,250,SHY) )
+        self._addEnemy( enemy.BooFast(730,455,SHY) )
         self._addEnemy( enemy.Boo(800,300,SHY) )
-        self._addEnemy( enemy.BooFast(600,450,SHY) )
-        self._addEnemy( enemy.BooFast(600,450,SHY) )
-
+        self._addEnemy( enemy.BooFast(890,450,SHY) )
+        self._addEnemy( enemy.Boo(940,50,SHY) )
+        self._addEnemy( enemy.BooFast(1050,122,SHY) )
+        self._addEnemy( enemy.Boo(1100,324,SHY) )
+        self._addEnemy( enemy.Boo(1181,234,SHY) )
+        self._addEnemy( enemy.BooFast(1290,0,SHY) )
+        self._addEnemy( enemy.BooFast(1321,150,SHY) )
+        self._addEnemy( enemy.BooFast(1420,122,SHY) )
+        self._addEnemy( enemy.Boo(1509,429,SHY) )
+        self._addEnemy( enemy.Boo(1581,214,SHY) )
+        self._addEnemy( enemy.BooFast(1690,300,SHY) )
             #player leaves here
-        self._addTerrain( levelobject.MarioPipeDownTeleporter2(2600,450) )
+        self._addTerrain( levelobject.MarioPipeDownTeleporter2(2300,450) )
 
             #checkpoint to stop level from ending
         self._addCheckpoint(10000)
@@ -471,12 +481,6 @@ class Level1(Level):
             #floor + checkpoint
         self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-16) )
         self._addCheckpoint(0)
-
-
-        self._addTerrain( levelobject.MarioPipeDown(350,
-            SCREEN_HEIGHT-60) )
-
-
             #goombas
         self._addNode( levelobject.Node(20,550) )
         self._addEnemy( enemy.Goomba(500,400, PLATFORM) )
@@ -544,6 +548,9 @@ class Level1(Level):
         self._addTerrain( levelobject.MarioCloud(6200,200) )
         self._addEnemy( enemy.Fuzzy(6260, 100, JUMP) )
         self._addNode( levelobject.Node(6700,300,0,0,-1))
+            #teleport from level -1
+        self._addTerrain( levelobject.MarioPipeDown(6450,
+            SCREEN_HEIGHT-120) )
             #checkpoint
         self._addTerrain( levelobject.Checkpoint(6850,63) )
         self._addCheckpoint(6800)

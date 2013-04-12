@@ -152,7 +152,7 @@ class MarioPipeDownTeleporter1(LevelObject):
 
     def teleport(self):
         constants.TELEPORT = True
-        constants.TELEX = 500
+        constants.TELEX = 530
         constants.TELEY = 300
         constants.TELELEVEL = -1
         constants.TELEDIR = DOWN
@@ -163,8 +163,8 @@ class MarioPipeDownTeleporter2(LevelObject):
 
     def teleport(self):
         constants.TELEPORT = True
-        constants.TELEX = 500
-        constants.TELEY = 300
+        constants.TELEX = 6470
+        constants.TELEY = 370
         constants.TELELEVEL = 1
         constants.TELEDIR = DOWN
 

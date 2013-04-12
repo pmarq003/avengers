@@ -685,7 +685,7 @@ class Boo(Enemy):
     walkDelay = 5
 
     #movement vars
-    runVel = 3     #xcoord movement velocity
+    runVel = 5     #xcoord movement velocity
     jumpVel = 15    #jumping velocity
 
     #distance before detect player
@@ -698,7 +698,7 @@ class BooFast(Enemy):
     walkDelay = 5
 
     #movement vars
-    runVel = 7     #xcoord movement velocity
+    runVel = 9     #xcoord movement velocity
     jumpVel = 15    #jumping velocity
 
     #distance before detect player

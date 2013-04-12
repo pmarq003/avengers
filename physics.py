@@ -38,6 +38,9 @@ class physics(object):
             if(topOverlap != -500):
                 a.stallY()
                 a.rect.top = b.rect.bottom
+                if b.teleporter == True and b.teleportDir == UP and eventmanager.get().UPPRESSED:
+                    #if a.rect.left > b.rect.left and a.rect.right < b.rect.right:
+                    b.teleport()
         #bottom overlap
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == botOverlap:
             if(botOverlap != 500):
@@ -46,18 +49,22 @@ class physics(object):
                 a.rect.bottom = b.rect.top
                 #check for teleporter
                 if b.teleporter == True and b.teleportDir == DOWN and eventmanager.get().DOWNPRESSED:
-                    if a.rect.left > b.rect.left and a.rect.right < b.rect.right:
-                        b.teleport()
+                    #if a.rect.left > b.rect.left and a.rect.right < b.rect.right:
+                    b.teleport()
         #left overlap
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == abs(leftOverlap):
             if(leftOverlap != -500):
                 a.stallX()
                 a.rect.left = b.rect.right
+                if b.teleporter == True and b.teleportDir == LEFT and eventmanager.get().LEFTPRESSED:
+                    b.teleport()
         #right overlap
         elif min(abs(topOverlap), botOverlap, abs(leftOverlap), rightOverlap) == rightOverlap:
             if(rightOverlap != 500):
                 a.stallX()
                 a.rect.right = b.rect.left
+                if b.teleporter == True and b.teleportDir == RIGHT and eventmanager.get().RIGHTPRESSED:
+                    b.teleport()
 
         b.try_hurt(a)
 
