@@ -225,7 +225,7 @@ class Level(object):
                 self.levelCompleted = True
 
     def _handleEnemyCollision(self,player,enemy):
-        physics.get().handleCollision(player, enemy, 10)
+        physics.get().handleCollision(player, enemy)
 
     def _handleNodeCollision(self, enemy, node):
         enemy.handleNodeCollision(node);
