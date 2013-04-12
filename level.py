@@ -113,7 +113,6 @@ class Level(object):
             #Make sure player doesn't go below map. Remember y-axis goes down
             #If the player goes below we assume they're dead
             if self.player.rect.top > self.height:
-                print("player dead")
                 self.player.kill()
                 self.player_alive = False
 

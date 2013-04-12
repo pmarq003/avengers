@@ -298,8 +298,8 @@ class Hulk(Player):
     walkDelay = 2		#delay factor to make anims visible
 
     #movement vars
-    runVel = 25	 #xcoord movement velocity
-    jumpVel = 35	#jumping velocity
+    runVel = 25     #xcoord movement velocity
+    jumpVel = 30	#jumping velocity
 
     animFolder = 'hulk'
 
