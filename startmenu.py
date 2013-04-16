@@ -139,12 +139,12 @@ class StartMenu(object):
                 elif self.volupFX_button.get_rect().collidepoint(clickpoint):
                     #clicked sfx vol up
                     sound.set_sfx_vol(sound.get_sfx_vol() + 10)
-                    sound.play_sfx('sounds/SSB_Kick_Hit1.wav')
+                    sound.play_sfx('sounds/sfx/punch.wav')
                     sys.stdout.write('SFX vol: %s\n' % (sound.get_sfx_vol()))
                 elif self.voldownFX_button.get_rect().collidepoint(clickpoint):
                     #clicked sfx vol down
                     sound.set_sfx_vol(sound.get_sfx_vol() - 10)
-                    sound.play_sfx('sounds/SSB_Kick_Hit1.wav')
+                    sound.play_sfx('sounds/sfx/punch.wav')
                     sys.stdout.write('SFX vol: %s\n' % (sound.get_sfx_vol()))
                 elif self.gammaUp_button.get_rect().collidepoint(clickpoint):
                     #clicked gamma up

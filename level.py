@@ -36,7 +36,7 @@ class Level(object):
         self.charsel = charsel.CharSel()
         self.charSelected = False
   #      self.plot = plot.Plot(-1)
-        self.plotOver = True
+        self.plotOver = False
         self._terrain = pygame.sprite.Group()
         self._enemies = pygame.sprite.Group()
         self._nodes = pygame.sprite.Group()
