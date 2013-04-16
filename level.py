@@ -1320,12 +1320,12 @@ class Level5(Level):
             #floor + checkpoint
         self._addCheckpoint(0)
 
-        self._addTerrain( levelobject.MarioGround1632(0,SCREEN_HEIGHT-32) )
-        self._addTerrain( levelobject.MetroidPlatform(1230,-50) )
-        self._addTerrain( levelobject.MetroidPlatform(600,-650) )
+        self._addTerrain( levelobject.CastleGround1632(0,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.CastlePlatform(1230,-50) )
+        self._addTerrain( levelobject.CastlePlatform(600,-650) )
 
         self._addNode( levelobject.Node(2520,-660) )
-        self._addTerrain( levelobject.MetroidPlatform(2500,-650) )
+        self._addTerrain( levelobject.CastlePlatform(2500,-650) )
         self._addEnemy( enemy.Ghoul(2650,-700, PLATFORM) )
         self._addAmmo( levelobject.Ammo(2650, -680) )
         self._addHeart( levelobject.Heart( 2600, -680 ) )
@@ -1334,7 +1334,7 @@ class Level5(Level):
         self._addNode( levelobject.Node(2700,-660) )
         
 
-        self._addTerrain( levelobject.MetroidPlatform(3000,-300) )
+        self._addTerrain( levelobject.CastlePlatform(3000,-300) )
         self._addCheckpoint(3001)
         self._addTerrain( levelobject.Checkpoint(3000,-440) )
 
@@ -1358,7 +1358,7 @@ class Level5(Level):
 
         #force player up
         self._addNode( levelobject.Node(2500,550) )
-        self._addTerrain( levelobject.MarioGround1632(2500,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.CastleGround1632(2500,SCREEN_HEIGHT-32) )
         self._addEnemy( enemy.Ghoul(2550,450, PLATFORM) )
         self._addEnemy( enemy.Ghoul(2650,400, PLATFORM) )
         self._addEnemy( enemy.Ghoul(2950,400, PLATFORM) )
@@ -1388,7 +1388,7 @@ class Level5(Level):
 
 
         self._addNode( levelobject.Node(1500,550) )
-        self._addTerrain( levelobject.MarioGround1632(5100,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.CastleGround1632(5100,SCREEN_HEIGHT-32) )
 
         self._addNode( levelobject.Node(5250,SCREEN_HEIGHT-50) )     
         self._addEnemy( enemy.GhoulSlow(5260,500, PLATFORM) )
@@ -1403,12 +1403,12 @@ class Level5(Level):
         self._addNode( levelobject.Node(6500,SCREEN_HEIGHT-50) )
 
         self._addNode( levelobject.Node(8300,SCREEN_HEIGHT-50) )     
-        self._addTerrain( levelobject.MetroidPlatform(8300,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.CastlePlatform(8300,SCREEN_HEIGHT-32) )
         self._addEnemy( enemy.GhoulSlow(8350,500, PLATFORM) )
         self._addNode( levelobject.Node(8500,SCREEN_HEIGHT-50) )
 
         self._addNode( levelobject.Node(10000,SCREEN_HEIGHT-50) )     
-        self._addTerrain( levelobject.MetroidPlatform(10000,SCREEN_HEIGHT-32) )
+        self._addTerrain( levelobject.CastlePlatform(10000,SCREEN_HEIGHT-32) )
         self._addEnemy( enemy.GhoulSlow(10150,500, PLATFORM) )
         self._addNode( levelobject.Node(10200,SCREEN_HEIGHT-50) )     
 

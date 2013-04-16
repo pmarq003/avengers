@@ -246,6 +246,16 @@ class Serenity(LevelObject):
     base_img_path = 'images/levelsprites/megaman/serenity.png'
 
 
+# castlevania level objects
+
+
+class CastlePlatform(LevelObject):
+    base_img_path = 'images/levelsprites/castlevania/castleplatform.png'
+
+class CastleGround1632(LevelObject):
+    base_img_path = 'images/levelsprites/castlevania/castle1632.png'
+
+
 #   Other stuff 
 
 
