@@ -113,7 +113,6 @@ class Level(object):
             #Make sure player doesn't go below map. Remember y-axis goes down
             #If the player goes below we assume they're dead
             if self.player.rect.top > self.height:
-                print("player dead")
                 self.player.kill()
                 self.player_alive = False
 
@@ -344,7 +343,7 @@ class LevelNeg1(Level):
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/lvl-1.mp3'
+        self.bgm = 'sounds/bgm/levelneg1.wav'
 
         #background
         self.background = None
