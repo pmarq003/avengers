@@ -1343,6 +1343,9 @@ class Level5(Level):
         #self._addHeart( levelobject.Heart( 50, 500 ) )
         #self._addStar( levelobject.Star( 50, 500) )
         #self._addStar( levelobject.Star( 1500, 500) )
+        #self._addStar( levelobject.Star(8300, 500) )
+        #self._addStar( levelobject.Star( 1000, 500) )
+        #self._addStar( levelobject.Star( 5100, 500) )
         
         #Ghouls
         self._addNode( levelobject.Node(80,550) )
@@ -1392,6 +1395,7 @@ class Level5(Level):
 
         self._addNode( levelobject.Node(5250,SCREEN_HEIGHT-50) )     
         self._addEnemy( enemy.GhoulSlow(5260,500, PLATFORM) )
+
         self._addNode( levelobject.Node(5400,SCREEN_HEIGHT-50) )
 
         self._addNode( levelobject.Node(5916,SCREEN_HEIGHT-50) )     
@@ -1412,4 +1416,7 @@ class Level5(Level):
         self._addEnemy( enemy.GhoulSlow(10150,500, PLATFORM) )
         self._addNode( levelobject.Node(10200,SCREEN_HEIGHT-50) )     
 
-        self._addCheckpoint(10500)
+ 
+
+
+        self._addCheckpoint(10000)
