@@ -92,8 +92,11 @@ class Level(object):
             if choice > 0 : self.charSelected = True
 
         elif not self.plotOver:
-            self.plot.update()
-            if self.plot.getPlot() : self.plotOver = True
+            if self.levelNumber <= 0:      #negative levels and tut have no plot
+                self.plotOver = True
+            else:
+                self.plot.update()
+                if self.plot.getPlot() : self.plotOver = True
 
         else:
 
@@ -236,7 +239,7 @@ class Level(object):
 
         if not self.charSelected:
             self.charsel.draw(camera)
-        elif not self.plotOver:
+        elif not self.plotOver and self.levelNumber > 0 :
             self.plot.draw(camera)
         else:
 
