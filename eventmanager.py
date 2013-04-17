@@ -19,6 +19,7 @@ class EventManager:
 		self.MOUSE1CLICK   = False  #Could be False or the event object
 		self.PAUSEPRESSED = False 
 		self.keylog = []
+		self.cheats = False
 
 
 	def handleEvents(self,events):
@@ -79,7 +80,7 @@ class EventManager:
 					self.keylog.append('b')
 		self.keylog = self.keylog[-10:]
 		if self.keylog == ['u','u','d','d','l','r','l','r','b','a']:
-			cheats = True
+			self.cheats = True
 			print("Cheats activated, pussy...")
 			self.keylog = []			
 		return returnVal			
