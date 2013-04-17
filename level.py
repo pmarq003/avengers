@@ -36,7 +36,7 @@ class Level(object):
         self.charsel = charsel.CharSel()
         self.charSelected = False
   #      self.plot = plot.Plot(-1)
-        self.plotOver = True
+        self.plotOver = False
         self._terrain = pygame.sprite.Group()
         self._enemies = pygame.sprite.Group()
         self._nodes = pygame.sprite.Group()
@@ -92,8 +92,11 @@ class Level(object):
             if choice > 0 : self.charSelected = True
 
         elif not self.plotOver:
-            self.plot.update()
-            if self.plot.getPlot() : self.plotOver = True
+            if self.levelNumber <= 0:      #negative levels and tut have no plot
+                self.plotOver = True
+            else:
+                self.plot.update()
+                if self.plot.getPlot() : self.plotOver = True
 
         else:
 
@@ -113,7 +116,6 @@ class Level(object):
             #Make sure player doesn't go below map. Remember y-axis goes down
             #If the player goes below we assume they're dead
             if self.player.rect.top > self.height:
-                print("player dead")
                 self.player.kill()
                 self.player_alive = False
 
@@ -237,7 +239,7 @@ class Level(object):
 
         if not self.charSelected:
             self.charsel.draw(camera)
-        elif not self.plotOver:
+        elif not self.plotOver and self.levelNumber > 0 :
             self.plot.draw(camera)
         else:
 
@@ -344,7 +346,7 @@ class LevelNeg1(Level):
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/lvl-1.mp3'
+        self.bgm = 'sounds/bgm/levelneg1.wav'
 
         #background
         self.background = None
