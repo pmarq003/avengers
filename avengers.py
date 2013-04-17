@@ -69,6 +69,8 @@ class AvengersGame:
         wasplaying = True #Hack to figure out when we need to change sounds
         self.timer = 0
         self.frameCount = 0 #Timer logic: after 30 frames, increment hud timer
+
+        self.didTeleport = False
         while True:
 
             #Start timer and handle events
@@ -102,6 +104,10 @@ class AvengersGame:
                     logger.get().clear()
                     #reload level
                     self.loadLevel()
+                    #check if died due to teleportation
+                    if self.didTeleport:
+                        sound.play_bgm(self.currLevel.bgm)
+                        self.didTeleport = False
 
                     #game over
                     if self.player_lives < 1:
@@ -146,8 +152,8 @@ class AvengersGame:
                         self.hud.update()
                     #check for telportation
                     if constants.TELEPORT == True:
-                        self.handleTeleport()
                         wasplaying = False
+                        self.handleTeleport()
                         constants.TELEPORT = False
                     #check for level completion
                     if self.currLevel.levelCompleted:
@@ -298,6 +304,8 @@ class AvengersGame:
         self.startMenu.playing = True
 
     def handleTeleport(self):
+        oldLevel = self.levelNumber
+
         #TODO animate character
         if constants.TELEDIR == constants.DOWN:
             for i in range(self.currLevel.player.rect.height):
@@ -331,6 +339,10 @@ class AvengersGame:
         #begin playing level
         self.startMenu.loadLevel = False
         self.startMenu.playing = True
+        #allow level to continue normally on player death
+        sound.play_bgm(self.currLevel.bgm)
+        self.levelNumber = oldLevel
+        self.didTeleport = True
 
 
 if __name__ == '__main__':

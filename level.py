@@ -343,7 +343,7 @@ class LevelNeg1(Level):
         self.player = player.IronMan(100,100,self)
 
         #background music
-        self.bgm = 'sounds/bgm/lvl-1.mp3'
+        self.bgm = 'sounds/bgm/levelneg1.wav'
 
         #background
         self.background = None
